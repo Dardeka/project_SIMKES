@@ -9,7 +9,7 @@ function AppRouter() {
             <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/fasilitas" element={<Fasilitas />} />
-                <Route alias="cari-dokter" path="/cari-dokter" element={<CariDokter />} />
+                <Route path="/cariDokter" element={<CariDokter />} />
             </Routes>
         </Router>
     )
