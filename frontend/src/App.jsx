@@ -1,11 +1,7 @@
-// Isi file src/App.js
-import React from 'react';
-import Dashboard from './pages/Fasilitas'; // Ini benar: dari src ke src/pages/
+import AppRouter from "./routes/appRouter"
 
 function App() {
-  return (
-    <Dashboard /> 
-  );
+  return <AppRouter />
 }
 
 export default App;
