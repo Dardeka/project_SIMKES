@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import './App.css'
+// Isi file src/App.js
+import React from 'react';
+import Dashboard from './pages/Fasilitas'; // Ini benar: dari src ke src/pages/
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
-  )
+    <Dashboard /> 
+  );
 }
 
-export default App
+export default App;
