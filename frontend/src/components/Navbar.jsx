@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
 const Navbar = () => {
+  const navigate = useNavigate()
+
+  const handleSearchDoctor = () => {
+    navigate('/cariDokter')
+  }
+
   return (
     <header className="fixed w-screen h-[100px] top-0 left-0 bg-[#06BAA5] flex items-center shadow-xl/30 z-10">
       <div className="flex flex-row ml-[50px]">
@@ -11,7 +18,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="flex ml-auto gap-[71px] mr-[60px]">
-        <Button className="!bg-transparent text-base text-white pb-0 rounded-none hover:border-b-2 border-white">
+        <Button className="!bg-transparent text-base text-white pb-0 rounded-none hover:border-b-2 border-white" onClick={handleSearchDoctor}>
           Cari Dokter
         </Button>
         <Button className="!bg-transparent text-base text-white pb-0 rounded-none hover:border-b-2 border-white">
