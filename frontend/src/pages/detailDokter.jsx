@@ -1,6 +1,12 @@
+import {useState} from "react"
+import { ChevronDownIcon } from "lucide-react"
+import { CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import { Button } from "../components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Dialog,
   DialogContent,
@@ -9,8 +15,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 function DetailDokter() {
+    const [date, setDate] = useState(new Date())
+
     return (
         <div>
             <Navbar />
@@ -33,6 +46,28 @@ function DetailDokter() {
                                     and remove your data from our servers.
                                 </DialogDescription>
                                 </DialogHeader>
+                                <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-[280px] justify-start text-left font-normal",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                    >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                    />
+                                </PopoverContent>
+                                </Popover>
                             </DialogContent>
                         </Dialog>
                     </div>
