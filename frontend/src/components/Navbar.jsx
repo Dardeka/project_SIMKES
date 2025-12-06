@@ -8,6 +8,14 @@ const Navbar = () => {
     navigate('/cariDokter')
   }
 
+  const handleFasilitas = () => {
+    navigate('/fasilitas')
+  }
+
+  const handleLogin = () => {
+    navigate('/login')
+  }
+
   return (
     <header className="fixed w-screen h-[100px] top-0 left-0 bg-[#06BAA5] flex items-center shadow-xl/30 z-10">
       <div className="flex flex-row ml-[50px]">
@@ -21,10 +29,10 @@ const Navbar = () => {
         <Button className="!bg-transparent text-base text-white pb-0 rounded-none hover:border-b-2 border-white" onClick={handleSearchDoctor}>
           Cari Dokter
         </Button>
-        <Button className="!bg-transparent text-base text-white pb-0 rounded-none hover:border-b-2 border-white">
+        <Button className="!bg-transparent text-base text-white pb-0 rounded-none hover:border-b-2 border-white" onClick={handleFasilitas}>
           Fasilitas
         </Button>
-        <Button className="bg-[#1D8B7E] text-base text-white w-[135px] h-[45px]">
+        <Button className="bg-[#1D8B7E] text-base text-white w-[135px] h-[45px]" onClick={handleLogin}>
           Login
         </Button>
       </div>

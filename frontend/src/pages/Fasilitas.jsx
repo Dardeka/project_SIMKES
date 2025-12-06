@@ -1,81 +1,67 @@
-// Fasilitas.jsx
-
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import './Fasilitas.css';
+import Navbar from '../components/Navbar'; 
+import Footer from '../components/Footer'; 
 
-// Komponen Kartu Fasilitas Lainnya
-const FacilityCard = ({ title, imageUrl }) => (
-  <div className="facility-card-small">
-    <img src={imageUrl} alt={title} className="facility-image-small" />
-    <p className="facility-title-small">{title}</p>
-  </div>
-);
+const facilityData = {
+  title: 'DSA (Digital Subtraction Angiography)',
+  mainImageUrl: '/images/layanan1.jpg',
+  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Quisque id erat ac nunc feugiat dignissim vitae quis est. Suspendisse pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis.`,
+};
+
+const relatedFacilities = [
+  { name: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan1.jpg' },
+  { name: 'MRI 3 Tesla', imageUrl: '/images/layanan2.jpg' },
+  { name: 'Bedah Jantung Terbuka', imageUrl: '/images/layanan3.jpg' },
+  { name: 'Endoskopi', imageUrl: '/images/layanan4.jpg' },
+];
 
 const Fasilitas = () => {
-  // Data dummy
-  const relatedFacilities = [
-    { title: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan1.jpg' },
-    { title: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan2.jpg' },
-    { title: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan3.jpg' },
-    { title: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan4.jpg' },
-  ];
-
   return (
-    <div className="fasilitas-page">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="fasilitas-content">
+      <main className="flex-grow pt-30 pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Breadcrumb/Title Section */}
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">{facilityData.title}</h1>
 
-        {/* Hero Image */}
-        <section className="facility-main-image">
-          <img
-            src="/images/layanan3.jpg"
-            alt="DSA Facility Main Image"
-            className="main-facility-photo"
-          />
-        </section>
+          {/* Main Image Section */}
+          <div className="mb-10 shadow-xl rounded-lg overflow-hidden">
+            <img 
+              src={facilityData.mainImageUrl}
+              alt={facilityData.title}
+              className="w-full h-96 object-cover"
+            />
+          </div>
 
-        {/* Konten Terpusat */}
-        <div className="centered-content">
-
-          {/* Judul */}
-          <section className="facility-header-section">
-            <h1 className="facility-title-large">
-              DSA (Digital Subtraction Angiography)
-            </h1>
-          </section>
-
-          {/* Deskripsi */}
-          <section className="facility-description-section">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          {/* Description Section */}
+          <div className="mb-16">
+            <p className="text-gray-600 leading-relaxed">
+              {facilityData.description}
             </p>
-            <p>
-              Curabitur pretium tincidunt lacus. Nulla facilisi. Aliquam porttitor porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetur ligula vel justo. Curabitur vel metus. Proin in tellus eu lectus porttitor interdum.
-            </p>
-          </section>
+          </div>
 
-          {/* Fasilitas Lainnya */}
-          <section className="facility-related-section">
-            <h2 className="facility-related-title">
-              Lihat Fasilitas Lainnya di Rumah Sakit Tobot
-            </h2>
-
-            <div className="facility-related-grid">
-              {relatedFacilities.map((facility, index) => (
-                <FacilityCard
-                  key={index}
-                  title={facility.title}
-                  imageUrl={facility.imageUrl}
-                />
-              ))}
-            </div>
-          </section>
+          {/* Related Facilities Section */}
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Lihat Fasilitas Lainnya di rumah sakit tobot</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {relatedFacilities.map((item, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer border border-gray-100">
+                <div className="h-62 w-full overflow-hidden">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-3 text-center">
+                  <p className="text-sm font-semibold text-gray-800">{item.name}</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
         </div>
-
       </main>
 
       <Footer />
