@@ -6,7 +6,8 @@ import DetailDokter from '../pages/detailDokter';
 import Spesialis from '../pages/Spesialis';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import AdminSpesialis from '../admin/AdminSpesialis';   
+import AdminSpesialis from '../pages/admin/AdminSpesialis';  
+import AdminDaftarAkun from '../pages/admin/AdminDaftarAkun';  
 
 
 function AppRouter() {
@@ -21,6 +22,7 @@ function AppRouter() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/adminspesialis" element={<AdminSpesialis />} />
+                <Route path="/admindaftarakun" element={<AdminDaftarAkun />} />
             </Routes>
         </Router>
     )

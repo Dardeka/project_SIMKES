@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from 'react-icons/fa';
-import AddSpesialisModal from '../components/admin/AddSpesialisModal'; 
-import EditSpesialisModal from '../components/admin/EditSpesialisModal';
+import AddSpesialisModal from '../../components/admin/AddSpesialisModal'; 
+import EditSpesialisModal from '../../components/admin/EditSpesialisModal';
 
 const dummySpesialis = [
   { id: 1, name: 'Bedah Saraf', description: 'Deskripsi Bedah Saraf di rumah sakit tobot', imageUrl: '/images/spesialis1.jpg' },
