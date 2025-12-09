@@ -23,6 +23,11 @@ function AppRouter() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/adminspesialis" element={<AdminSpesialis />} />
                 <Route path="/admindaftarakun" element={<AdminDaftarAkun />} />
+
+                {/* Admin */}
+                <Route path="/admin/dashboard" element={<DashboardAdm />} />
+                <Route path="/admin/kelolaFasilitas" element={<KelolaFasilitas />} />
+                <Route path="/admin/kelolaDokter" element={<KelolaAkunDokter />} />
             </Routes>
         </Router>
     )
