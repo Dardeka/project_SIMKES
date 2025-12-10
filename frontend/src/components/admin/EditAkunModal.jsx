@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
 
 const EditAkunModal = ({ isOpen, onClose, akun }) => {
-  const [role, setRole] = useState('Pasien'); 
-  const roles = ['Admin', 'Pasien', 'Dokter'];
   
   const [formData, setFormData] = useState({
-    nickname: '',
-    fullname: '',
-    email: '',
-    telp: '',
-    role: '',
+    namaPanggilan: akun.namaPanggilan || '',
+    namaLengkap:  akun.namaLengkap || '',
+    email: akun.email || '',
+    nomorTelepon: akun.nomorTelepon || '',
   });
 
   useEffect(() => {
     if (akun) {
       setFormData({
-        nickname: akun.nickname,
-        fullname: akun.fullname,
+        namaPanggilan: akun.namaPanggilan,
+        namaLengkap: akun.namaLengkap,
         email: akun.email,
-        telp: akun.telp,
-        role: akun.role,
+        nomorTelepon: akun.nomorTelepon
       });
-      setRole(akun.role);
     }
   }, [akun]);
 
@@ -65,14 +61,14 @@ const EditAkunModal = ({ isOpen, onClose, akun }) => {
             
             {/* Nama Panggilan */}
             <div>
-              <label htmlFor="nickname" className="block text-sm font-medium text-gray-800 mb-1">Nama Panggilan</label>
-              <input type="text" id="nickname" value={formData.nickname} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
+              <label htmlFor="namaPanggilan" className="block text-sm font-medium text-gray-800 mb-1">Nama Panggilan</label>
+              <input type="text" id="namaPanggilan" value={formData.namaPanggilan} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
             </div>
 
             {/* Nama Lengkap */}
             <div>
-              <label htmlFor="fullname" className="block text-sm font-medium text-gray-800 mb-1">Nama Lengkap</label>
-              <input type="text" id="fullname" value={formData.fullname} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
+              <label htmlFor="namaLengkap" className="block text-sm font-medium text-gray-800 mb-1">Nama Lengkap</label>
+              <input type="text" id="namaLengkap" value={formData.namaLengkap} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
             </div>
 
             {/* Email */}
@@ -83,25 +79,9 @@ const EditAkunModal = ({ isOpen, onClose, akun }) => {
 
             {/* Nomor Telepon */}
             <div>
-              <label htmlFor="telp" className="block text-sm font-medium text-gray-800 mb-1">Nomor Telepon</label>
-              <input type="tel" id="telp" value={formData.telp} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
+              <label htmlFor="nomorTelepon" className="block text-sm font-medium text-gray-800 mb-1">Nomor Telepon</label>
+              <input type="tel" id="nomorTelepon" value={formData.nomorTelepon} onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
             </div>
-
-            {/* Dropdown Role */}
-            <div className="md:col-span-2">
-              <label htmlFor="role" className="block text-sm font-medium text-gray-800 mb-1">Role</label>
-              <select 
-                id="role" 
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-teal-500 focus:border-teal-500"
-              >
-                {roles.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
-            </div>
-
           </div>
           
           {/* Tombol Simpan */}

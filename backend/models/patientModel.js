@@ -1,11 +1,6 @@
 import mongoose from "mongoose";
 
 const patientSchema = mongoose.Schema({
-    role: {
-        type: String,
-        required: true,
-        default: "Pasien"
-    },
     nik: {
         type: String,
         required: true

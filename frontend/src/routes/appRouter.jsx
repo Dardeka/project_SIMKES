@@ -9,19 +9,25 @@ import Register from '../pages/Register';
 import AdminSpesialis from '../pages/admin/AdminSpesialis';  
 import AdminDaftarAkun from '../pages/admin/AdminDaftarAkun';
 import DashboardAdm from '../pages/admin/DashboardAdm';
-import KelolaFasilitas from '../pages/admin/KelolaFasilitas';
+import KelolaFasilitas from '../pages/admin/kelolaFasilitas';
 import KelolaAkunDokter from '../pages/admin/kelolaDokter';
 import DokterProfile from '../pages/dokter/DokterProfile'; 
 import JadwalTemu from '../pages/dokter/JadwalTemu';
 import UserProfile from '../pages/UserProfile'; 
 import ConsultationHistory from '../pages/ConsultationHistory';
 
+import LoginDokter from '../pages/LoginDokter';
+import LoginAdmin from '../pages/LoginAdmin';
 
 
 function AppRouter() {
     return (
         <Router>
             <Routes>
+                {/* Login */}
+                <Route path="/login-dokter" element={<LoginDokter />} />
+                <Route path="/login-admin" element={<LoginAdmin />} />
+
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/fasilitas" element={<Fasilitas />} />
                 <Route path="/cariDokter" element={<CariDokter />} />
@@ -30,8 +36,11 @@ function AppRouter() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
+                {/* Dokter */}
+                {/* <Route path="/dokter/" element={<Dashboard />} /> */}
+
                 {/* Admin */}
-                <Route path="/admin/dashboard" element={<DashboardAdm />} />
+                <Route path="/admin/" element={<DashboardAdm />} />
                 <Route path="/admin/kelolaFasilitas" element={<KelolaFasilitas />} />
                 <Route path="/admin/kelolaDokter" element={<KelolaAkunDokter />} />
                 <Route path="/admin/spesialis" element={<AdminSpesialis />} />

@@ -3,6 +3,7 @@ import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from
 import AddSpesialisModal from '../../components/admin/AddSpesialisModal'; 
 import EditSpesialisModal from '../../components/admin/EditSpesialisModal';
 import CustomSidebar from '../../components/customSidebar';
+import { useEffect } from 'react';
 
 const dummySpesialis = [
   { id: 1, name: 'Bedah Saraf', description: 'Deskripsi Bedah Saraf di rumah sakit tobot', imageUrl: '/images/spesialis1.jpg' },
@@ -10,60 +11,29 @@ const dummySpesialis = [
   { id: 3, name: 'Bedah Saraf', description: 'Deskripsi Bedah Saraf di rumah sakit tobot', imageUrl: '/images/spesialis3.jpg' },
 ];
 
-{/* Navbar Sementara untuk liat layout */}
-const Sidebar = () => (
-  <div className="w-64 h-screen bg-teal-700 text-white flex flex-col p-4 fixed">
-    {/* Header/Logo Section */}
-        <div className="flex items-center justify-center mb-6">
-          <div className="flex flex-row ml-[0px]">
-            <img src="/logo/logo_SIMKES.png" alt="Logo" className="w-[50px] h-[50px] m-4" />
-            <div className="flex flex-col text-white my-auto">
-              <h3 className="font-bold">SIMKES</h3>
-              <h5 className="font-light">Sistem Manajemen Pelayanan Kesehatan</h5>
-            </div>
-          </div>
-        </div>
-
-    {/* <div className="mb-8">
-      <div className="flex items-center space-x-2">
-        <span className="text-xl font-bold">SIMKES</span>
-      </div>
-      <p className="text-xs opacity-75">Sistem Manajemen Pelayanan Kesehatan</p>
-    </div> */}
-    
-    <nav className="flex-grow space-y-4">
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">
-        <FaTachometerAlt /> <span>Dashboard</span>
-      </a>
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">
-        <FaFlask /> <span>Fasilitas</span>
-      </a>
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg bg-teal-800 font-bold">
-        <FaUserMd /> <span>Spesialis</span>
-      </a>
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">
-        <FaUser /> <span>Dokter</span>
-      </a>
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">
-        <FaUser /> <span>Akun</span>
-      </a>
-    </nav>
-    
-    <button className="flex items-center space-x-3 text-lg p-2 rounded-lg text-white hover:bg-teal-600">
-      <FaSignOutAlt /> <span>Keluar</span>
-    </button>
-  </div>
-);
-
 const AdminSpesialis = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentSpesialis, setCurrentSpesialis] = useState(null);
+  const [spesialisData, setSpesialisData] = useState([]);
 
   const handleEditClick = (spesialis) => {
     setCurrentSpesialis(spesialis);
     setIsEditModalOpen(true);
   };
+
+  useEffect(() => {
+    const fetchSpesialisData = async () => {
+      await fetch('http://localhost:3001/api/admin/getAllSpecialities').then(response => response.json())
+      .then(data => {
+          console.log('Fetched Spesialis Data:', data);
+          setSpesialisData(data);
+      }).catch((error) => {
+          console.error('Error fetching spesialis data:', error);
+      });
+    }
+    fetchSpesialisData();
+  }, []);
 
   return (
     <div className="flex bg-gray-50 min-h-screen">
@@ -97,14 +67,14 @@ const AdminSpesialis = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {dummySpesialis.map((spesialis) => (
-                <tr key={spesialis.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{spesialis.id}</td>
+              {spesialisData.map((spesialis) => (
+                <tr key={spesialis._id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{spesialis._id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <img src={spesialis.imageUrl} alt={spesialis.name} className="h-20 w-20 object-cover rounded-md" />
+                    <img src={`http://localhost:3001${spesialis.gambar}`} alt={spesialis.nama} className="h-20 w-20 object-cover rounded-md" />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{spesialis.name}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{spesialis.description}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{spesialis.nama}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{spesialis.deskripsi}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
                     <button 
                       onClick={() => handleEditClick(spesialis)}

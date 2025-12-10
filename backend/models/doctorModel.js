@@ -1,15 +1,6 @@
 import mongoose from "mongoose";
 
 const doctorSchema = mongoose.Schema({
-    role: {
-        type: String,
-        required: true,
-        default: "Pasien"
-    },
-    nik: {
-        type: String,
-        required: true
-    },
     namaLengkap: {
         type: String,
         required: true
@@ -19,10 +10,6 @@ const doctorSchema = mongoose.Schema({
         required: true
     },
     spesialis: {
-        type: String,
-        required: true
-    },
-    nomorTelepon: {
         type: String,
         required: true
     },
@@ -43,6 +30,10 @@ const doctorSchema = mongoose.Schema({
         required: true
     },
     status: {
+        type: String,
+        required: true
+    },
+    password: {
         type: String,
         required: true
     }

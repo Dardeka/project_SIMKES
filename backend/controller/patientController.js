@@ -53,7 +53,7 @@ export const login = async (req, res) => {
                 {namaLengkap: targetUser.namaLengkap, id: targetUser._id},
                 "importantsecret"
             )
-            return res.json({token: accessToken, role : targetUser.role})
+            return res.json({accessToken: accessToken, role : targetUser.role})
         })
     } catch (error) {
         return res.status(500).json({error: error.message})

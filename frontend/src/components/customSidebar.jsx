@@ -9,7 +9,7 @@ function CustomSidebar() {
     const navigate = useNavigate();
 
     const handleDashboard = () => {
-        navigate('/admin/dashboard');
+        navigate('/admin/');
     }
 
     const handleFacility = () => {
@@ -26,6 +26,12 @@ function CustomSidebar() {
 
     const handleAccount = () => {
         navigate('/admin/daftarakun');
+    }
+
+    const handleLogout = () => {
+        // Implement logout functionality here
+        sessionStorage.clear();
+        navigate('/');
     }
 
     return(
@@ -131,7 +137,7 @@ function CustomSidebar() {
                         ${expanded ? "w-[200px] mx-auto" : "w-[100px] mx-auto"}
                         `}
                     >
-                        <Button className="!bg-red-500 hover:!bg-red-700">
+                        <Button className="!bg-red-500 hover:!bg-red-700" onClick={handleLogout}>
                             <img src="/icons/logout.png" alt="Logout Icon" width="20" />
                         {expanded && 
                             <span>Logout</span>
