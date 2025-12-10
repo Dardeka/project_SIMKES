@@ -1,8 +1,27 @@
 import React from 'react';
 import { FaGoogle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {Formik, Form, Field, ErrorMessage} from "formik";
 
-const Login = () => {
+function Login() {
+  const navigate = useNavigate();
+
+  const handleSubmit = (values) => {
+    // console.log('Form values:', values);
+    axios.post('http://localhost:3001/api/login', values).then(response => {
+      if(response.data.error){
+        alert(response.data.error);
+        return;
+      }else{
+        console.log('Login successful:', response.data);
+        // Handle successful login (e.g., redirect, store token, etc.)
+        sessionStorage.setItem('token', response.data.token);
+        navigate('/');
+      }
+    })
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900" style={{
       backgroundImage: `url('/images/login-picture.jpg')`, 
@@ -27,47 +46,53 @@ const Login = () => {
         <h2 className="text-3xl font-bold text-white text-center mb-6">Login</h2>
 
         {/* Form Inputs */}
-        <form className="space-y-4">
-          
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">Alamat Email</label>
-            <input 
-              type="email" 
-              id="email" 
-              placeholder="Masukkan email"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 placeholder-gray-500" 
-              required 
-            />
-          </div>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          onSubmit={handleSubmit}
+        >
+          <Form className="space-y-4">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-1">Alamat Email</label>
+              <Field 
+                type="email" 
+                id="email" 
+                name="email"
+                placeholder="Masukkan email"
+                className="w-full text-white p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 placeholder-gray-500" 
+                required 
+              />
+            </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-white mb-1">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              placeholder="Masukkan password"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 placeholder-gray-500" 
-              required 
-            />
-          </div>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-white mb-1">Password</label>
+              <Field 
+                type="password" 
+                id="password" 
+                name="password"
+                placeholder="Masukkan password"
+                className="w-full text-white p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 placeholder-gray-500" 
+                required 
+              />
+            </div>
 
-          {/* Checkbox and Forgot Password */}
-          <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center text-white hover:text-teal-500">
-              <input type="checkbox" className="form-checkbox text-teal-600 rounded mr-2" />
-              Ingat saya
-            </label>
-            <a href="#" className="text-white hover:text-teal-500 font-medium">Lupa Password</a>
-          </div>
+            {/* Checkbox and Forgot Password */}
+            <div className="flex justify-between items-center text-sm">
+              <label className="flex items-center text-white hover:text-teal-500">
+                <input type="checkbox" className="form-checkbox text-teal-600 rounded mr-2" />
+                Ingat saya
+              </label>
+              <a href="#" className="text-white hover:text-teal-500 font-medium">Lupa Password</a>
+            </div>
 
-          {/* Login Button */}
-          <button 
-            type="submit" 
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md mt-4"
-          >
-            Masuk
-          </button>
-        </form>
+            {/* Login Button */}
+            <button 
+              type="submit" 
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition duration-200 shadow-md mt-4"
+            >
+              Masuk
+            </button>
+          </Form>
+        </Formik> 
         
         {/* Google Login Button */}
         <div className="mt-4">

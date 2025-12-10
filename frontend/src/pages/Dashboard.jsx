@@ -17,7 +17,7 @@ const dummySpecialists = [
 ];
 
 const dummyDoctors = [
-  { name: 'Ryan Love Andris', specialty: 'Dokter Umum', imageUrl: '/images/doctor1.jpg' },
+  { name: 'Dr. Coyke', specialty: 'Dokter Umum', imageUrl: '/images/doctor1.jpg' },
   { name: 'Ryan Love Andris', specialty: 'Dokter Gigi', imageUrl: '/images/doctor2.jpg' },
   { name: 'Ryan Love Andris', specialty: 'Dokter Anak', imageUrl: '/images/doctor3.jpg' },
   { name: 'Ryan Love Andris', specialty: 'Dokter Hewan', imageUrl: '/images/doctor4.jpg' },
@@ -54,7 +54,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Left: Image Card */}
             <div className="relative">
-              <div className="bg-teal-600 text-white text-sm font-semibold py-1 px-4 rounded-full absolute top-0 left-0 -mt-3 -ml-3 z-10">
+              <div className="bg-teal-600 text-white text-sm font-semibold py-1 px-4 rounded-full absolute top-0 left-0 -mt-3 -ml-3 z-8">
                 10+ Years Experience
               </div>
               <img

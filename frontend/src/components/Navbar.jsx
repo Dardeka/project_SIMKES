@@ -1,8 +1,31 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import { useState } from "react";
+import { useEffect } from "react";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate()
+  const [accessToken, setAccessToken] = useState(null);
+
+  function decodeJWT(token) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    setAccessToken(token);
+  }, []);
 
   const handleSearchDoctor = () => {
     navigate('/cariDokter')
@@ -32,9 +55,15 @@ const Navbar = () => {
         <Button className="!bg-transparent text-base text-white pb-0 rounded-none hover:border-b-2 border-white" onClick={handleFasilitas}>
           Fasilitas
         </Button>
-        <Button className="bg-[#1D8B7E] text-base text-white w-[135px] h-[45px]" onClick={handleLogin}>
-          Login
-        </Button>
+        {accessToken ?
+          <Button className="bg-white text-base text-white w-[45px] h-[45px] rounded-full hover:bg-gray-200/70 p-2 flex items-center justify-center">
+            <FaUser color="black"/>
+          </Button>
+          :
+          <Button className="bg-[#1D8B7E] text-base text-white w-[135px] h-[45px]" onClick={handleLogin}>
+            Login
+          </Button>
+        }
       </div>
   </header>
   );
