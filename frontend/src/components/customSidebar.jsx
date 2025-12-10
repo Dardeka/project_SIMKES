@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { FaFlask, FaTachometerAlt, FaUser, FaUserMd } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const CustomSidebar = ({activeMenu, setActiveMenu}) => {
+function CustomSidebar() {
     const [expanded, setExpanded] = useState(true);
     const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ const CustomSidebar = ({activeMenu, setActiveMenu}) => {
                             {expanded && (
                                 <Button 
                                     className="!bg-transparent justify-start w-[150px] text-lg rounded-none pl-0"
-                                    onClick={() => { setActiveMenu('dashboard'); handleDashboard(); }}
+                                    onClick={handleDashboard}
                                 >
                                     <span>Dashboard</span>
                                 </Button>
@@ -81,7 +81,7 @@ const CustomSidebar = ({activeMenu, setActiveMenu}) => {
                             {expanded && (
                                 <Button 
                                     className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={() => { setActiveMenu('facility'); handleFacility(); }}
+                                    onClick={handleFacility}
                                 >
                                     <span>Fasilitas</span>
                                 </Button>
@@ -93,19 +93,19 @@ const CustomSidebar = ({activeMenu, setActiveMenu}) => {
                             {expanded && (
                                 <Button 
                                     className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={() => { setActiveMenu('specialist'); handleSpecialist(); }}
+                                    onClick={handleSpecialist}
                                 >
                                     <span>Spesialis</span>
                                 </Button>
                             )}
                         </div>
 
-                        <div className={activeMenu === "doctor" ? "flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg bg-gray-200/20" : "flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg"}>
+                        <div className="flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg">
                             <FaUser color="white" /> 
                             {expanded && (
                                 <Button 
                                     className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={() => { setActiveMenu('doctor'); handleDoctor(); }}
+                                    onClick={handleDoctor}
                                 >
                                     <span>Dokter</span>
                                 </Button>
@@ -116,7 +116,7 @@ const CustomSidebar = ({activeMenu, setActiveMenu}) => {
                             {expanded && (
                                 <Button 
                                     className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={() => { setActiveMenu('account'); handleAccount(); }}
+                                    onClick={handleAccount}
                                 >
                                     <span>Akun</span>
                                 </Button>
