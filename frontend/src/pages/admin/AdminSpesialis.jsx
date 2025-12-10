@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from 'react-icons/fa';
 import AddSpesialisModal from '../../components/admin/AddSpesialisModal'; 
 import EditSpesialisModal from '../../components/admin/EditSpesialisModal';
+import CustomSidebar from '../../components/customSidebar';
 
 const dummySpesialis = [
   { id: 1, name: 'Bedah Saraf', description: 'Deskripsi Bedah Saraf di rumah sakit tobot', imageUrl: '/images/spesialis1.jpg' },
@@ -55,10 +56,10 @@ const AdminSpesialis = () => {
 
   return (
     <div className="flex bg-gray-50 min-h-screen">
-      <Sidebar />
+      <CustomSidebar />
       
       {/* Main Content Area */}
-      <div className="flex-grow ml-64 p-8">
+      <div className="flex flex-col mt-[64px] mx-auto">
         
         {/* Header Content */}
         <div className="flex justify-between items-center mb-8">

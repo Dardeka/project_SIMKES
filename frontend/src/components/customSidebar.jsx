@@ -1,13 +1,36 @@
 import { useState } from "react";
 import { ChevronFirst, ChevronLast } from "lucide-react";
 import { Button } from "./ui/button";
+import { FaFlask, FaTachometerAlt, FaUser, FaUserMd } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-function CustomSidebar() {
+const CustomSidebar = ({activeMenu, setActiveMenu}) => {
     const [expanded, setExpanded] = useState(true);
+    const navigate = useNavigate();
+
+    const handleDashboard = () => {
+        navigate('/admin/dashboard');
+    }
+
+    const handleFacility = () => {
+        navigate('/admin/kelolaFasilitas');
+    }
+
+    const handleSpecialist = () => {
+        navigate('/admin/spesialis');
+    }
+
+    const handleDoctor = () => {
+        navigate('/admin/kelolaDokter');
+    }
+
+    const handleAccount = () => {
+        navigate('/admin/daftarakun');
+    }
 
     return(
         <aside 
-            className={`h-screen bg-[#04998E] shadow-xl/30 transition-all duration-300 
+            className={`h-screen bg-teal-700 shadow-xl/30 transition-all duration-300 
             ${expanded ? "w-[280px]" : "w-[150px]"}`}
         >
             <nav className="h-full border-r shadow-sm">
@@ -41,29 +64,61 @@ function CustomSidebar() {
 
                     {/* MENU */}
                     <div className="flex flex-col gap-5 mt-10 ml-5 mr-6">
-                        <div className="flex items-center gap-3 hover:bg-gray-200/20 p-2 rounded-lg">
-                            <img src="/icons/dashboard.png" width="30" />
+                        <div className="flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg">
+                            <FaTachometerAlt color="white"/> 
                             {expanded && (
-                                <Button className="!bg-transparent justify-start w-full text-lg rounded-none">
-                                    Dashboard
+                                <Button 
+                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none pl-0"
+                                    onClick={() => { setActiveMenu('dashboard'); handleDashboard(); }}
+                                >
+                                    <span>Dashboard</span>
                                 </Button>
                             )}
                         </div>
 
-                        <div className="flex items-center gap-3 hover:bg-gray-200/20 p-2 rounded-lg">
-                            <img src="/icons/fasilitas.png" width="30" />
+                        <div className="flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg">
+                            <FaFlask color="white" /> 
                             {expanded && (
-                                <Button className="!bg-transparent justify-start w-full text-lg rounded-none">
-                                    Fasilitas
+                                <Button 
+                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
+                                    onClick={() => { setActiveMenu('facility'); handleFacility(); }}
+                                >
+                                    <span>Fasilitas</span>
                                 </Button>
                             )}
                         </div>
 
-                        <div className="flex items-center gap-3 hover:bg-gray-200/20 p-2 rounded-lg">
-                            <img src="/icons/kelolaAkun.png" width="30" />
+                        <div className="flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg">
+                            <FaUserMd color="white" /> 
                             {expanded && (
-                                <Button className="!bg-transparent justify-start w-full text-lg rounded-none">
-                                    Dokter
+                                <Button 
+                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
+                                    onClick={() => { setActiveMenu('specialist'); handleSpecialist(); }}
+                                >
+                                    <span>Spesialis</span>
+                                </Button>
+                            )}
+                        </div>
+
+                        <div className={activeMenu === "doctor" ? "flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg bg-gray-200/20" : "flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg"}>
+                            <FaUser color="white" /> 
+                            {expanded && (
+                                <Button 
+                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
+                                    onClick={() => { setActiveMenu('doctor'); handleDoctor(); }}
+                                >
+                                    <span>Dokter</span>
+                                </Button>
+                            )}
+                        </div>
+                        <div className="flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg">
+                            <FaUser color="white" /> 
+                            {expanded && (
+                                <Button 
+                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
+                                    onClick={() => { setActiveMenu('account'); handleAccount(); }}
+                                >
+                                    <span>Akun</span>
                                 </Button>
                             )}
                         </div>

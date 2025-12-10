@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from 'react-icons/fa';
 import AddAkunModal from '../../components/admin/AddAkunModal'; 
 import EditAkunModal from '../../components/admin/EditAkunModal'; 
+import CustomSidebar from '../../components/customSidebar';
 
 const dummyAkun = [
   { 
@@ -79,10 +80,10 @@ const AdminDaftarAkun = () => {
 
   return (
     <div className="flex bg-gray-50 min-h-screen">
-      <Sidebar />
+      <CustomSidebar />
       
       {/* Main Content Area */}
-      <div className="flex-grow ml-64 p-8">
+      <div className="flex flex-col mt-[64px] mx-auto">
         
         {/* Header Content */}
         <div className="flex justify-between items-center mb-8">

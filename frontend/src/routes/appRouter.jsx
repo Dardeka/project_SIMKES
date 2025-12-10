@@ -7,7 +7,10 @@ import Spesialis from '../pages/Spesialis';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import AdminSpesialis from '../pages/admin/AdminSpesialis';  
-import AdminDaftarAkun from '../pages/admin/AdminDaftarAkun';  
+import AdminDaftarAkun from '../pages/admin/AdminDaftarAkun';
+import DashboardAdm from '../pages/admin/DashboardAdm';
+import KelolaFasilitas from '../pages/admin/KelolaFasilitas';
+import KelolaAkunDokter from '../pages/admin/kelolaDokter';
 
 
 function AppRouter() {
@@ -21,13 +24,13 @@ function AppRouter() {
                 <Route path="/spesialis" element={<Spesialis />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/adminspesialis" element={<AdminSpesialis />} />
-                <Route path="/admindaftarakun" element={<AdminDaftarAkun />} />
 
                 {/* Admin */}
                 <Route path="/admin/dashboard" element={<DashboardAdm />} />
                 <Route path="/admin/kelolaFasilitas" element={<KelolaFasilitas />} />
                 <Route path="/admin/kelolaDokter" element={<KelolaAkunDokter />} />
+                <Route path="/admin/spesialis" element={<AdminSpesialis />} />
+                <Route path="/admin/daftarakun" element={<AdminDaftarAkun />} />
             </Routes>
         </Router>
     )
