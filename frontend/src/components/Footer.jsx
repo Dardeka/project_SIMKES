@@ -1,3 +1,4 @@
+import { FaLocationArrow, FaMapPin, FaPhone, FaPhoneAlt } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -5,12 +6,18 @@ const Footer = () => {
       <div className="flex flex-row text-white">
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-2xl">SIMKES</h1>
-          <p className="w-[597px]">Rumah Sakit tobot adalah rumah sakit yang didirikan oleh Ryan Love Andris yang berlokasi di Johar dekat cikunir</p>
+          <p className="w-[597px] text-justify">Rumah Sakit Tobot merupakan fasilitas layanan kesehatan yang didirikan oleh Ryan dan Andris. Rumah sakit ini berlokasi di daerah Johar, dekat Cikunir, dan berkomitmen untuk memberikan pelayanan medis yang berkualitas, modern, dan berorientasi pada keselamatan serta kenyamanan pasien.</p>
         </div>
         <div className="flex flex-col ml-[200px] gap-2">
           <h1 className="font-bold text-2xl">Kontak Kami</h1>
-          <p>(+62) 12345678910</p>
-          <p>Jalan Geboy Mujaer Nang Ning Nong</p>
+          <div className="flex flex-row items-center gap-2">
+            <FaPhoneAlt />
+            <p> (+62) 12345678910</p>
+          </div>
+          <div className="flex flex-row items-center gap-2">
+            <FaMapPin />
+            <p>Jln. Cikunir Raya No.30</p>
+          </div>
         </div>
       </div>
     </footer>

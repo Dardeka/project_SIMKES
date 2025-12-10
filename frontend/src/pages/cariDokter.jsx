@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Button } from "../components/ui/button";
+import Footer from "../components/Footer";
 
 function CariDokter() {
     const navigate = useNavigate()
@@ -80,7 +81,7 @@ function CariDokter() {
                     </div>
                 </div>
             </div>
-            
+            <Footer />
         </div>
     )
 }
