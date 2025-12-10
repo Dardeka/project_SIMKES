@@ -16,7 +16,6 @@ const patientSchema = mongoose.Schema({
     },
     namaPanggilan: {
         type: String,
-        required: true,
         default: ""
     },
     jenisKelamin: {
@@ -37,7 +36,6 @@ const patientSchema = mongoose.Schema({
     },
     alamat: {
         type: String,
-        required: true,
         default: ""
     },
     password: {

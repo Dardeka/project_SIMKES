@@ -17,7 +17,10 @@ const receiptSchema = mongoose.Schema({
         type: Date,
         required: true
     },
-    obat: [],
+    obat: {
+        type: Array,
+        required: true
+    },
     status: {
         type: String,
         required: true
