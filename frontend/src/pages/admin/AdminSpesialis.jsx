@@ -13,12 +13,23 @@ const dummySpesialis = [
 {/* Navbar Sementara untuk liat layout */}
 const Sidebar = () => (
   <div className="w-64 h-screen bg-teal-700 text-white flex flex-col p-4 fixed">
-    <div className="mb-8">
+    {/* Header/Logo Section */}
+        <div className="flex items-center justify-center mb-6">
+          <div className="flex flex-row ml-[0px]">
+            <img src="/logo/logo_SIMKES.png" alt="Logo" className="w-[50px] h-[50px] m-4" />
+            <div className="flex flex-col text-white my-auto">
+              <h3 className="font-bold">SIMKES</h3>
+              <h5 className="font-light">Sistem Manajemen Pelayanan Kesehatan</h5>
+            </div>
+          </div>
+        </div>
+
+    {/* <div className="mb-8">
       <div className="flex items-center space-x-2">
         <span className="text-xl font-bold">SIMKES</span>
       </div>
       <p className="text-xs opacity-75">Sistem Manajemen Pelayanan Kesehatan</p>
-    </div>
+    </div> */}
     
     <nav className="flex-grow space-y-4">
       <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">

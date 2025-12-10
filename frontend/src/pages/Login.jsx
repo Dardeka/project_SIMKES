@@ -35,12 +35,12 @@ function Login() {
         {/* Header/Logo Section */}
         <div className="flex items-center justify-center mb-6">
           <div className="flex flex-row ml-[0px]">
-        <img src="/logo/logo_SIMKES.png" alt="Logo" className="w-[60px] h-[60px] m-4" />
-        <div className="flex flex-col text-white my-auto">
-          <h2 className="font-bold">SIMKES</h2>
-          <h4 className="font-light">Sistem Manajemen Pelayanan Kesehatan</h4>
-        </div>
-      </div>
+            <img src="/logo/logo_SIMKES.png" alt="Logo" className="w-[60px] h-[60px] m-4" />
+            <div className="flex flex-col text-white my-auto">
+              <h2 className="font-bold">SIMKES</h2>
+              <h4 className="font-light">Sistem Manajemen Pelayanan Kesehatan</h4>
+            </div>
+          </div>
         </div>
 
         <h2 className="text-3xl font-bold text-white text-center mb-6">Login</h2>

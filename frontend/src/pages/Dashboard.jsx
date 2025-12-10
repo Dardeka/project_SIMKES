@@ -52,7 +52,7 @@ const Dashboard = () => {
         {/* About Section */}
         <section className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            {/* Left: Image Card */}
+            {/* Image Card */}
             <div className="relative">
               <div className="bg-teal-600 text-white text-sm font-semibold py-1 px-4 rounded-full absolute top-0 left-0 -mt-3 -ml-3 z-8">
                 10+ Years Experience
@@ -64,7 +64,7 @@ const Dashboard = () => {
               />
             </div>
 
-            {/* Right: Text Content */}
+            {/* Text Content */}
             <div>
               <h2 className="text-3xl font-bold text-gray-800 mb-4">Ayo Peduli Kesehatan</h2>
               <p className="text-gray-600 mb-4">

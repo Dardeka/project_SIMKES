@@ -7,7 +7,7 @@ const AddAkunModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-transparent bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
       
       {/* Modal Container */}
       <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-lg relative">
@@ -27,25 +27,25 @@ const AddAkunModal = ({ isOpen, onClose }) => {
             {/* Nama Panggilan */}
             <div>
               <label htmlFor="nickname" className="block text-sm font-medium text-gray-800 mb-1">Nama Panggilan</label>
-              <input type="text" id="nickname" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
+              <input type="text" id="nickname" placeholder="Nama Panggilan" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
             </div>
 
             {/* Nama Lengkap */}
             <div>
               <label htmlFor="fullname" className="block text-sm font-medium text-gray-800 mb-1">Nama Lengkap</label>
-              <input type="text" id="fullname" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
+              <input type="text" id="fullname" placeholder="Nama Lengkap" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
             </div>
 
             {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-800 mb-1">Email</label>
-              <input type="email" id="email" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
+              <input type="email" id="email" placeholder="Masukkan Email" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
             </div>
 
             {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-800 mb-1">Password</label>
-              <input type="password" id="password" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
+              <input type="password" id="password" placeholder="Masukkan Password" className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" required />
             </div>
 
             {/* Nomor Telepon */}

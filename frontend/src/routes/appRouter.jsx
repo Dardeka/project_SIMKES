@@ -11,6 +11,11 @@ import AdminDaftarAkun from '../pages/admin/AdminDaftarAkun';
 import DashboardAdm from '../pages/admin/DashboardAdm';
 import KelolaFasilitas from '../pages/admin/KelolaFasilitas';
 import KelolaAkunDokter from '../pages/admin/kelolaDokter';
+import DokterProfile from '../pages/dokter/DokterProfile'; 
+import JadwalTemu from '../pages/dokter/JadwalTemu';
+import UserProfile from '../pages/UserProfile'; 
+import ConsultationHistory from '../pages/ConsultationHistory';
+
 
 
 function AppRouter() {
@@ -31,6 +36,11 @@ function AppRouter() {
                 <Route path="/admin/kelolaDokter" element={<KelolaAkunDokter />} />
                 <Route path="/admin/spesialis" element={<AdminSpesialis />} />
                 <Route path="/admin/daftarakun" element={<AdminDaftarAkun />} />
+                <Route path="/dokterprofile" element={<DokterProfile />} />
+                <Route path="/jadwaltemu" element={<JadwalTemu />} />
+                <Route path="/userprofile" element={<UserProfile />} />
+                <Route path="/consultationhistory" element={<ConsultationHistory />} />
+               
             </Routes>
         </Router>
     )

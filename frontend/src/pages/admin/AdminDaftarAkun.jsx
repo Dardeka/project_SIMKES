@@ -12,7 +12,7 @@ const dummyAkun = [
     fullname: 'Admin', 
     telp: '08123456789', 
     email: 'admin2201@gmail.com', 
-    imageUrl: '/images/admin-op.jpg' 
+    imageUrl: '/images/doctor1.jpg' 
   },
   { 
     id: 2, 
@@ -21,7 +21,7 @@ const dummyAkun = [
     fullname: 'Dr. Ryan Love Andris', 
     telp: '08123456789', 
     email: 'ryan.dr@gmail.com', 
-    imageUrl: '/images/doctor-op.jpg' 
+    imageUrl: '/images/doctor2.jpg' 
   },
   { 
     id: 3, 
@@ -30,19 +30,23 @@ const dummyAkun = [
     fullname: 'Pasien Andris', 
     telp: '08123456789', 
     email: 'pasien@gmail.com', 
-    imageUrl: '/images/pasien-op.jpg' 
+    imageUrl: '/images/doctor3.jpg' 
   },
 ];
 
 {/* Navbar Sementara untuk Layout */}
 const Sidebar = () => (
   <div className="w-64 h-screen bg-teal-700 text-white flex flex-col p-4 fixed">
-    <div className="mb-8">
-      <div className="flex items-center space-x-2">
-        <span className="text-xl font-bold">SIMKES</span>
-      </div>
-      <p className="text-xs opacity-75">Sistem Manajemen Pelayanan Kesehatan</p>
-    </div>
+    {/* Header/Logo Section */}
+        <div className="flex items-center justify-center mb-6">
+          <div className="flex flex-row ml-[0px]">
+            <img src="/logo/logo_SIMKES.png" alt="Logo" className="w-[50px] h-[50px] m-4" />
+            <div className="flex flex-col text-white my-auto">
+              <h3 className="font-bold">SIMKES</h3>
+              <h5 className="font-light">Sistem Manajemen Pelayanan Kesehatan</h5>
+            </div>
+          </div>
+        </div>
     
     <nav className="flex-grow space-y-4">
       <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">
