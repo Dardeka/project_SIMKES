@@ -2,14 +2,8 @@ import React, { useState } from 'react';
 import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from 'react-icons/fa';
 import AddSpesialisModal from '../../components/admin/AddSpesialisModal'; 
 import EditSpesialisModal from '../../components/admin/EditSpesialisModal';
-import CustomSidebar from '../../components/customSidebar';
+import CustomSidebar from '../../components/adminCustomSidebar';
 import { useEffect } from 'react';
-
-const dummySpesialis = [
-  { id: 1, name: 'Bedah Saraf', description: 'Deskripsi Bedah Saraf di rumah sakit tobot', imageUrl: '/images/spesialis1.jpg' },
-  { id: 2, name: 'Bedah Saraf', description: 'Deskripsi Bedah Saraf di rumah sakit tobot', imageUrl: '/images/spesialis2.jpg' },
-  { id: 3, name: 'Bedah Saraf', description: 'Deskripsi Bedah Saraf di rumah sakit tobot', imageUrl: '/images/spesialis3.jpg' },
-];
 
 const AdminSpesialis = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -26,10 +20,10 @@ const AdminSpesialis = () => {
     const fetchSpesialisData = async () => {
       await fetch('http://localhost:3001/api/admin/getAllSpecialities').then(response => response.json())
       .then(data => {
-          console.log('Fetched Spesialis Data:', data);
-          setSpesialisData(data);
+        console.log('Fetched Spesialis Data:', data);
+        setSpesialisData(data);
       }).catch((error) => {
-          console.error('Error fetching spesialis data:', error);
+        console.error('Error fetching spesialis data:', error);
       });
     }
     fetchSpesialisData();
@@ -40,7 +34,7 @@ const AdminSpesialis = () => {
       <CustomSidebar />
       
       {/* Main Content Area */}
-      <div className="flex flex-col mt-[64px] mx-auto">
+      <div className="flex flex-col mt-[64px] mx-auto pl-[20px] pr-10">
         
         {/* Header Content */}
         <div className="flex justify-between items-center mb-8">
@@ -55,15 +49,15 @@ const AdminSpesialis = () => {
         </div>
 
         {/* Spesialis Table */}
-        <div className="bg-white shadow-lg rounded-lg overflow-x-auto">
+        <div className="bg-white shadow-lg rounded-lg overflow-x-auto ">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-teal-700 text-white">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Id</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Gambar</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Nama Spesialis</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Deskripsi</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">Edit</th>
+                <th className="w-20% px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Id</th>
+                <th className="w-20% px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Gambar</th>
+                <th className="w-20% px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Nama Spesialis</th>
+                <th className="w-20% px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Deskripsi</th>
+                <th className="w-20% px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">Edit</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">

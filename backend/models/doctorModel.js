@@ -10,6 +10,11 @@ const doctorSchema = mongoose.Schema({
         required: true
     },
     spesialis: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Spesialis',
+        required: true
+    },
+    deskripsi: {
         type: String,
         required: true
     },

@@ -18,7 +18,7 @@ function LoginDokter() {
         console.log('Login successful:', response.data);
         // Handle successful login (e.g., redirect, store token, etc.)
         sessionStorage.setItem('accessToken', response.data.accessToken);
-        navigate('/');
+        navigate('/dokter/profil');
       }
     })
   }

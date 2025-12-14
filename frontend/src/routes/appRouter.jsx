@@ -11,8 +11,8 @@ import AdminDaftarAkun from '../pages/admin/AdminDaftarAkun';
 import DashboardAdm from '../pages/admin/DashboardAdm';
 import KelolaFasilitas from '../pages/admin/kelolaFasilitas';
 import KelolaAkunDokter from '../pages/admin/kelolaDokter';
-import DokterProfile from '../pages/dokter/DokterProfile'; 
-import JadwalTemu from '../pages/dokter/JadwalTemu';
+import DokterProfile from '../pages/dokter/DokterProfile';
+import DaftarPasien from '../pages/dokter/DaftarPasien';
 import UserProfile from '../pages/UserProfile'; 
 import ConsultationHistory from '../pages/ConsultationHistory';
 
@@ -35,9 +35,12 @@ function AppRouter() {
                 <Route path="/spesialis" element={<Spesialis />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/profil" element={<UserProfile />} />
+                <Route path="/riwayatKonsultasi" element={<ConsultationHistory />} />
 
                 {/* Dokter */}
-                {/* <Route path="/dokter/" element={<Dashboard />} /> */}
+                <Route path="/dokter/profil" element={<DokterProfile />} />
+                <Route path="/dokter/daftarPasien" element={<DaftarPasien />} />
 
                 {/* Admin */}
                 <Route path="/admin/" element={<DashboardAdm />} />
@@ -45,10 +48,6 @@ function AppRouter() {
                 <Route path="/admin/kelolaDokter" element={<KelolaAkunDokter />} />
                 <Route path="/admin/spesialis" element={<AdminSpesialis />} />
                 <Route path="/admin/daftarakun" element={<AdminDaftarAkun />} />
-                <Route path="/dokterprofile" element={<DokterProfile />} />
-                <Route path="/jadwaltemu" element={<JadwalTemu />} />
-                <Route path="/userprofile" element={<UserProfile />} />
-                <Route path="/consultationhistory" element={<ConsultationHistory />} />
                
             </Routes>
         </Router>

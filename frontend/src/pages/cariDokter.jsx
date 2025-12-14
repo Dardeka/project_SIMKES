@@ -2,13 +2,49 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Button } from "../components/ui/button";
 import Footer from "../components/Footer";
+import { useEffect, useState } from "react";
 
 function CariDokter() {
     const navigate = useNavigate()
+    const [allDoctors, setAllDoctors] = useState([])
 
-    const handleDetail = () => {
-        navigate('/detailDokter')
+    const handleDetail = (doctor) => {
+        navigate('/detailDokter', { state: { doctor } })
     }
+
+    useEffect(() => {
+        const fetchAllDoctors = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/getAllDoctor');
+                const data = await response.json();
+                console.log('Data Dokter:', data);
+                
+                const formattedDoctors = await Promise.all(
+                    data.map(async (doctor) => {
+                        console.log('Fetching spesialis for doctor:', doctor.spesialis);
+                        const specialistDetail = await fetch(`http://localhost:3001/api/getCertainSpeciality/${doctor.spesialis}`);
+                        const specialistData = await specialistDetail.json();
+                        console.log('Spesialis Data:', specialistData);
+                        return {
+                            foto_profil: doctor.foto_profil,
+                            namaLengkap: doctor.namaLengkap,
+                            spesialis: specialistData.nama,
+                            deskripsi: doctor.deskripsi,
+                            pengalaman: doctor.pengalaman,
+                            pendidikan: doctor.pendidikan,
+                            _id: doctor._id,
+                            status: doctor.status
+                        }
+                    }
+                ))
+
+                setAllDoctors(formattedDoctors);
+            } catch (error) {
+                console.error('Error fetching doctors:', error);
+            }
+        };
+        fetchAllDoctors();
+    }, []);
 
     return (
         <div>
@@ -23,62 +59,16 @@ function CariDokter() {
             </div>
             <div className="mt-[100px] mx-auto flex flex-col items-center">
                 <div className="grid grid-cols-2 gap-x-[50px] gap-y-[30px]">
-                    <div className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
-                        <img src="/dokter.png" alt="" width="150px" height="150px"/>
-                        <div className="flex flex-col ml-[23px] pt-[22px] w-[260px]">
-                            <p className="text-xl font-semibold">dr. Amanda Siti</p>
-                            <p>Spesialis Anak</p>
-                            <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={handleDetail}>Lihat Detail</Button>
+                    {allDoctors.filter((doctor) => doctor.status === 'Aktif').map((doctor) => (
+                        <div key={doctor._id} className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
+                            <img src={`http://localhost:3001${doctor.foto_profil}`} alt=""/>
+                            <div className="flex flex-col ml-[23px] pt-[22px] min-w-[260px] w-[300px]">
+                                <p className="text-xl font-semibold">{doctor.namaLengkap}</p>
+                                <p>{doctor.spesialis}</p>
+                                <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={() => handleDetail(doctor)}>Lihat Detail</Button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
-                        <img src="/dokter.png" alt="" width="150px" height="150px"/>
-                        <div className="flex flex-col ml-[23px] pt-[22px] w-[260px]">
-                            <p className="text-xl font-semibold">dr. Amanda Siti</p>
-                            <p>Spesialis Anak</p>
-                            <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={handleDetail}>Lihat Detail</Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
-                        <img src="/dokter.png" alt="" width="150px" height="150px"/>
-                        <div className="flex flex-col ml-[23px] pt-[22px] w-[260px]">
-                            <p className="text-xl font-semibold">dr. Amanda Siti</p>
-                            <p>Spesialis Anak</p>
-                            <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={handleDetail}>Lihat Detail</Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
-                        <img src="/dokter.png" alt="" width="150px" height="150px"/>
-                        <div className="flex flex-col ml-[23px] pt-[22px] w-[260px]">
-                            <p className="text-xl font-semibold">dr. Amanda Siti</p>
-                            <p>Spesialis Anak</p>
-                            <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={handleDetail}>Lihat Detail</Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
-                        <img src="/dokter.png" alt="" width="150px" height="150px"/>
-                        <div className="flex flex-col ml-[23px] pt-[22px] w-[260px]">
-                            <p className="text-xl font-semibold">dr. Amanda Siti</p>
-                            <p>Spesialis Anak</p>
-                            <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={handleDetail}>Lihat Detail</Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
-                        <img src="/dokter.png" alt="" width="150px" height="150px"/>
-                        <div className="flex flex-col ml-[23px] pt-[22px] w-[260px]">
-                            <p className="text-xl font-semibold">dr. Amanda Siti</p>
-                            <p>Spesialis Anak</p>
-                            <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={handleDetail}>Lihat Detail</Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-row w-[500px] h-[200px] py-[25px] pl-[29px] pr-[38px] bg-[#D9D9D9] rounded-[12px] shadow-xl/20">
-                        <img src="/dokter.png" alt="" width="150px" height="150px"/>
-                        <div className="flex flex-col ml-[23px] pt-[22px] w-[260px]">
-                            <p className="text-xl font-semibold">dr. Amanda Siti</p>
-                            <p>Spesialis Anak</p>
-                            <Button className="!bg-[#2D7DD2] text-white mt-[36px] ml-auto cursor-pointer hover:!bg-blue-700" onClick={handleDetail}>Lihat Detail</Button>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
             <Footer />

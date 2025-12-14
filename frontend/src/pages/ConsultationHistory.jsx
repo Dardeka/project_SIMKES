@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { FaSignOutAlt, FaUser, FaHistory } from 'react-icons/fa';
-import { dummyUserProfile } from './UserProfile'; 
 import PatientPrescriptionModal from '../components/pasien/PatientPrescriptionModal';
+import Navbar from '../components/Navbar';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import dayjs from 'dayjs';
 
 const dummyConsultationHistory = [
     {
@@ -39,16 +42,21 @@ const getButtonStyles = (status) => {
         : 'bg-gray-300 text-gray-600 cursor-not-allowed';
 };
 
-const HistoryNavigation = () => {
+const HistoryNavigation = (profile) => {
+    const handleLogout = () => {
+        sessionStorage.removeItem('accessToken');
+        window.location.href = '/login';
+    }
+
     return (
         <div className="w-full space-y-3">
-            <a href="/userprofile" className="w-full bg-teal-50 text-teal-700 py-3 rounded-lg flex items-center justify-center space-x-2 font-semibold hover:bg-teal-100">
+            <a href="/profil" className="w-full bg-teal-50 text-teal-700 py-3 rounded-lg flex items-center justify-center space-x-2 font-semibold hover:bg-teal-100">
                 <FaUser /> <span>Personal Information</span>
             </a>
             <button className="w-full bg-teal-600 text-white py-3 rounded-lg flex items-center justify-center space-x-2 font-semibold">
                 <FaHistory /> <span>Consultation History</span>
             </button>
-            <button className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg flex items-center justify-center space-x-2 font-semibold mt-4">
+            <button className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg flex items-center justify-center space-x-2 font-semibold mt-4" onClick={handleLogout}>
                 <FaSignOutAlt /> <span>Logout</span>
             </button>
         </div>
@@ -57,7 +65,12 @@ const HistoryNavigation = () => {
 
 
 const ConsultationHistory = () => {
-    const profile = dummyUserProfile; 
+    const { state } = useLocation();
+    const profileData = state?.profile || alert("No profile data found!");
+    console.log("Profile Data in ConsultationHistory:", profileData);
+    const [history, setHistory] = useState([]);
+
+
     const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
     const [selectedConsultation, setSelectedConsultation] = useState(null);
 
@@ -73,10 +86,24 @@ const ConsultationHistory = () => {
         setSelectedConsultation(null);
     };
 
+    useEffect(() => {
+        const fetchConsultationHistory = async (profileId) => {
+            try {
+                const response = await fetch(`http://localhost:3001/api/getHistory/${profileId}`);
+                const data = await response.json();
+                setHistory(data);
+                console.log("Fetched consultation history:", data);
+            } catch (error) {
+                console.log({error: error.message})
+            }
+        }
+        fetchConsultationHistory(profileData._id);
+    }, []);
+
     return (
         <div className="bg-gray-50 min-h-screen pt-12"> 
-            
-            <div className="p-8">
+            <Navbar />
+            <div className="mt-22 p-8">
                 <div className="bg-white shadow-xl rounded-xl p-8 max-w-6xl mx-auto">
                     
                     <div className="flex flex-col md:flex-row gap-8">
@@ -85,7 +112,7 @@ const ConsultationHistory = () => {
                         <div className="w-full md:w-1/4 flex flex-col items-center pt-4">
                             <div className="relative w-36 h-36 mb-4">
                                 <img
-                                    src={profile.imageUrl}
+                                    src={`http://localhost:3001${profileData.foto_profil}`}
                                     alt="Foto Profil"
                                     className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
                                 />
@@ -93,7 +120,7 @@ const ConsultationHistory = () => {
                                     <FaUser size={16} /> 
                                 </div>
                             </div>
-                            <h2 className="text-xl font-bold text-gray-900">{profile.fullname}</h2>
+                            <h2 className="text-xl font-bold text-gray-900">{profileData.namaLengkap}</h2>
                             <div className="flex items-center text-gray-500 mb-6">
                                 <FaUser size={12} className="mr-1" />
                                 <p className="text-sm">Patient</p>
@@ -119,31 +146,29 @@ const ConsultationHistory = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {dummyConsultationHistory.map((item) => (
-                                            <tr key={item.id} className="hover:bg-gray-50 transition duration-150">
-                                                <td className="px-6 py-4 whitespace-nowrap text-base text-gray-700">
-                                                    {item.date}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-base text-gray-900 font-medium">
-                                                    {item.doctor}
-                                                </td>
-                                                <td className="px-6 py-4 max-w-xs text-sm text-gray-700 truncate">
-                                                    {item.complaint}
-                                                </td>
-                                                <td className="px-6 py-4 max-w-xs text-sm text-gray-700 truncate">
-                                                    {item.diagnosis}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                    <button 
-                                                        onClick={() => handleViewResep(item)}
-                                                        className={`py-2 px-4 rounded-lg text-sm font-semibold transition shadow-md ${getButtonStyles(item.status)}`}
-                                                        disabled={item.status !== 'Selesai'}
-                                                    >
-                                                        Lihat Resep
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        <tr className="hover:bg-gray-50 transition duration-150">
+                                            <td className="px-6 py-4 whitespace-nowrap text-base text-gray-700">
+                                                {dayjs(history.tanggalPeriksa).format('DD/MM/YYYY HH:mm')}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-base text-gray-900 font-medium">
+                                                {history.namaDokter}
+                                            </td>
+                                            <td className="px-6 py-4 max-w-xs text-sm text-gray-700 truncate">
+                                                {history.keluhan}
+                                            </td>
+                                            <td className="px-6 py-4 max-w-xs text-sm text-gray-700 truncate">
+                                                {history.diagnosa}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <button 
+                                                    onClick={() => handleViewResep(history)}
+                                                    className={`py-2 px-4 rounded-lg text-sm font-semibold transition shadow-md ${getButtonStyles(history.status)}`}
+                                                    disabled={history.status !== 'Selesai'}
+                                                >
+                                                    Lihat Resep
+                                                </button>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

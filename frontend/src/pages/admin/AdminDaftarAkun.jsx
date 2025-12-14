@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from 'react-icons/fa';
 import AddAkunModal from '../../components/admin/AddAkunModal'; 
 import EditAkunModal from '../../components/admin/EditAkunModal'; 
-import CustomSidebar from '../../components/customSidebar';
+import CustomSidebar from '../../components/adminCustomSidebar';
 import { useEffect } from 'react';
 import { data } from 'react-router-dom';
 
@@ -55,8 +55,8 @@ const AdminDaftarAkun = () => {
                 <th className="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">Aksi</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {dataAkunPasien.filter(akun => akun.role === 'Pasien').map((akun) => (
+            <tbody className="bg-white divide-y divide-gray-200 overflow-y-scroll h-96">
+              {dataAkunPasien.map((akun) => (
                 <tr key={akun._id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{akun.nik}</td>
                   <td className="px-6 py-4 whitespace-nowrap">

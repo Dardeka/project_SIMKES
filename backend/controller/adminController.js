@@ -44,7 +44,7 @@ export const getAllPatient = async (req, res) => {
 // Admin add doctor
 export const addDoctor = async (req, res) => {
     try {
-        const { namaDokter, jenisKelamin, pendidikanDokter, pengalamanDokter, spesialisDokter, emailDokter, passwordDokter } = req.body
+        const { namaDokter, jenisKelamin, pendidikanDokter, pengalamanDokter, deskripsiDokter, spesialisDokter, emailDokter, passwordDokter } = req.body
         const image = req.file ? `/images/${req.file.filename}` : ''
         
         const newDoctor = await Dokter.create({
@@ -53,6 +53,7 @@ export const addDoctor = async (req, res) => {
             jenisKelamin: jenisKelamin,
             pendidikan: pendidikanDokter,
             pengalaman: pengalamanDokter,
+            deskripsi: deskripsiDokter,
             spesialis: spesialisDokter,
             email: emailDokter,
             password: passwordDokter,
@@ -76,6 +77,19 @@ export const getAllDoctors = async (req, res) => {
     } catch (error) {
         console.log({error: error.message})
         return res.status(500).json({error: error.message})
+    }
+}
+
+// Admin update doctor status
+export const updateStatus = async (req, res) => {
+    try {
+        const { id, status } = req.body
+        console.log("This is body : ", req.body)
+        await Dokter.findByIdAndUpdate(id, {status: status})
+
+        return res.status(200).json({message: "Status diperbarui!"})
+    } catch (error) {
+        console.log({error: error.message})
     }
 }
 
@@ -138,6 +152,9 @@ export const getAllSpeciality = async (req, res) => {
     }
 }
 
+
+
+// Admin update Speciality
 export const updateSpeciality = async (req, res) => {
     try {
         const { _id, namaSpesialis, deskripsi } = req.body

@@ -1,45 +1,58 @@
 import React, { useState } from 'react';
 import { FaSignOutAlt, FaTachometerAlt, FaCalendarAlt, FaUser, FaPencilAlt, FaCamera } from 'react-icons/fa';
+import DokterCustomSidebar from '../../components/dokterCustomSidebar';
+import { useEffect } from 'react';
 
-const dummyProfile = {
-  id: 1,
-  nickname: 'Dr. Ryan',
-  fullname: 'Dr. Ryan Love Andris, Sp.PD',
-  email: 'ryan.andris@simkes.com',
-  specialty: 'Spesialis Penyakit Dalam',
-  phone: '081234567890',
-  imageUrl: '/images/doctor1.jpg' 
-};
-
-const Sidebar = () => (
-  <div className="w-64 h-screen bg-teal-700 text-white flex flex-col p-4 fixed">
-    <div className="mb-8">
-      <div className="flex items-center space-x-2">
-        <span className="text-xl font-bold">SIMKES</span>
-      </div>
-      <p className="text-xs opacity-75">Sistem Manajemen Pelayanan Kesehatan</p>
-    </div>
-    
-    <nav className="flex-grow space-y-4">
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">
-        <FaTachometerAlt /> <span>Dashboard</span>
-      </a>
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg hover:bg-teal-600">
-        <FaCalendarAlt /> <span>Jadwal Temu</span>
-      </a>
-      <a href="#" className="flex items-center space-x-3 text-lg p-2 rounded-lg bg-teal-800 font-bold">
-        <FaUser /> <span>Akun</span>
-      </a>
-    </nav>
-    
-    <button className="flex items-center space-x-3 text-lg p-2 rounded-lg text-white hover:bg-teal-600">
-      <FaSignOutAlt /> <span>Keluar</span>
-    </button>
-  </div>
-);
+// const dummyProfile = {
+//   id: 1,
+//   nickname: 'Dr. Ryan',
+//   fullname: 'Dr. Ryan Love Andris, Sp.PD',
+//   email: 'ryan.andris@simkes.com',
+//   specialty: 'Spesialis Penyakit Dalam',
+//   phone: '081234567890',
+//   imageUrl: '/images/doctor1.jpg' 
+// };
 
 const DokterAkun = () => {
-  const [profile, setProfile] = useState(dummyProfile);
+  const [profile, setProfile] = useState([]);
+  const accessToken = sessionStorage.getItem('accessToken');
+
+  useEffect(() => {
+    function decodeJWT(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    const data = decodeJWT(accessToken);
+    console.log('Decoded JWT data:', data);
+
+    const fetchProfile = async () => {
+      const response = await fetch(`http://localhost:3001/api/doctor/profileDetails/${data.id}`);
+      const resData = await response.json();
+      
+      const specialistDetail = await fetch(`http://localhost:3001/api/getCertainSpeciality/${resData.spesialis}`);
+      const specialistData = await specialistDetail.json();
+
+      const result = {
+        ...resData,
+        spesialis: specialistData.nama
+      };
+      
+
+      setProfile(result);
+      console.log('Fetched profile data:', result);
+    }
+    fetchProfile(); 
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,10 +69,10 @@ const DokterAkun = () => {
 
   return (
     <div className="flex bg-gray-50 min-h-screen">
-      <Sidebar />
+      <DokterCustomSidebar />
       
       {/* Main Content Area */}
-      <div className="flex-grow ml-64 p-8">
+      <div className="flex flex-col mt-[64px] mx-auto">
         
         {/* Header Content */}
         <div className="mb-8">
@@ -77,7 +90,7 @@ const DokterAkun = () => {
               <div className="md:col-span-1 flex flex-col items-center border-r md:border-r-2 border-gray-100 pr-8">
                 <div className="relative w-40 h-40 mb-4">
                   <img
-                    src={profile.imageUrl}
+                    src={`http://localhost:3001${profile.foto_profil}`}
                     alt="Foto Profil"
                     className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-md"
                   />
@@ -87,8 +100,8 @@ const DokterAkun = () => {
                     <input type="file" id="imageUpload" className="hidden" accept="image/*" />
                   </label>
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">{profile.nickname}</h2>
-                <p className="text-sm text-teal-600">{profile.specialty}</p>
+                <h2 className="text-xl font-bold text-gray-900">{profile.namaLengkap}</h2>
+                <p className="text-sm text-teal-600">{profile.spesialis}</p>
               </div>
 
               {/* Form Inputs Column (Kanan) */}
@@ -101,7 +114,7 @@ const DokterAkun = () => {
                     type="text"
                     name="fullname"
                     id="fullname"
-                    value={profile.fullname}
+                    value={profile.namaLengkap}
                     onChange={handleChange}
                     className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500"
                     required
@@ -115,7 +128,7 @@ const DokterAkun = () => {
                     type="text"
                     name="specialty"
                     id="specialty"
-                    value={profile.specialty}
+                    value={profile.spesialis}
                     onChange={handleChange}
                     className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 bg-gray-50"
                     readOnly 
@@ -137,17 +150,17 @@ const DokterAkun = () => {
                   />
                 </div>
 
-                {/* Nomor Telepon */}
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Nomor Telepon</label>
+                {/* Status */}
+                <div className="flex flex-row items-center gap-2">
+                  <label htmlFor="status" className="block text-sm font-medium text-gray-700">Status : </label>
                   <input
                     type="tel"
                     name="phone"
                     id="phone"
-                    value={profile.phone}
+                    value={profile.status}
                     onChange={handleChange}
-                    className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500"
-                    required
+                    className={profile.status === "Aktif" ? "bg-green-500 text-white mt-1 w-[150px] pl-2 py-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500" : "bg-red-500 text-white mt-1 w-[150px] pl-2 py-2 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500"}  
+                    disabled
                   />
                 </div>
                 

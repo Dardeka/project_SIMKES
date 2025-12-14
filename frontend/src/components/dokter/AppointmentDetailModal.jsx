@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 const AppointmentDetailModal = ({ isOpen, onClose, appointment }) => {
   if (!isOpen || !appointment) return null;
@@ -33,7 +34,7 @@ const AppointmentDetailModal = ({ isOpen, onClose, appointment }) => {
 
           <div>
             <p className="text-base font-semibold text-gray-800">Tanggal Kunjungan :</p>
-            <p className="text-lg font-medium text-teal-600">{appointment.date}</p>
+            <p className="text-lg font-medium text-teal-600">{dayjs(appointment.date).format('DD MMMM YYYY')}</p>
           </div>
 
           <div>

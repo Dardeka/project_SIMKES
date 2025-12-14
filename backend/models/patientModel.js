@@ -5,6 +5,10 @@ const patientSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    foto_profil: {
+        type: String,
+        default: ""
+    },
     namaLengkap: {
         type: String,
         required: true
@@ -37,7 +41,6 @@ const patientSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    resepObat: []
 })
 
 export default mongoose.model("Pasien", patientSchema, "Pasien")

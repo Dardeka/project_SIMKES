@@ -4,28 +4,16 @@ import { Button } from "./ui/button";
 import { FaFlask, FaTachometerAlt, FaUser, FaUserMd } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-function CustomSidebar() {
+function DokterCustomSidebar() {
     const [expanded, setExpanded] = useState(true);
     const navigate = useNavigate();
 
-    const handleDashboard = () => {
-        navigate('/admin/');
+    const handleProfil = () => {
+        navigate('/dokter/profil');
     }
 
-    const handleFacility = () => {
-        navigate('/admin/kelolaFasilitas');
-    }
-
-    const handleSpecialist = () => {
-        navigate('/admin/spesialis');
-    }
-
-    const handleDoctor = () => {
-        navigate('/admin/kelolaDokter');
-    }
-
-    const handleAccount = () => {
-        navigate('/admin/daftarakun');
+    const handleJadwalTemu = () => {
+        navigate('/dokter/daftarPasien');
     }
 
     const handleLogout = () => {
@@ -75,7 +63,7 @@ function CustomSidebar() {
                             {expanded && (
                                 <Button 
                                     className="!bg-transparent justify-start w-[150px] text-lg rounded-none pl-0"
-                                    onClick={handleDashboard}
+                                    // onClick={}
                                 >
                                     <span>Dashboard</span>
                                 </Button>
@@ -86,10 +74,10 @@ function CustomSidebar() {
                             <FaFlask color="white" /> 
                             {expanded && (
                                 <Button 
-                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={handleFacility}
+                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none pl-0"
+                                    onClick={handleJadwalTemu}
                                 >
-                                    <span>Fasilitas</span>
+                                    <span>Daftar Pasien</span>
                                 </Button>
                             )}
                         </div>
@@ -98,39 +86,16 @@ function CustomSidebar() {
                             <FaUserMd color="white" /> 
                             {expanded && (
                                 <Button 
-                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={handleSpecialist}
+                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none pl-0"
+                                    onClick={handleProfil}
                                 >
-                                    <span>Spesialis</span>
-                                </Button>
-                            )}
-                        </div>
-
-                        <div className="flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg">
-                            <FaUser color="white" /> 
-                            {expanded && (
-                                <Button 
-                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={handleDoctor}
-                                >
-                                    <span>Dokter</span>
-                                </Button>
-                            )}
-                        </div>
-                        <div className="flex items-center gap-5 hover:bg-gray-200/20 py-2 pl-4 rounded-lg">
-                            <FaUser color="white" /> 
-                            {expanded && (
-                                <Button 
-                                    className="!bg-transparent justify-start w-[150px] text-lg rounded-none"
-                                    onClick={handleAccount}
-                                >
-                                    <span>Akun</span>
+                                    <span>Profil</span>
                                 </Button>
                             )}
                         </div>
                     </div>
 
-                    {/* ADMIN BOX */}
+                    {/* Dokter BOX */}
                     <div 
                         className={`mt-auto h-[100px] p-4 rounded-lg flex flex-col gap-4 
                         transition-all duration-300 
@@ -151,4 +116,4 @@ function CustomSidebar() {
     )
 }
 
-export default CustomSidebar;
+export default DokterCustomSidebar;

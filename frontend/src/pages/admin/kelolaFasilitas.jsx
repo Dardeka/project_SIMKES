@@ -1,4 +1,4 @@
-import CustomSidebar from "../../components/customSidebar";
+import CustomSidebar from "../../components/adminCustomSidebar";
 import { Button } from "../../components/ui/button";
 import {
   Table,
