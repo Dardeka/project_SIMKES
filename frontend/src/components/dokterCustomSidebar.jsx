@@ -16,6 +16,10 @@ function DokterCustomSidebar() {
         navigate('/dokter/daftarPasien');
     }
 
+    const handleDashboard = () => {
+        navigate('/dokter/dashboardDokter');
+    }
+
     const handleLogout = () => {
         // Implement logout functionality here
         sessionStorage.clear();
@@ -63,7 +67,7 @@ function DokterCustomSidebar() {
                             {expanded && (
                                 <Button 
                                     className="!bg-transparent justify-start w-[150px] text-lg rounded-none pl-0"
-                                    // onClick={}
+                                    onClick={handleDashboard}
                                 >
                                     <span>Dashboard</span>
                                 </Button>

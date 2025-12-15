@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaUserCircle, FaTrashAlt } from 'react-icons/fa';
 import AddAkunModal from '../../components/admin/AddAkunModal'; 
 import EditAkunModal from '../../components/admin/EditAkunModal'; 
 import CustomSidebar from '../../components/adminCustomSidebar';
-import { useEffect } from 'react';
-import { data } from 'react-router-dom';
-
 
 const AdminDaftarAkun = () => {
   const [dataAkunPasien, setDataAkunPasien] = useState([]);
@@ -23,60 +20,91 @@ const AdminDaftarAkun = () => {
       try {
         const response = await fetch('http://localhost:3001/api/admin/getAllPatientsAccount');
         const data = await response.json();
-        console.log('Data Akun Pasien:', data);
         setDataAkunPasien(data);
-        // You can set the fetched data to state here
       } catch (error) {
         console.error('Error fetching akun pasien:', error);
-      }};
+      }
+    };
     fetchAkunPasien();
   }, []);
 
   return (
-    <div className="flex bg-gray-50 min-h-screen">
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <CustomSidebar />
-      
-      {/* Main Content Area */}
-      <div className="flex flex-col mt-[64px] mx-auto">
-        
-        {/* Header Content */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800">Daftar Akun Pasien</h1>
+
+      {/* Main Content */}
+      <div className="flex-1 p-6 mt-[64px]">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-800">Daftar Akun Pasien</h1>
+          <p className="text-sm text-gray-500 mt-1">Kelola seluruh akun pasien yang terdaftar</p>
         </div>
 
-        {/* Akun Table */}
-        <div className="bg-white shadow-lg rounded-lg overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-teal-700 text-white">
-              <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">NIK</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Gambar</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Identitas</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200 overflow-y-scroll h-96">
-              {dataAkunPasien.map((akun) => (
-                <tr key={akun._id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{akun.nik}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {/* <img src={akun.imageUrl} alt={akun.namaPanggilan} className="h-20 w-20 object-cover rounded-md" /> */}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    <p className="text-gray-900 font-semibold">Nama Lengkap: {akun.namaLengkap}</p>
-                    <p>Nama Panggilan: {akun.namaPanggilan}</p>
-                    <p>No Telepon: {akun.nomorTelepon}</p>
-                    <p>Email: {akun.email}</p>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
-                    <button className="text-red-600 hover:text-red-900 bg-red-100 py-1 px-3 rounded-md transition">
-                      Delete
-                    </button>
-                  </td>
+        {/* Table */}
+        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead className="bg-teal-700 sticky top-0 z-10">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase">NIK</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase">Foto</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase">Identitas</th>
+                  <th className="px-6 py-4 text-center text-xs font-semibold text-white uppercase">Aksi</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody className="divide-y divide-gray-100">
+                {dataAkunPasien.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-10 text-center text-gray-400">
+                      Data akun pasien belum tersedia
+                    </td>
+                  </tr>
+                )}
+
+                {dataAkunPasien.map((akun) => (
+                  <tr key={akun._id} className="hover:bg-gray-50 transition">
+                    <td className="px-6 py-4 text-sm font-medium text-gray-800">
+                      {akun.nik}
+                    </td>
+
+                    {/* FOTO PROFIL */}
+                    <td className="px-6 py-4">
+                      {akun.foto_profil ? (
+                        <img
+                          src={
+                            akun.foto_profil.startsWith('http')
+                              ? akun.foto_profil
+                              : `http://localhost:3001/uploads/${akun.foto_profil}`
+                          }
+                          alt={akun.namaLengkap}
+                          className="w-12 h-12 rounded-full object-cover border"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                          <FaUserCircle className="text-gray-400 text-3xl" />
+                        </div>
+                      )}
+                    </td>
+
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      <p className="font-semibold text-gray-900">{akun.namaLengkap}</p>
+                      <p className="text-xs">Nama panggilan: {akun.namaPanggilan}</p>
+                      <p className="text-xs">No. Telp: {akun.nomorTelepon}</p>
+                      <p className="text-xs">Email: {akun.email}</p>
+                    </td>
+
+                    <td className="px-6 py-4 text-center">
+                      <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                        <FaTrashAlt />
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

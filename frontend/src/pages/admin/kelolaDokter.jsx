@@ -1,68 +1,76 @@
 import CustomSidebar from "../../components/adminCustomSidebar";
 import { Button } from "../../components/ui/button";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select"
 import {
-  NativeSelect,
-  NativeSelectOptGroup,
-  NativeSelectOption,
+    NativeSelect,
+    NativeSelectOption,
 } from "@/components/ui/native-select"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState } from "react";
+import { FaPlus, FaTrashAlt } from 'react-icons/fa';
+
+// Base URL untuk API
+const API_BASE_URL = 'http://localhost:3001/api/admin'; 
 
 function KelolaAkunDokter() {
     const [doctorData, setDoctorData] = useState([]);
     const [specialistData, setSpecialistData] = useState([]);
     const [profilePicture, setProfilePicture] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchDoctorData = async () => {
-            // Fetch doctor data from API
-            const response = await fetch('http://localhost:3001/api/admin/allData', {
+    // --- FETCH LOGIC ---
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const doctorResponse = await fetch(`${API_BASE_URL}/allData`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'accessToken': sessionStorage.getItem('accessToken'),
                 },
             });
-            const data = await response.json();
-            setDoctorData(data);
-        }
+            const doctors = await doctorResponse.json();
+            setDoctorData(doctors);
 
-        const fetchSpecialistData = async () => {
-            const response = await fetch('http://localhost:3001/api/admin/getAllSpecialities')
-            const data = await response.json();
-            setSpecialistData(data);
+            const specialistResponse = await fetch(`${API_BASE_URL}/getAllSpecialities`);
+            const specialists = await specialistResponse.json();
+            setSpecialistData(specialists);
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
         }
+    }
 
-        
-        fetchDoctorData();
-        fetchSpecialistData();
+    useEffect(() => {
+        fetchData();
     }, []);
     
+    // ... [Initial Values dan Handlers lainnya tidak berubah]
+
     const initialValues = {
         namaDokter: '',
         jenisKelamin: '',
@@ -75,7 +83,7 @@ function KelolaAkunDokter() {
         gambarDokter: profilePicture ||null,
     };
 
-    const addDoctorData = async (doctor) => {
+    const addDoctorData = async (doctor, { resetForm }) => {
         const newData = new FormData();
         if(profilePicture){
             newData.append('gambarDokter', profilePicture);
@@ -89,155 +97,285 @@ function KelolaAkunDokter() {
         newData.append('emailDokter', doctor.emailDokter);
         newData.append('passwordDokter', doctor.passwordDokter);
 
-        const response = await fetch('http://localhost:3001/api/admin/addDoctor', {
-            method: 'POST',
-            body: newData,
-        }).then(alert("Dokter berhasil ditambahkan!"));
-        const data = await response.json();
-        console.log('Add doctor response:', data);
-        window.location.reload();
-        // Optionally handle response data
+        try {
+            const response = await fetch(`${API_BASE_URL}/addDoctor`, {
+                method: 'POST',
+                body: newData,
+            });
+            
+            if (response.ok) {
+                alert("Dokter berhasil ditambahkan!");
+                resetForm();
+                setProfilePicture(null);
+                fetchData();
+            } else {
+                const data = await response.json();
+                alert(`Gagal menambahkan dokter: ${data.message || 'Terjadi kesalahan.'}`);
+            }
+            
+        } catch (error) {
+            console.error('Add doctor error:', error);
+            alert("Gagal menghubungi server.");
+        }
     }
 
-    const handleUpdateStatus = async (doctorId, newStatus) => {
-        await fetch('http://localhost:3001/api/admin/updateStatus', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                id: doctorId, 
-                status: newStatus }),
-        });
-        window.location.reload();
-        // Optionally update local state or refetch doctor data
+    const handleUpdateStatus = async (doctorId, currentStatus) => {
+        const newStatus = currentStatus === 'Aktif' ? 'Nonaktif' : 'Aktif';
+
+        try {
+             await fetch(`${API_BASE_URL}/updateStatus`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    id: doctorId, 
+                    status: newStatus 
+                }),
+            });
+            setDoctorData(prev => 
+                prev.map(doc => 
+                    doc._id === doctorId ? { ...doc, status: newStatus } : doc
+                )
+            );
+        } catch (error) {
+            console.error('Update status error:', error);
+            alert('Gagal memperbarui status. Periksa konsol server.');
+        }
+    }
+    
+    const handleDelete = (doctorId, doctorName) => {
+        if (window.confirm(`Apakah Anda yakin ingin menghapus akun ${doctorName}?`)) {
+            console.log(`Deleting doctor ID: ${doctorId}`);
+            alert(`Dokter ${doctorName} dihapus (Aksi dummy).`);
+            setDoctorData(prev => prev.filter(doc => doc._id !== doctorId)); 
+        }
+    }
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <CustomSidebar/>
+                <p className="text-xl font-semibold text-teal-600 ml-64">Memuat data dokter...</p>
+            </div>
+        );
     }
 
 
     return(
-        <div className="flex">
+        <div className="flex bg-gray-50 min-h-screen">
             <CustomSidebar/>
-            <div className="flex flex-col mt-[64px] mx-auto">
-                <p className="text-2xl font-bold text-center">Kelola Akun Dokter</p>
-                <Dialog>
-                    <DialogTrigger className="w-[200px] ml-auto mt-[52px] !bg-red-500 p-2 text-white font-semibold rounded-[12px] hover:!bg-red-700">Tambah Akun Dokter</DialogTrigger>
-                    <DialogContent className="lg:max-w-3xl">
-                        <DialogHeader>
-                        <DialogTitle>Tambah Akun Dokter</DialogTitle>
-                        <DialogDescription>
-                            Silakan isi form di bawah untuk menambahkan dokter baru.
-                        </DialogDescription>
-                        </DialogHeader>
-                        <Formik
-                            enableReinitialize
-                            initialValues={initialValues}
-                            onSubmit={addDoctorData}
-                        >
-                            {({ setFieldValue }) => (
-                                <Form>
-                                    <div className="flex flex-col gap-2">
-                                        <label htmlFor="gambarDokter" className="font-medium">Foto Profil</label>
-                                        <input type="file" id="gambarDokter" name="gambarDokter" className="border border-gray-300 rounded-md p-2" onChange={(e) => setProfilePicture(e.target.files[0])} />
-                                    </div>
-                                    <div className="flex flex-row gap-4 mt-4">
+            
+            {/* Konten Utama - Offset Sidebar */}
+            <div className="flex-grow p-8 md:ml-14"> 
+                
+                {/* Header & Tombol Aksi */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pt-4 border-b pb-4">
+                    <div>
+                        <p className="text-3xl font-bold text-gray-900">Kelola Akun Dokter</p>
+                        <p className="text-lg text-gray-500 mt-1">Mengelola daftar dan status akun dokter di sistem SIMKES.</p>
+                    </div>
 
-                                        <div className="flex flex-col w-full">
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="namaDokter" className="font-medium">Nama Lengkap Dokter</label>
-                                                <Field id="namaDokter" name="namaDokter" placeholder="Masukkan nama dokter" className="border border-gray-300 rounded-md p-2"/>
-                                                <ErrorMessage name="namaDokter" className='text-white' component="span"/>
-                                            </div>
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="jenisKelamin" className="font-medium">Jenis Kelamin</label>
-                                                <Field id="jenisKelamin" name="jenisKelamin" placeholder="Masukkan jenis kelamin dokter" className="border border-gray-300 rounded-md p-2"/>
-                                                <ErrorMessage name="jenisKelamin" className='text-white' component="span"/>
-                                            </div>
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="pendidikanDokter" className="font-medium">Pendidikan</label>
-                                                <Field id="pendidikanDokter" name="pendidikanDokter" placeholder="Masukkan pendidikan dokter" className="border border-gray-300 rounded-md p-2"/>
-                                                <ErrorMessage name="pendidikanDokter" className='text-white' component="span"/>
-                                            </div>
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="pengalamanDokter" className="font-medium">Pengalaman</label>
-                                                <Field id="pengalamanDokter" name="pengalamanDokter" placeholder="Masukkan pengalaman dokter" className="border border-gray-300 rounded-md p-2"/>
-                                                <ErrorMessage name="pengalamanDokter" className='text-white' component="span"/>
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-col w-full">
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="deskripsiDokter" className="font-medium">Deskripsi</label>
-                                                <Field id="deskripsiDokter" name="deskripsiDokter" placeholder="Masukkan deskripsi dokter" className="border border-gray-300 rounded-md p-2"/>
-                                                <ErrorMessage name="deskripsiDokter" className='text-white' component="span"/>
-                                            </div>
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="spesialisDokter" className="font-medium">Spesialis</label>
-                                                <Select id="spesialisDokter" name="spesialisDokter" className="border border-gray-300 rounded-md p-2" onValueChange={(value) => setFieldValue('spesialisDokter', value)}>
-                                                    <SelectTrigger className="w-[180px]">
-                                                        <SelectValue placeholder="Pilih Spesialisasi" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                    {specialistData.map((specialist) => (
-                                                        <SelectItem key={specialist._id} value={specialist._id}>{specialist.nama}</SelectItem>
-                                                    ))}
-                                                    </SelectContent>
-                                                </Select>
-                                                <ErrorMessage name="spesialisDokter" className='text-white' component="span"/>
-                                            </div>
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="emailDokter" className="font-medium">Email</label>
-                                                <Field type="email" id="emailDokter" name="emailDokter" className="border border-gray-300 rounded-md p-2"/>
-                                                <ErrorMessage name="emailDokter" className='text-white' component="span"/>
-                                            </div>
-                                            <div className="flex flex-col gap-2">
-                                                <label htmlFor="passwordDokter" className="font-medium">Password</label>
-                                                <Field type="password" id="passwordDokter" name="passwordDokter" className="border border-gray-300 rounded-md p-2"/>
-                                                <ErrorMessage name="passwordDokter" className='text-white' component="span"/>
-                                            </div>
-                                            <Button type="submit" className="w-[100px] ml-auto !bg-red-500 hover:!bg-red-700 text-white font-semibold rounded-[12px] mt-4">Simpan</Button>
-                                        </div>
-                                    </div>
-                                </Form>
-                            )}
-                        </Formik>
-                    </DialogContent>
-                </Dialog>
-                <Table className="mt-[47px] w-[1000px] rounded-t-[12px] shadow-xl border-black">
-                    <TableHeader className="bg-[#04998E]">
-                        <TableRow>
-                            <TableHead className="text-center w-5% text-white">ID</TableHead>
-                            <TableHead className="text-center w-10% text-white">Nama Dokter</TableHead>
-                            <TableHead className="text-center w-20% text-white">Spesialis</TableHead>
-                            <TableHead className="text-center w-30% text-white">Akun</TableHead>
-                            <TableHead className="text-center w-30% text-white">Status</TableHead>
-                            <TableHead className="text-center w-20% text-white">Aksi</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {doctorData.map((doctor) => (
-                            <TableRow key={doctor._id}>
-                                <TableCell className="font-xs w-5%">{doctor._id}</TableCell>
-                                <TableCell className="w-10%">{doctor.namaLengkap}</TableCell>
-                                <TableCell className="w-20%">{doctor.spesialis}</TableCell>
-                                <TableCell className="text-start w-20%">
-                                    <div className="flex flex-col">
-                                        <p><b>Email :</b> {doctor.email}</p>
-                                        <p><b>Password :</b> {doctor.password}</p>
-                                    </div> 
-                                </TableCell>
-                                <TableCell className="w-30% text-center font-semibold">
-                                    <NativeSelect defaultValue={doctor.status} className={doctor.status === 'Aktif' ? "w-full border-0 bg-green-400 text-center font-semibold" : "w-full border-0 bg-red-400 text-white text-center font-semibold"} onChange={() => handleUpdateStatus(doctor._id, doctor.status === 'Aktif' ? 'Nonaktif' : 'Aktif')}>
-                                        <NativeSelectOption value="Aktif">Aktif</NativeSelectOption>
-                                        <NativeSelectOption value="Nonaktif">Nonaktif</NativeSelectOption>
-                                    </NativeSelect>
-                                </TableCell>
-                                <TableCell className="w-20% text-center font-semibold">
-                                    <Button className="!bg-red-500 hover:!bg-red-700 text-white font-semibold rounded-[12px]">Delete</Button>
-                                </TableCell>
-                            </TableRow>
+                    {/* Tombol Tambah Akun Dokter */}
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button 
+                                className="mt-4 md:mt-0 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg transition duration-200 flex items-center space-x-2 transform hover:scale-[1.02]"
+                            >
+                                <FaPlus size={14}/> <span>Tambah Akun Dokter</span>
+                            </Button>
+                        </DialogTrigger>
+                        
+                        <DialogContent className="lg:max-w-4xl bg-white rounded-xl p-8">
+                            <DialogHeader>
+                                <DialogTitle className="text-2xl font-bold text-gray-800">Tambah Akun Dokter Baru</DialogTitle>
+                                <DialogDescription>
+                                    Silakan isi semua detail profil dan akun untuk dokter baru.
+                                </DialogDescription>
+                            </DialogHeader>
                             
-                        ))}
-                    </TableBody>
-                </Table>
+                            <Formik
+                                enableReinitialize
+                                initialValues={initialValues}
+                                onSubmit={addDoctorData}
+                            >
+                                {({ setFieldValue }) => (
+                                    <Form className="space-y-6 mt-4">
+                                        
+                                        {/* Row Gambar */}
+                                        <div className="flex flex-col gap-2 border p-4 rounded-lg bg-teal-50">
+                                            <label htmlFor="gambarDokter" className="font-semibold text-gray-700">Foto Profil Dokter</label>
+                                            <input type="file" id="gambarDokter" name="gambarDokter" className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-100 file:text-teal-700 hover:file:bg-teal-200" onChange={(e) => setProfilePicture(e.target.files[0])} />
+                                        </div>
+                                        
+                                        {/* Row Input (2 Kolom) */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                                            {/* KOLOM KIRI */}
+                                            <div className="space-y-4">
+                                                <h3 className="text-lg font-semibold border-b pb-2 text-gray-800">Detail Personal & Spesialisasi</h3>
+
+                                                {/* Nama Dokter */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="namaDokter" className="font-medium text-gray-700">Nama Lengkap</label>
+                                                    <Field id="namaDokter" name="namaDokter" placeholder="Nama Lengkap Dokter" className="border border-gray-300 rounded-lg p-3 focus:ring-teal-500 focus:border-teal-500"/>
+                                                </div>
+                                                
+                                                {/* Jenis Kelamin */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="jenisKelamin" className="font-medium text-gray-700">Jenis Kelamin</label>
+                                                     <Field as="select" id="jenisKelamin" name="jenisKelamin" className="border border-gray-300 rounded-lg p-3 bg-white focus:ring-teal-500 focus:border-teal-500">
+                                                        <option value="">Pilih Jenis Kelamin</option>
+                                                        <option value="Laki-laki">Laki-laki</option>
+                                                        <option value="Perempuan">Perempuan</option>
+                                                    </Field>
+                                                </div>
+                                                
+                                                {/* Spesialis */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="spesialisDokter" className="font-medium text-gray-700">Spesialis</label>
+                                                    <Select id="spesialisDokter" name="spesialisDokter" onValueChange={(value) => setFieldValue('spesialisDokter', value)}>
+                                                        <SelectTrigger className="w-full border border-gray-300 rounded-lg p-3 focus:ring-teal-500 focus:border-teal-500">
+                                                            <SelectValue placeholder="Pilih Spesialisasi" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {specialistData.map((specialist) => (
+                                                                <SelectItem key={specialist._id} value={specialist._id}>{specialist.nama}</SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+
+                                                {/* Pendidikan */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="pendidikanDokter" className="font-medium text-gray-700">Pendidikan Terakhir</label>
+                                                    <Field id="pendidikanDokter" name="pendidikanDokter" placeholder="Contoh: S1 Kedokteran" className="border border-gray-300 rounded-lg p-3 focus:ring-teal-500 focus:border-teal-500"/>
+                                                </div>
+                                                
+                                                {/* Pengalaman */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="pengalamanDokter" className="font-medium text-gray-700">Pengalaman Kerja</label>
+                                                    <Field id="pengalamanDokter" name="pengalamanDokter" placeholder="Contoh: 5 Tahun di RS X" className="border border-gray-300 rounded-lg p-3 focus:ring-teal-500 focus:border-teal-500"/>
+                                                </div>
+                                            </div>
+
+                                            {/* KOLOM KANAN */}
+                                            <div className="space-y-4">
+                                                <h3 className="text-lg font-semibold border-b pb-2 text-gray-800">Detail Akun & Deskripsi</h3>
+                                                
+                                                {/* Deskripsi */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="deskripsiDokter" className="font-medium text-gray-700">Deskripsi (Tentang Dokter)</label>
+                                                    <Field as="textarea" id="deskripsiDokter" name="deskripsiDokter" placeholder="Tuliskan deskripsi profesional dokter" rows="5" className="border border-gray-300 rounded-lg p-3 focus:ring-teal-500 focus:border-teal-500 resize-none"/>
+                                                </div>
+                                                
+                                                {/* Email */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="emailDokter" className="font-medium text-gray-700">Email (Akun Login)</label>
+                                                    <Field type="email" id="emailDokter" name="emailDokter" placeholder="email@contoh.com" className="border border-gray-300 rounded-lg p-3 focus:ring-teal-500 focus:border-teal-500"/>
+                                                </div>
+                                                
+                                                {/* Password */}
+                                                <div className="flex flex-col gap-1">
+                                                    <label htmlFor="passwordDokter" className="font-medium text-gray-700">Password</label>
+                                                    <Field type="password" id="passwordDokter" name="passwordDokter" placeholder="Password Awal" className="border border-gray-300 rounded-lg p-3 focus:ring-teal-500 focus:border-teal-500"/>
+                                                </div>
+
+                                                <ErrorMessage name="namaDokter" className='hidden' component="span"/>
+                                                <ErrorMessage name="jenisKelamin" className='hidden' component="span"/>
+                                            </div>
+                                        </div>
+
+                                        {/* Tombol Simpan */}
+                                        <div className="flex justify-end pt-4">
+                                            <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition">Simpan Akun</Button>
+                                        </div>
+                                    </Form>
+                                )}
+                            </Formik>
+                        </DialogContent>
+                    </Dialog>
+                </div>
+
+                {/* Tabel Daftar Dokter */}
+                <div className="bg-white shadow-xl rounded-xl overflow-x-auto border border-gray-200 mt-8">
+                    <Table className="min-w-full divide-y divide-gray-200">
+                        <TableHeader className="bg-teal-600">
+                            <TableRow>
+                                <TableHead className="w-[5%] text-white font-bold text-xs uppercase">Foto</TableHead>
+                                <TableHead className="w-[15%] text-white font-bold text-xs uppercase">Nama Dokter</TableHead>
+                                <TableHead className="w-[15%] text-white font-bold text-xs uppercase">Spesialis</TableHead>
+                                <TableHead className="w-[20%] text-white font-bold text-xs uppercase">Pendidikan</TableHead>
+                                <TableHead className="w-[25%] text-white font-bold text-xs uppercase">Detail Akun</TableHead>
+                                <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase">Status</TableHead>
+                                <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase">Aksi</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className="divide-y divide-gray-100">
+                            {doctorData.map((doctor) => (
+                                <TableRow key={doctor._id} className="hover:bg-gray-50 transition duration-150">
+                                    <TableCell className="py-3 align-top">
+                                        <img 
+                                            // ASUMSI: URL foto profil di-hosting di 'http://localhost:3001'
+                                            src={`http://localhost:3001${doctor.foto_profil}`} 
+                                            alt={doctor.namaLengkap} 
+                                            className="w-12 h-12 object-cover rounded-lg shadow-sm border border-gray-200"
+                                        />
+                                    </TableCell>
+                                    <TableCell className="font-semibold text-gray-900 text-sm align-top">{doctor.namaLengkap}</TableCell>
+                                    
+                                    {/* --- PERBAIKAN LOGIKA SPESIALIS DI SINI --- */}
+                                    <TableCell className="text-gray-700 text-sm align-top">
+                                        {
+                                            // 1. Coba ambil nama jika sudah dipopulasi oleh API (object)
+                                            doctor.spesialis?.nama ||
+                                            // 2. Jika hanya ID, cari nama spesialis di array specialistData
+                                            specialistData.find(s => s._id === doctor.spesialis)?.nama ||
+                                            // 3. Fallback jika tidak ditemukan (misalnya, tampilkan 'ID Tidak Dikenal')
+                                            'ID Tidak Dikenal'
+                                        }
+                                    </TableCell>
+                                    {/* ------------------------------------------- */}
+
+                                    <TableCell className="text-gray-700 text-sm align-top">{doctor.pendidikan}</TableCell>
+                                    <TableCell className="text-start text-xs text-gray-600 align-top">
+                                        <div className="space-y-1">
+                                            <p className='truncate'><span className="font-semibold">Email:</span> {doctor.email}</p>
+                                            <p><span className="font-semibold">Pass:</span> {doctor.password}</p>
+                                        </div> 
+                                    </TableCell>
+                                    <TableCell className="text-center align-top">
+                                        <NativeSelect 
+                                            defaultValue={doctor.status} 
+                                            className={
+                                                doctor.status === 'Aktif' 
+                                                ? "w-full border-0 bg-green-200 text-green-800 text-center font-semibold rounded-full text-xs py-1" 
+                                                : "w-full border-0 bg-red-200 text-red-800 text-center font-semibold rounded-full text-xs py-1"
+                                            } 
+                                            onChange={(e) => handleUpdateStatus(doctor._id, doctor.status)}
+                                        >
+                                            <NativeSelectOption value="Aktif">Aktif</NativeSelectOption>
+                                            <NativeSelectOption value="Nonaktif">Nonaktif</NativeSelectOption>
+                                        </NativeSelect>
+                                    </TableCell>
+                                    <TableCell className="text-center align-top">
+                                        <Button 
+                                            onClick={() => handleDelete(doctor._id, doctor.namaLengkap)}
+                                            className="!bg-red-600 hover:!bg-red-700 text-white font-semibold rounded-lg p-2 h-8 w-auto text-sm flex items-center shadow-md transition duration-200 hover:scale-[1.05]"
+                                        >
+                                            <FaTrashAlt size={14} className="mr-1"/> Hapus
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            {doctorData.length === 0 && (
+                                <TableRow>
+                                    <TableCell colSpan={7} className="text-center text-gray-500 py-8">
+                                        Tidak ada data dokter.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+                
             </div>
         </div>
     )

@@ -15,6 +15,7 @@ import DokterProfile from '../pages/dokter/DokterProfile';
 import DaftarPasien from '../pages/dokter/DaftarPasien';
 import UserProfile from '../pages/UserProfile'; 
 import ConsultationHistory from '../pages/ConsultationHistory';
+import DashboardDokter from '../pages/dokter/DashboardDokter';
 
 import LoginDokter from '../pages/LoginDokter';
 import LoginAdmin from '../pages/LoginAdmin';
@@ -41,6 +42,7 @@ function AppRouter() {
                 {/* Dokter */}
                 <Route path="/dokter/profil" element={<DokterProfile />} />
                 <Route path="/dokter/daftarPasien" element={<DaftarPasien />} />
+                <Route path="/dokter/dashboardDokter" element={<DashboardDokter />} />
 
                 {/* Admin */}
                 <Route path="/admin/" element={<DashboardAdm />} />
