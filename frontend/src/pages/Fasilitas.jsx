@@ -1,21 +1,41 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar'; 
 import Footer from '../components/Footer'; 
+import { useLocation } from 'react-router-dom';
 
-const facilityData = {
-  title: 'DSA (Digital Subtraction Angiography)',
-  mainImageUrl: '/images/layanan1.jpg',
-  description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Quisque id erat ac nunc feugiat dignissim vitae quis est. Suspendisse pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis.`,
-};
+// const facilityData = {
+//   title: 'DSA (Digital Subtraction Angiography)',
+//   mainImageUrl: '/images/layanan1.jpg',
+//   description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Quisque id erat ac nunc feugiat dignissim vitae quis est. Suspendisse pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis.`,
+// };
 
-const relatedFacilities = [
-  { name: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan1.jpg' },
-  { name: 'MRI 3 Tesla', imageUrl: '/images/layanan2.jpg' },
-  { name: 'Bedah Jantung Terbuka', imageUrl: '/images/layanan3.jpg' },
-  { name: 'Endoskopi', imageUrl: '/images/layanan4.jpg' },
-];
+// const relatedFacilities = [
+//   { name: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan1.jpg' },
+//   { name: 'MRI 3 Tesla', imageUrl: '/images/layanan2.jpg' },
+//   { name: 'Bedah Jantung Terbuka', imageUrl: '/images/layanan3.jpg' },
+//   { name: 'Endoskopi', imageUrl: '/images/layanan4.jpg' },
+// ];
 
 const Fasilitas = () => {
+  const { state } = useLocation();
+  const facility = state?.facility;
+  const [facilities, setFacilities] = useState([]);
+
+  useEffect(() => {
+    const fetchFacilities = async () => {
+      try {
+        const res = await fetch('http://localhost:3001/api/admin/getAllFacilities');
+        const data = await res.json();
+        console.log("Ini isi data: ", data);
+        setFacilities(data);
+      } catch (error) {
+        console.log({error: error.message})
+      }
+    }
+    fetchFacilities();
+  }, [])
+
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -23,39 +43,37 @@ const Fasilitas = () => {
       <main className="flex-grow pt-30 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Breadcrumb/Title Section */}
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">{facilityData.title}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">{facility.nama}</h1>
 
           {/* Main Image Section */}
           <div className="mb-10 shadow-xl rounded-lg overflow-hidden">
             <img 
-              src={facilityData.mainImageUrl}
-              alt={facilityData.title}
-              className="w-full h-96 object-cover"
+              src={`http://localhost:3001${facility.gambar}`}
+              alt={facility.nama}
             />
           </div>
 
           {/* Description Section */}
           <div className="mb-16">
             <p className="text-gray-600 leading-relaxed">
-              {facilityData.description}
+              {facility.deskripsi}
             </p>
           </div>
 
           {/* Related Facilities Section */}
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Lihat Fasilitas Lainnya di rumah sakit tobot</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {relatedFacilities.map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer border border-gray-100">
+            { facilities.filter(item => item._id !== facility._id).map((item) => (
+              <div key={item._id} className="bg-white rounded-lg shadow-md overflow-hidden group cursor-pointer border border-gray-100">
                 <div className="h-62 w-full overflow-hidden">
                   <img
-                    src={item.imageUrl}
-                    alt={item.name}
+                    src={`http://localhost:3001${item.gambar}`}
+                    alt={item.nama}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-3 text-center">
-                  <p className="text-sm font-semibold text-gray-800">{item.name}</p>
+                  <p className="text-sm font-semibold text-gray-800">{item.nama}</p>
                 </div>
               </div>
             ))}

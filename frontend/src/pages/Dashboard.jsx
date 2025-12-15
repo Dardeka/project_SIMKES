@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { CarouselNav } from '../components/ui/carousel';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('fasilitas');
@@ -11,31 +19,40 @@ const Dashboard = () => {
 
   useEffect(() => {
     // ================== FASILITAS ==================
-    fetch('http://localhost:3001/api/admin/getAllFacilities')
+    const fetchFacilities = async () => {
+      await fetch('http://localhost:3001/api/admin/getAllFacilities')
       .then(res => res.json())
       .then(data => {
         console.log('Facilities:', data);
         setFacilities(data || []);
       })
       .catch(err => console.error('Facilities error:', err));
+    }
 
     // ================== SPESIALIS ==================
-    fetch('http://localhost:3001/api/admin/getAllSpecialities')
-      .then(res => res.json())
-      .then(data => {
-        console.log('Specialists:', data);
-        setSpecialists(data || []);
-      })
-      .catch(err => console.error('Specialists error:', err));
+    const fetchSpecialists = async () => {
+      await fetch('http://localhost:3001/api/admin/getAllSpecialities')
+        .then(res => res.json())
+        .then(data => {
+          console.log('Specialists:', data);
+          setSpecialists(data || []);
+        })
+        .catch(err => console.error('Specialists error:', err));
+    }
 
     // ================== DOKTER ==================
-    fetch('http://localhost:3001/api/getAllDoctor')
-      .then(res => res.json())
-      .then(data => {
-        console.log('Doctors:', data);
-        setDoctors(data || []);
-      })
-      .catch(err => console.error('Doctors error:', err));
+    const fetchDoctors = async () => {
+      await fetch('http://localhost:3001/api/getAllDoctor')
+        .then(res => res.json())
+        .then(data => {
+          console.log('Doctors:', data);
+          setDoctors(data || []);
+        })
+        .catch(err => console.error('Doctors error:', err));
+    }
+    fetchFacilities();
+    fetchSpecialists();
+    fetchDoctors();
   }, []);
 
   const currentContent =
@@ -132,26 +149,33 @@ const Dashboard = () => {
             </div>
 
             {/* Content */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-              {currentContent.map(item => (
-                <div
-                  key={item._id}
-                  className="bg-white rounded-lg shadow-lg overflow-hidden"
-                >
-                  <div className="h-40 w-full">
-                    <img
-                      src={`http://localhost:3001${item.gambar}`}
-                      alt={item.nama}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <p className="text-sm font-semibold text-gray-800">
-                      {item.nama}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            <div className="flex gap-8 justify-center items-center">
+              <Carousel>
+                <CarouselContent className="flex w-full pl-4 items-center h-70 overflow-visible">
+                  {currentContent.map(item => (
+                  <CarouselItem className="basis-1/4 pl-2 mx-auto" key={item._id}>
+                    <div
+                      key={item._id}
+                      className="bg-white rounded-lg shadow-lg overflow-visible"
+                    >
+                      <div className="h-40 w-full">
+                        <img
+                          src={`http://localhost:3001${item.gambar}`}
+                          alt={item.nama}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-4">
+                        <p className="text-sm font-semibold text-gray-800">
+                          {item.nama}
+                        </p>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselNav />
+              </Carousel>
             </div>
           </div>
         </section>
@@ -163,37 +187,44 @@ const Dashboard = () => {
             Daftar Dokter Keren di Rumah Sakit Rawamangun
           </h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 justify-items-center">
-            {doctors
-              .filter(d => d.status === 'Aktif')
-              .map((doctor) => (
-                <div
-                  key={doctor._id}
-                  className="w-[170px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300"
-                >
-                  {/* FOTO */}
-                  <div className="flex justify-center pt-6">
-                    <div className="w-[110px] h-[110px] rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
-                      <img
-                        src={`http://localhost:3001${doctor.foto_profil}`}
-                        alt={doctor.namaLengkap}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
+          <div className="flex gap-8 justify-center items-center">
+            <Carousel className="flex flex-row mx-auto">
+              <CarouselContent className="flex pl-4 items-center h-70 overflow-visible">
+                {doctors
+                  .filter(d => d.status === 'Aktif')
+                  .map((doctor) => (
+                  <CarouselItem className="basis-1/4 pl-1 mx-auto overflow-visible" key={doctor._id}>
+                    <div
+                      className="w-[170px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300"
+                    >
+                      {/* FOTO */}
+                      <div className="flex justify-center pt-6">
+                        <div className="w-[110px] h-[110px] rounded-t-2xl overflow-hidden bg-gray-100 shadow-inner">
+                          <img
+                            src={`http://localhost:3001${doctor.foto_profil}`}
+                            alt={doctor.namaLengkap}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
 
-                  {/* INFO */}
-                  <div className="px-4 py-4 text-center">
-                    <p className="text-sm font-semibold text-gray-800 leading-snug">
-                      {doctor.namaLengkap}
-                    </p>
+                      {/* INFO */}
+                      <div className="px-4 py-4 text-center">
+                        <p className="text-sm font-semibold text-gray-800 leading-snug">
+                          {doctor.namaLengkap}
+                        </p>
 
-                    <div className="mt-2 inline-block px-3 py-1 text-[11px] rounded-full bg-teal-50 text-teal-700 font-medium">
-                      Dokter RS Rawamangun
+                        <div className="mt-2 inline-block px-3 py-1 text-[11px] rounded-full bg-teal-50 text-teal-700 font-medium">
+                          Dokter RS Rawamangun
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselNav />
+            </Carousel>
+
           </div>
         </section>
 

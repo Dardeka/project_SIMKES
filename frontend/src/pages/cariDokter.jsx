@@ -73,7 +73,7 @@ function CariDokter() {
               <div
                 key={doctor._id}
                 className="
-                  relative bg-white rounded-3xl
+                  relative bg-white rounded-b-3xl
                   border border-gray-100
                   shadow-md hover:shadow-2xl
                   transition-all duration-300
