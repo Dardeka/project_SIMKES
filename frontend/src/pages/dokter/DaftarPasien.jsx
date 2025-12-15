@@ -25,6 +25,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from '../../components/ui/button';
+import { toast } from 'sonner';
 
 const getStatusStyles = (status) => {
   switch (status) {
@@ -112,7 +113,7 @@ const DaftarPasien = () => {
         appointment.id === appointmentId ? { ...appointment, status: newStatus } : appointment
       )
     );
-    alert(`Status Temu Janji ID ${appointmentId} diubah menjadi: ${newStatus}`);
+    toast.success(`Status Temu Janji ID ${appointmentId} diubah menjadi: ${newStatus}`);
   };
 
   // Fetch appointment data
@@ -228,18 +229,25 @@ const DaftarPasien = () => {
 
       await handleUpdateAppointments(appointment.id, examId);
 
+      
       setAppointments(prev => 
         prev.map(a => 
-        a.id === appointment.id ? { ...a, id_pemeriksaan: examId } : a
+          a.id === appointment.id ? { ...a, id_pemeriksaan: examId } : a
       ))
-
+        
       setSelectedAppointment(prev =>
         prev?.id === appointment.id
-          ? { ...prev, id_pemeriksaan: examId }
-          : prev
+        ? { ...prev, id_pemeriksaan: examId }
+        : prev
       );
       console.log("Initial examination response: ", dataExamination);
       console.log("Initial examination response: ", selectedAppointment)
+      
+      toast.success("Pemeriksaan awal berhasil ditambahkan.");
+
+      setTimeout(() => {
+        navigate(0);
+      }, 2000);
       return examId;
     } catch (error) {
       console.log({error: error.message})
@@ -362,7 +370,7 @@ const DaftarPasien = () => {
                       </Dialog>
                     ) : appointment.status === 'Menunggu'  || appointment.status === 'Batal' ? (
                         <button
-                          onClick={() => alert("Resep hanya dapat ditulis untuk pasien dengan status 'Check-in' atau 'Selesai'.")}
+                          onClick={() => toast.warning("Resep hanya dapat ditulis untuk pasien dengan status 'Check-in' atau 'Selesai'.")}
                           className="bg-teal-400 text-white py-2 px-4 rounded-lg text-sm hover:bg-teal-800 transition shadow-md flex items-center justify-center mx-auto"
                           disabled={true}
                         >

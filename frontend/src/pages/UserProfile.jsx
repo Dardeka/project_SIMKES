@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from "sonner"
 import { FaSignOutAlt, FaUser, FaCamera, FaSave, FaHistory } from 'react-icons/fa';
 import { Formik, Form, Field } from 'formik';
 import Navbar from '../components/Navbar';
@@ -162,10 +163,11 @@ function UserProfile() {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            alert("Profile updated successfully!");
+            toast.success("Profile updated successfully!");
         })
         .catch((error) => {
             console.error('Error:', error);
+            toast.error("Failed to update profile.");
         });
     }
     

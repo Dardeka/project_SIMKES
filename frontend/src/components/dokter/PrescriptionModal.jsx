@@ -20,6 +20,7 @@ import {
 import { Button } from '../ui/button';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
   const [prescription, setPrescription] = useState([]);
@@ -97,8 +98,10 @@ const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
     }) 
     const dataStatus = await responseStatus.json();
     console.log("Status update response: ", dataStatus);
-    onClose();
-    window.location.reload();
+    toast.success("Resep berhasil ditambahkan dan status diperbarui.");
+    setTimeout(() => {
+      navigate(0);
+    }, 2000);
   }
 
   // console.log("This is doagnose: ",diagnose)

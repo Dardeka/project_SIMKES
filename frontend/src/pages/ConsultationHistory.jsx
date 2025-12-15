@@ -6,36 +6,6 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import dayjs from 'dayjs';
 
-const dummyConsultationHistory = [
-    {
-        id: 1,
-        date: '3/12/2025 - 12.00',
-        doctor: 'Dr. Ryan Tobot, Sp.Kj',
-        complaint: 'Sakit kepala dan sulit tidur',
-        diagnosis: 'Tension Headache',
-        prescription: 'Paracetamol 500mg (3x sehari), Vitamin B Complex (1x sehari) setelah makan.',
-        status: 'Selesai'
-    },
-    {
-        id: 2,
-        date: '10/11/2025 - 09.30',
-        doctor: 'Dr. Anna Midas, Sp.PD',
-        complaint: 'Badan lemas, sering haus, dan penurunan berat badan',
-        diagnosis: 'Diabetes Mellitus Tipe 2',
-        prescription: 'Metformin 500mg (2x sehari), Konsultasi Gizi terstruktur setiap bulan.',
-        status: 'Selesai'
-    },
-    {
-        id: 3,
-        date: '15/09/2025 - 15.00',
-        doctor: 'Dr. Ryan Tobot, Sp.Kj',
-        complaint: 'Nyeri punggung bawah setelah olahraga',
-        diagnosis: 'Sprain Lumbar',
-        prescription: 'Ibuprofen 400mg (jika nyeri), Fisioterapi 3x seminggu selama 1 bulan.',
-        status: 'Selesai'
-    },
-];
-
 const getButtonStyles = (status) => {
     return status === 'Selesai' 
         ? 'bg-teal-600 hover:bg-teal-700 text-white' 

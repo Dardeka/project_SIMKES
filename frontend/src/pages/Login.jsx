@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaGoogle } from 'react-icons/fa';
+import { toast } from "sonner"
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {Formik, Form, Field, ErrorMessage} from "formik";
@@ -12,10 +12,11 @@ function Login() {
     // console.log('Form values:', values);
     axios.post('http://localhost:3001/api/login', values).then(response => {
       if(response.data.error){
-        alert(response.data.error);
+        toast.error(response.data.error);
         return;
       }else{
         console.log('Login successful:', response.data);
+        toast.success('Login berhasil!');
         // Handle successful login (e.g., redirect, store token, etc.)
         sessionStorage.setItem('accessToken', response.data.accessToken);
         navigate('/');

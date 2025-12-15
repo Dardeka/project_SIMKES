@@ -29,6 +29,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { toast } from "sonner"
 
 const BASE_IMAGE_URL = 'http://localhost:3001'; 
 
@@ -67,17 +68,17 @@ function DetailDokter() {
     const handleConfirm = async (userId, keluhanPasien) => {
         // Pastikan pengguna sudah login dan tanggal sudah dipilih
         if (!userId) {
-            alert("Anda harus login untuk membuat janji temu.");
+            toast.warning("Anda harus login untuk membuat janji temu.");
             return;
         }
         if (!date) {
-            alert("Mohon pilih tanggal janji temu.");
+            toast.warning("Mohon pilih tanggal janji temu.");
             return;
         }
         
         // Cek jika keluhan kosong
         if (!keluhanPasien.trim()) {
-            alert("Mohon masukkan keluhan Anda.");
+            toast.warning("Mohon masukkan keluhan Anda.");
             return;
         }
 
@@ -99,15 +100,19 @@ function DetailDokter() {
             });
             
             if(response.ok) {
-                 alert("Janji temu berhasil dibuat! Silakan cek status di akun Anda.");
+                toast.success("Janji kunjungan berhasil dibuat!");
+                setTimeout(() => {
+                    navigate(0);
+                }, 2000);
             } else {
-                 const data = await response.json();
-                 alert(`Gagal membuat janji: ${data.message || 'Terjadi kesalahan.'}`);
+                const data = await response.json();
+                toast.error(`Gagal membuat janji: ${data.message || 'Terjadi kesalahan.'}`);
+                
             }
 
         } catch (error) {
             console.error('Error:', error);
-            alert("Gagal menghubungi server untuk membuat janji temu.");
+            toast.error("Gagal menghubungi server untuk membuat janji temu.");
         }
     }
 
@@ -254,15 +259,13 @@ function DetailDokter() {
                                     </div>
                                     
                                     {/* Tombol Konfirmasi */}
-                                    <DialogClose asChild>
-                                        <Button 
-                                            className="mt-2 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded-lg shadow-md w-full" 
-                                            onClick={() => handleConfirm(userId, keluhanPasien)}
-                                            disabled={!userId} // Nonaktifkan jika belum login
-                                        >
-                                            {userId ? 'Konfirmasi Janji' : 'Anda Harus Login'}
-                                        </Button>
-                                    </DialogClose>
+                                    <Button 
+                                        className="mt-2 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded-lg shadow-md w-full" 
+                                        onClick={() => handleConfirm(userId, keluhanPasien)}
+                                        disabled={!userId} // Nonaktifkan jika belum login
+                                    >
+                                        {userId ? 'Konfirmasi Janji' : 'Anda Harus Login'}
+                                    </Button>
                                 </DialogContent>
                             </Dialog>
                         </div>

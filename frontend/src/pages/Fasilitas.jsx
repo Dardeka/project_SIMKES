@@ -3,19 +3,6 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer'; 
 import { useLocation } from 'react-router-dom';
 
-// const facilityData = {
-//   title: 'DSA (Digital Subtraction Angiography)',
-//   mainImageUrl: '/images/layanan1.jpg',
-//   description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Quisque id erat ac nunc feugiat dignissim vitae quis est. Suspendisse pretium tincidunt lacus. Nulla facilisi. Aliquam condimentum porttitor quam, sed tempor quam pretium quis.`,
-// };
-
-// const relatedFacilities = [
-//   { name: 'DSA (Digital Subtraction Angiography)', imageUrl: '/images/layanan1.jpg' },
-//   { name: 'MRI 3 Tesla', imageUrl: '/images/layanan2.jpg' },
-//   { name: 'Bedah Jantung Terbuka', imageUrl: '/images/layanan3.jpg' },
-//   { name: 'Endoskopi', imageUrl: '/images/layanan4.jpg' },
-// ];
-
 const Fasilitas = () => {
   const { state } = useLocation();
   const facility = state?.facility;

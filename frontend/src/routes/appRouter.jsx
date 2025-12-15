@@ -42,9 +42,9 @@ function AppRouter() {
                 <Route path="/fasilitasutama" element={<FasilitasUtama />} />
 
                 {/* Dokter */}
+                <Route path="/dokter/" element={<DashboardDokter />} />
                 <Route path="/dokter/profil" element={<DokterProfile />} />
                 <Route path="/dokter/daftarPasien" element={<DaftarPasien />} />
-                <Route path="/dokter/dashboardDokter" element={<DashboardDokter />} />
 
                 {/* Admin */}
                 <Route path="/admin/" element={<DashboardAdm />} />

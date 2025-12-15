@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from "sonner"
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {Formik, Form, Field, ErrorMessage} from "formik";
@@ -22,10 +23,11 @@ const Register = () => {
     console.log('Form values:', values);
     axios.post('http://localhost:3001/api/register', values).then(response => {
       if(response.data.message){
-        alert(response.data.message);
+        toast.error(response.data.message);
         return;
       }else{
         console.log('Registration successful:', response.data);
+        toast.success('Registrasi berhasil!');
         // Handle successful registration (e.g., redirect, store token, etc.)
         navigate('/login');
       }
