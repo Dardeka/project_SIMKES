@@ -75,7 +75,7 @@ const AdminDaftarAkun = () => {
                           src={
                             akun.foto_profil.startsWith('http')
                               ? akun.foto_profil
-                              : `http://localhost:3001/uploads/${akun.foto_profil}`
+                              : `http://localhost:3001${akun.foto_profil}`
                           }
                           alt={akun.namaLengkap}
                           className="w-12 h-12 rounded-full object-cover border"

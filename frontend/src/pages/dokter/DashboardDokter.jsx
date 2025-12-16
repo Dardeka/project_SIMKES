@@ -50,7 +50,7 @@ const DashboardDokter = () => {
             <DokterCustomSidebar />
             
             {/* 2. MAIN CONTENT AREA */}
-            <div className="flex-grow p-8 md:ml-24 max-w-7xl mx-auto w-full"> 
+            <div className="flex-grow p-6 md:ml-24 max-w-7xl mx-auto w-full"> 
                 
                 {/* Dashboard Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -78,7 +78,7 @@ const DashboardDokter = () => {
                         <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-100">
                             <h2 className="text-2xl font-bold text-gray-800 border-b pb-3 mb-4">Today Appointment</h2>
                             
-                            <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                            <div className="space-y-3 max-h-[350px] overflow-y-auto">
                                 {DUMMY_APPOINTMENTS.map((appointment, index) => (
                                     <div 
                                         key={appointment.id} 
@@ -107,10 +107,10 @@ const DashboardDokter = () => {
                     </div>
                     
                     {/* KOLOM KANAN: Profil & Statistik */}
-                    <div className="lg:col-span-1 space-y-8">
+                    <div className="lg:col-span-1">
                         
                         {/* My Profile Card */}
-                        <div className="bg-white p-6 rounded-xl shadow-xl border-t-4 border-teal-600">
+                        <div className="bg-white p-6 mb-4 rounded-xl shadow-xl border-t-4 border-teal-600">
                             <h3 className="text-xl font-bold text-gray-800 mb-4 border-b pb-3">My Profile</h3>
                             
                             <div className="flex flex-col items-center text-center mb-6">
@@ -146,7 +146,7 @@ const DashboardDokter = () => {
                         </div>
                         
                         {/* Today Info Card */}
-                        <div className="bg-teal-600 p-6 rounded-xl shadow-xl text-white">
+                        <div className="bg-teal-600 p-6 mb-3 rounded-xl shadow-xl text-white">
                             <h3 className="text-xl font-bold mb-3 flex items-center space-x-2">
                                 <FaCalendarAlt size={18}/> <span>Today</span>
                             </h3>

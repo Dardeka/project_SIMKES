@@ -49,9 +49,9 @@ const AdminSpesialis = () => {
         </div>
 
         {/* Spesialis Table */}
-        <div className="bg-white shadow-lg rounded-lg overflow-x-auto ">
+        <div className="bg-white shadow-lg rounded-lg h-[550px] overflow-y-auto overflow-x-auto ">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-teal-700 text-white">
+            <thead className="sticky top-0 z-10 bg-teal-700 text-white">
               <tr>
                 <th className="w-20% px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Id</th>
                 <th className="w-20% px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Gambar</th>

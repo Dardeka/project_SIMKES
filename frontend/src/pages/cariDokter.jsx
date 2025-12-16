@@ -31,6 +31,7 @@ function CariDokter() {
               namaLengkap: doctor.namaLengkap,
               spesialis: specialistData.nama,
               pengalaman: doctor.pengalaman,
+              deskripsi: doctor.deskripsi,
               pendidikan: doctor.pendidikan,
               _id: doctor._id,
               status: doctor.status,

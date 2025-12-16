@@ -198,11 +198,11 @@ function KelolaFasilitas() {
                 </div>
 
                 {/* Tabel Daftar Fasilitas */}
-                <div className="bg-white shadow-xl rounded-xl overflow-x-auto border border-gray-200">
+                <div className="bg-white shadow-lg rounded-lg h-[550px] overflow-y-auto overflow-x-auto">
                     <Table className="min-w-full divide-y divide-gray-200">
                         
                         {/* Header Tabel */}
-                        <TableHeader className="bg-teal-600">
+                        <TableHeader className="sticky top-0 z-10 bg-teal-700 text-white">
                             <TableRow className="border-b-teal-700">
                                 <TableHead className="w-[10%] text-white font-bold text-sm uppercase">ID</TableHead>
                                 <TableHead className="w-[15%] text-white font-bold text-sm uppercase">Gambar</TableHead>

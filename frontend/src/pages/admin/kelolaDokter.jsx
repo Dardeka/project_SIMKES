@@ -165,7 +165,7 @@ function KelolaAkunDokter() {
             <CustomSidebar/>
             
             {/* Konten Utama - Offset Sidebar */}
-            <div className="flex-grow p-8 md:ml-14"> 
+            <div className="flex-grow p-8 md:ml-10"> 
                 
                 {/* Header & Tombol Aksi */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pt-4 border-b pb-4">
@@ -296,16 +296,16 @@ function KelolaAkunDokter() {
 
                 {/* Tabel Daftar Dokter */}
                 <div className="bg-white shadow-xl rounded-xl overflow-x-auto border border-gray-200 mt-8">
-                    <Table className="min-w-full divide-y divide-gray-200">
+                    <Table className="min-w-full w-full divide-y divide-gray-200">
                         <TableHeader className="bg-teal-600">
                             <TableRow>
-                                <TableHead className="w-[5%] text-white font-bold text-xs uppercase">Foto</TableHead>
-                                <TableHead className="w-[15%] text-white font-bold text-xs uppercase">Nama Dokter</TableHead>
-                                <TableHead className="w-[15%] text-white font-bold text-xs uppercase">Spesialis</TableHead>
-                                <TableHead className="w-[20%] text-white font-bold text-xs uppercase">Pendidikan</TableHead>
-                                <TableHead className="w-[25%] text-white font-bold text-xs uppercase">Detail Akun</TableHead>
-                                <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase">Status</TableHead>
-                                <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase">Aksi</TableHead>
+                                <TableHead className="w-[7%] text-white font-bold text-xs uppercase tracking-wider">Foto</TableHead>
+                                <TableHead className="w-[15%] text-white font-bold text-xs uppercase tracking-wider">Nama Dokter</TableHead>
+                                <TableHead className="w-[13%] text-white font-bold text-xs uppercase tracking-wider">Spesialis</TableHead>
+                                <TableHead className="w-[20%] text-white font-bold text-xs uppercase tracking-wider">Pendidikan</TableHead>
+                                <TableHead className="w-[25%] text-white font-bold text-xs uppercase tracking-wider">Detail Akun</TableHead>
+                                <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase tracking-wider">Status</TableHead>
+                                <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase tracking-wider">Aksi</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-gray-100">

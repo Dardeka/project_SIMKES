@@ -83,7 +83,7 @@ function DashboardAdm() {
             <CustomSidebar />
             
             {/* Main Content Area: Padding Kiri diatur menyesuaikan Sidebar, diset default Tailwind jika CustomSidebar tidak diketahui lebarnya */}
-            <div className="flex-grow p-8"> 
+            <div className="flex-grow p-5 px-10"> 
                 
                 {/* Header Section */}
                 <div className="mb-10 pt-4">

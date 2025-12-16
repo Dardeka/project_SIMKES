@@ -122,12 +122,12 @@ const DaftarPasien = () => {
         const response = await fetch('http://localhost:3001/api/doctor/getAllAppointments');
         const data = await response.json();
         const formattedData = await Promise.all(
-          data.map(async (appointment, index) => {
+          data.map(async (appointment) => {
             console.log("Raw appointment data: ", appointment);
             const patientDetail = await fetchPatientDetails(appointment.id_pasien)
             
           return {
-            index: index + 1,
+            index: appointment.nomorAntrian,
             id: appointment._id,
             id_dokter: appointment.id_dokter,
             id_pasien: appointment.id_pasien,
@@ -296,7 +296,7 @@ const DaftarPasien = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {appointments.filter((appointment) => appointment.id_dokter === doctorId ).map((appointment) => (
+              {appointments.filter((appointment) => appointment.id_dokter === doctorId && dayjs(appointment.date).format('DD/MM/YYYY') === dayjs().format('DD/MM/YYYY')).map((appointment) => (
                 <tr key={appointment.id} className="hover:bg-gray-50 transition duration-150">
                   <td className="px-6 py-4 whitespace-nowrap text-base text-gray-700">
                     {appointment.index}

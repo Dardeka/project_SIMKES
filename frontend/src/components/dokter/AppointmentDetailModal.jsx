@@ -34,7 +34,7 @@ const AppointmentDetailModal = ({ isOpen, onClose, appointment }) => {
 
           <div>
             <p className="text-base font-semibold text-gray-800">Tanggal Kunjungan :</p>
-            <p className="text-lg font-medium text-teal-600">{dayjs(appointment.date).format('DD MMMM YYYY')}</p>
+            <p className="text-lg font-medium text-teal-600">{dayjs(appointment.date).format('DD/MM/YYYY')}</p>
           </div>
 
           <div>
