@@ -49,7 +49,7 @@ const Navbar = () => {
   }
 
   const handleFasilitas = () => {
-    navigate('/fasilitas')
+    navigate('/fasilitasutama')
   }
 
   const handleLogin = () => {

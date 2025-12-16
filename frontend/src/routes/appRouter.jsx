@@ -16,6 +16,7 @@ import DaftarPasien from '../pages/dokter/DaftarPasien';
 import UserProfile from '../pages/UserProfile'; 
 import ConsultationHistory from '../pages/ConsultationHistory';
 import DashboardDokter from '../pages/dokter/DashboardDokter';
+import FasilitasUtama from '../pages/FasilitasUtama';
 
 import LoginDokter from '../pages/LoginDokter';
 import LoginAdmin from '../pages/LoginAdmin';
@@ -38,6 +39,7 @@ function AppRouter() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/profil" element={<UserProfile />} />
                 <Route path="/riwayatKonsultasi" element={<ConsultationHistory />} />
+                <Route path="/fasilitasutama" element={<FasilitasUtama />} />
 
                 {/* Dokter */}
                 <Route path="/dokter/profil" element={<DokterProfile />} />
