@@ -160,3 +160,6 @@ export const updateCheckupData = async (req, res) => {
         console.log({error: error.message})
     }
 }
+
+
+

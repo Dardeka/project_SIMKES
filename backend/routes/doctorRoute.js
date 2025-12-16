@@ -1,6 +1,7 @@
 import express from "express";
 import { addInitialCheckupData, addPrescription, doctorLogin, getAllAppointment, getCertainPrescription, getDoctorDetail, updateCheckupData, updateExamId, updateStatus } from "../controller/doctorController.js";
 
+
 const doctorRoute = express.Router()
 
 // login
@@ -29,6 +30,9 @@ doctorRoute.post('/addInitialExamination', addInitialCheckupData)
 
 // put diagnose in checkup data
 doctorRoute.put('/updateExamination/:id', updateCheckupData)
+
+
+
 
 
 export default doctorRoute
