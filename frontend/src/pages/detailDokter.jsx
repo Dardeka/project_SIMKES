@@ -36,7 +36,7 @@ const BASE_IMAGE_URL = 'http://localhost:3001';
 
 function DetailDokter() {
     const {state} = useLocation();
-    const navigate = useNavigate(); // Gunakan useNavigate
+    const navigate = useNavigate();
     const doctor = state?.doctor;
     const [date, setDate] = useState(new Date())
     const [userId, setUserId] = useState(null);
@@ -91,7 +91,7 @@ function DetailDokter() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    doctorId: doctor.id_dokter,
+                    doctorId: doctor._id,
                     patientId: userId,
                     date: appointmentTime,
                     keluhanPasien: keluhanPasien,

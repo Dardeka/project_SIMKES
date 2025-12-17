@@ -21,8 +21,10 @@ import { Button } from '../ui/button';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
+  const navigate = useNavigate()
   const [prescription, setPrescription] = useState([]);
   const [dataFetched, setDataFetched] = useState(null);
   const [isOpenMedicineForm, setIsOpenMedicineForm] = useState(false);
@@ -100,7 +102,7 @@ const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
     console.log("Status update response: ", dataStatus);
     toast.success("Resep berhasil ditambahkan dan status diperbarui.");
     setTimeout(() => {
-      navigate('/dokter/daftarPasien');
+      navigate(0);
     }, 1500);
   }
 

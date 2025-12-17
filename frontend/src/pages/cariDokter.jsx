@@ -43,8 +43,7 @@ function CariDokter() {
       } catch (error) {
         console.error('Error fetching doctors:', error);
       }
-    };
-
+    }
     fetchAllDoctors();
   }, []);
 
