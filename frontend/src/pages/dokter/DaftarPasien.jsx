@@ -242,8 +242,6 @@ const DaftarPasien = () => {
       );
       console.log("Initial examination response: ", dataExamination);
       console.log("Initial examination response: ", selectedAppointment)
-      
-      toast.success("Pemeriksaan awal berhasil ditambahkan.");
 
       setTimeout(() => {
         navigate(0);

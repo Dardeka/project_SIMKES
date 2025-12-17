@@ -31,7 +31,29 @@ const Spesialis = () => {
       try {
         const res = await fetch(`${BASE_URL}/api/getAllDoctor`);
         const data = await res.json();
-        setDoctors(data || []);
+        console.log("Doctors data: ", data);
+
+        const formattedDoctors = await Promise.all(
+          data.map(async (doc) => {
+            const specialistDetail = await fetch(
+              `${BASE_URL}/api/getCertainSpeciality/${doc.spesialis}`
+            );
+            const specialistData = await specialistDetail.json();
+
+            return {
+              id_dokter: doc._id,
+              namaLengkap: doc.namaLengkap,
+              foto_profil: doc.foto_profil,
+              idSpesialis: specialistData._id,
+              spesialis: specialistData.nama,
+              pengalaman: doc.pengalaman,
+              deskripsi: doc.deskripsi,
+              pendidikan: doc.pendidikan,
+              status: doc.status
+            }
+          }))
+
+        setDoctors(formattedDoctors || []);
       } catch (error) {
         console.log(error);
       }
@@ -45,6 +67,10 @@ const Spesialis = () => {
   const handleDetail = (item) => {
     navigate('/spesialis', { state: { specialist: item } });
   };
+
+  const handleDoctorDetail = (doctor) => {
+    navigate('/detailDokter', { state: { doctor } });
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -88,7 +114,7 @@ const Spesialis = () => {
 
           <div className="flex flex-wrap gap-6 mb-16">
             {doctors
-              .filter(d => d.spesialis === specialist?.nama)
+              .filter(d => d.idSpesialis === specialist?._id)
               .map((doctor) => (
                 <div
                   key={doctor._id}
@@ -106,8 +132,8 @@ const Spesialis = () => {
                     Dokter Spesialis {specialist?.nama}
                   </p>
 
-                  <button className="mt-2 w-full bg-teal-600 text-white text-xs py-1 rounded hover:bg-teal-700 transition">
-                    Buat Janji
+                  <button onClick={() => handleDoctorDetail(doctor)} className="mt-2 w-full bg-teal-600 text-white text-xs py-1 rounded hover:bg-teal-700 transition">
+                    Lihat Detail
                   </button>
                 </div>
               ))}

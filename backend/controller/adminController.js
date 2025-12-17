@@ -152,8 +152,6 @@ export const getAllSpeciality = async (req, res) => {
     }
 }
 
-
-
 // Admin update Speciality
 export const updateSpeciality = async (req, res) => {
     try {

@@ -91,7 +91,7 @@ function DetailDokter() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    doctorId: doctor._id,
+                    doctorId: doctor.id_dokter,
                     patientId: userId,
                     date: appointmentTime,
                     keluhanPasien: keluhanPasien,

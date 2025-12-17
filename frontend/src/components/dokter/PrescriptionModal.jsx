@@ -100,8 +100,8 @@ const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
     console.log("Status update response: ", dataStatus);
     toast.success("Resep berhasil ditambahkan dan status diperbarui.");
     setTimeout(() => {
-      navigate(0);
-    }, 2000);
+      navigate('/dokter/daftarPasien');
+    }, 1500);
   }
 
   // console.log("This is doagnose: ",diagnose)

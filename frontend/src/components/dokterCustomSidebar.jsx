@@ -17,7 +17,7 @@ function DokterCustomSidebar() {
     }
 
     const handleDashboard = () => {
-        navigate('/dokter/dashboardDokter');
+        navigate('/dokter/');
     }
 
     const handleLogout = () => {
