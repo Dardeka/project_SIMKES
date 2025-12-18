@@ -157,10 +157,25 @@ export const updateSpeciality = async (req, res) => {
     try {
         const { _id, namaSpesialis, deskripsi } = req.body
         const image = req.file ? `/images/${req.file.filename}` : ''
-
+        
         await Spesialis.findByIdAndUpdate(_id,{nama: namaSpesialis, deskripsi: deskripsi, gambar: image })
         
         return res.status(200).json({message: "Spesialis berhasil diperbarui"})
+    } catch (error) {
+        console.log({error: error.message})
+    }
+}
+
+// Admin update facility
+export const updatefacility = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { namaFasilitas, deskripsiFasilitas } = req.body
+        const image = req.file ? `/images/${req.file.filename}` : ''
+        
+        const data = await Fasilitas.findByIdAndUpdate(id, {nama: namaFasilitas, deskripsi: deskripsiFasilitas, gambar: image})
+
+        return res.status(200).json(data)
     } catch (error) {
         console.log({error: error.message})
     }
