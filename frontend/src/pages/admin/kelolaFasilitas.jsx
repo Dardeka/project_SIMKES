@@ -17,6 +17,17 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import React, { useState, useEffect } from "react"; // Tambahkan React ke import
 import { useNavigate } from "react-router-dom";
@@ -107,9 +118,25 @@ function KelolaFasilitas() {
         }
     }
 
-    // Aksi Dummy Tambahan
-    const handleEdit = (facility) => alert(`Mengedit fasilitas: ${facility.nama}`);
-    const handleDelete = (facility) => alert(`Menghapus fasilitas: ${facility.nama}`);
+    const handleDelete = async (facility) => {
+        try {
+            console.log("ini fasilitas yang dihapus ", facility)
+            const response = await fetch(`http://localhost:3001/api/admin/deleteFacility/${facility._id}`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            if(response.ok) {
+                console.log('Success:', data);
+                toast.success('Fasilitas berhasil dihapus!');
+                // Perbarui daftar fasilitas setelah penghapusan
+                setFacilities(facilities.filter(item => item._id !== facility._id));
+            } else {
+                toast.error(`Gagal menghapus fasilitas: ${data.message || 'Terjadi kesalahan.'}`);
+            }
+        } catch (error) {
+            console.log({error: error.message})
+        }
+    }
 
     return(
         <div className="flex bg-gray-50 min-h-screen">
@@ -244,6 +271,7 @@ function KelolaFasilitas() {
                                     </TableCell>
                                     <TableCell className="text-center align-top py-4">
                                         <div className="flex justify-center space-x-2">
+                                            {/* Button Edit fasilitas */}
                                             <Dialog>
                                                 <DialogTrigger asChild>
                                                     <Button
@@ -265,6 +293,7 @@ function KelolaFasilitas() {
                                                             idFasilitas: facility._id,
                                                             namaFasilitas: facility.nama,
                                                             deskripsiFasilitas: facility.deskripsi,
+                                                            gambarFasilitas:  facility.gambar || '',
                                                         }}
                                                         onSubmit={submitEditFacilityForm}
                                                     >
@@ -335,13 +364,30 @@ function KelolaFasilitas() {
                                                     </Formik>
                                                 </DialogContent>
                                             </Dialog>
-                                            <Button 
+                                            {/* Button Delete fasilitas */}
+                                            {/* <Button 
                                                 onClick={() => handleDelete(facility)}
                                                 variant="outline"
                                                 className="text-red-600 hover:text-red-800 p-2 h-8 w-8 rounded-full border-red-100 hover:bg-red-50 transition"
                                             >
-                                                <FaTrashAlt size={14} />
-                                            </Button>
+                                            </Button> */}
+                                            <AlertDialog>
+                                                <AlertDialogTrigger>
+                                                    <FaTrashAlt size={14} />
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                    <AlertDialogTitle>Anda yakin menghapus fasilitas {facility.nama}?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        Aksi ini tidak dapat dibatalkan. Data fasilitas akan hilang secara permanen.
+                                                    </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction className="!bg-red-600 text-white" onClick={() => handleDelete(facility)}>Continue</AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
                                         </div>
                                     </TableCell>
                                 </TableRow>

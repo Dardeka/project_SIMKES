@@ -180,3 +180,16 @@ export const updatefacility = async (req, res) => {
         console.log({error: error.message})
     }
 }
+
+// Admin delete facility
+export const deleteFacility = async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const respond = await Fasilitas.findByIdAndDelete(id)
+
+        return res.status(200).json(respond)
+    } catch (error) {
+        console.log({error: error.message})
+    }
+}

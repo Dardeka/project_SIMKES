@@ -1,5 +1,5 @@
 import express from "express"
-import { addDoctor, addFacility, addSpeciality, adminLogin, getAllDoctors, getAllFacilities, getAllPatient, getAllSpeciality, updatefacility, updateSpeciality, updateStatus } from "../controller/adminController.js"
+import { addDoctor, addFacility, addSpeciality, adminLogin, deleteFacility, getAllDoctors, getAllFacilities, getAllPatient, getAllSpeciality, updatefacility, updateSpeciality, updateStatus } from "../controller/adminController.js"
 import multer from "multer";
 import path from "path"
 import { fileURLToPath } from "url";
@@ -58,6 +58,9 @@ adminRoute.get('/getAllfacilities', getAllFacilities)
 // Handle update facility
 adminRoute.put('/updateFacility/:id',upload.single('gambarFasilitas'), updatefacility)
 
+// Handle delete 
+adminRoute.delete('/deleteFacility/:id', deleteFacility)
+
 // Handle add Speciality
 adminRoute.post('/addSpeciality', upload.single('gambarSpesialis'), addSpeciality)
 
@@ -66,5 +69,6 @@ adminRoute.get('/getAllSpecialities', getAllSpeciality)
 
 // Handle update speciality
 adminRoute.put('/updateSpeciality', upload.single('gambar'), updateSpeciality)
+
 
 export default adminRoute
