@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from "sonner"
-import { FaSignOutAlt, FaUser, FaCamera, FaSave, FaHistory } from 'react-icons/fa';
+import { FaSignOutAlt, FaUser, FaCamera, FaSave, FaHistory, FaUserCircle } from 'react-icons/fa';
 import { Formik, Form, Field } from 'formik';
 import Navbar from '../components/Navbar';
 import { Button } from '../components/ui/button';
@@ -183,11 +183,17 @@ function UserProfile() {
                         {/* Kiri: Foto Profil, Nama, dan Navigasi */}
                         <div className="w-full md:w-1/3 flex flex-col items-center pt-4">
                             <div className="relative w-40 h-40 mb-4">
-                                <img
-                                    src={`http://localhost:3001${profile.foto_profil}`}
-                                    alt="Foto Profil"
-                                    className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
-                                />
+                                {profile.foto_profil ? (
+                                    <img
+                                        src={`http://localhost:3001${profile.foto_profil}`}
+                                        alt="Foto Profil"
+                                        className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
+                                    />
+                                ): (
+                                    <div className="w-full h-full rounded-full bg-gray-100 flex items-center justify-center">
+                                        <FaUserCircle className="text-gray-400 text-9xl" />
+                                    </div>
+                                )}
                                 <label htmlFor="imageUpload" className="absolute bottom-0 right-0 p-2 bg-yellow-400 text-white rounded-full cursor-pointer hover:bg-yellow-500 transition shadow-md">
                                     <FaCamera size={16} />
                                     <input type="file" id="imageUpload" className="hidden" accept="image/*" onChange={handleUploadImage}/>

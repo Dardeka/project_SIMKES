@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaSignOutAlt, FaUser, FaHistory } from 'react-icons/fa';
+import { FaSignOutAlt, FaUser, FaHistory, FaUserCircle } from 'react-icons/fa';
 import PatientPrescriptionModal from '../components/pasien/PatientPrescriptionModal';
 import Navbar from '../components/Navbar';
 import { useLocation } from 'react-router-dom';
@@ -81,11 +81,17 @@ const ConsultationHistory = () => {
                         {/* Foto Profil, Nama, dan Navigasi */}
                         <div className="w-full md:w-1/4 flex flex-col items-center pt-4">
                             <div className="relative w-36 h-36 mb-4">
-                                <img
-                                    src={`http://localhost:3001${profileData.foto_profil}`}
-                                    alt="Foto Profil"
-                                    className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
-                                />
+                                {profileData.foto_profil ? (
+                                    <img
+                                        src={`http://localhost:3001${profileData.foto_profil}`}
+                                        alt="Foto Profil"
+                                        className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
+                                    />
+                                ): (
+                                    <div className="w-full h-full rounded-full bg-gray-100 flex items-center justify-center">
+                                        <FaUserCircle className="text-gray-400 text-9xl" />
+                                    </div>
+                                )}
                                 <div className="absolute bottom-0 right-0 p-2 bg-yellow-400 text-white rounded-full transition shadow-md opacity-70">
                                     <FaUser size={16} /> 
                                 </div>
@@ -116,7 +122,8 @@ const ConsultationHistory = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        <tr className="hover:bg-gray-50 transition duration-150">
+                                        {history.map((history) => (
+                                        <tr key={history._id} className="hover:bg-gray-50 transition duration-150">
                                             <td className="px-6 py-4 whitespace-nowrap text-base text-gray-700">
                                                 {dayjs(history.tanggalPeriksa).format('DD/MM/YYYY HH:mm')}
                                             </td>
@@ -139,6 +146,7 @@ const ConsultationHistory = () => {
                                                 </button>
                                             </td>
                                         </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>

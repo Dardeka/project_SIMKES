@@ -153,32 +153,38 @@ export const getHistory = async (req, res) => {
     try {
         const {id} = req.params
 
+        let data = []
         // fetch data history
-        const respond = await Pemeriksaan.findOne({id_pasien: id})
+        const respond = await Pemeriksaan.find({id_pasien: id})
         
-        // fetch doctor detail
-        const docDetail = await Doctor.findById(respond.id_dokter)
+        for(const x in respond){
+            // fetch doctor detail
+            const docDetail = await Doctor.findById(respond[x].id_dokter)
 
-        // fetch visit data
-        const visitHistory = await Daftar.findOne({id_pasien: id})
+            // fetch visit data
+            const visitHistory = await Daftar.findOne({id_pasien: id, id_pemeriksaan: respond[x]._id})
 
-        // fetch prescription data
-        const prescriptionData = await Resep.findOne({id_pemeriksaan: respond._id})
-        
-        const formatted = {
-            _id: respond._id,
-            id_pasien: respond.id_pasien,
-            id_dokter: respond.id_dokter,
-            namaDokter: docDetail.namaLengkap,
-            tanggalPeriksa: respond.tanggalPeriksa,
-            keluhan: respond.keluhan,
-            diagnosa: respond.diagnosa,
-            obat: prescriptionData.obat,
-            status: visitHistory.status
+            // fetch prescription data
+            const prescriptionData = await Resep.findOne({
+                id_pasien: id,
+                id_pemeriksaan: respond[x]._id
+            })
+
+            const formatted = {
+                _id: respond[x]._id,
+                id_pasien: respond[x].id_pasien,
+                id_dokter: respond[x].id_dokter,
+                namaDokter: docDetail?.namaLengkap || '-',
+                tanggalPeriksa: respond[x].tanggalPeriksa,
+                keluhan: respond[x].keluhan,
+                diagnosa: respond[x].diagnosa,
+                obat: prescriptionData.obat,
+                status: visitHistory.status
+            }
+
+            data.push(formatted)
         }
-        
-        console.log("(BACKEND) This is history: ", formatted)
-        return res.status(200).json(formatted)
+        return res.status(200).json(data)
     } catch (error) {
         console.log({error: error.message})
     }
