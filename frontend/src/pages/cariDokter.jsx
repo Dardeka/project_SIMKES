@@ -8,6 +8,7 @@ import { FaUserMd, FaGraduationCap, FaBriefcase } from "react-icons/fa";
 function CariDokter() {
   const navigate = useNavigate();
   const [allDoctors, setAllDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleDetail = (doctor) => {
     navigate('/detailDokter', { state: { doctor } });
@@ -42,10 +43,20 @@ function CariDokter() {
         setAllDoctors(formattedDoctors);
       } catch (error) {
         console.error('Error fetching doctors:', error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchAllDoctors();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex bg-gray-50 min-h-screen items-center justify-center">
+        <div className="text-xl font-semibold text-teal-600">Loading Halaman Dokter...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-100">

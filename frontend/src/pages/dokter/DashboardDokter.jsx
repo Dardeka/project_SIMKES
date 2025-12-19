@@ -104,7 +104,7 @@ const DashboardDokter = () => {
                     status: profileResData.status,
                     education: profileResData.pendidikan || 'Pendidikan Tidak Ada',
                     workingHours: '9 am - 9 pm', // Jam Kerja (Hardcoded)
-                    imageUrl: `${import.meta.env.VITE_BACKEND_URL}${profileResData.foto_profil}`,
+                    imageUrl: `${profileResData.foto_profil}`,
                 };
                 setDoctorData(doctorProfile);
 
@@ -126,7 +126,7 @@ const DashboardDokter = () => {
                             id: appointment._id,
                             name: patientDetail?.namaLengkap || 'Nama Pasien Tidak Ditemukan',
                             status: 'Patient',
-                            imageUrl: patientDetail?.foto_profil ? `${import.meta.env.VITE_BACKEND_URL}${patientDetail.foto_profil}` : '/images/default-patient.jpg',
+                            imageUrl: patientDetail?.foto_profil ? `${patientDetail.foto_profil}` : '/images/default-patient.jpg',
                         };
                     })
                 );

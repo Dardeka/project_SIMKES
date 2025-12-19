@@ -38,6 +38,14 @@ const FasilitasUtama = () => {
     navigate('/fasilitas');
   };
 
+  if (loading) {
+    return (
+      <div className="flex bg-gray-50 min-h-screen items-center justify-center">
+        <div className="text-xl font-semibold text-teal-600">Loading Halaman Fasilitas...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
