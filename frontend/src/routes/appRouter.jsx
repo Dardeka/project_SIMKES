@@ -8,7 +8,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import AdminSpesialis from '../pages/admin/AdminSpesialis';  
 import AdminDaftarAkun from '../pages/admin/AdminDaftarAkun';
-import DashboardAdm from '../pages/admin/DashboardAdm';
+import DashboardAdm from '../pages/admin/dashboardAdm';
 import KelolaFasilitas from '../pages/admin/kelolaFasilitas';
 import KelolaAkunDokter from '../pages/admin/kelolaDokter';
 import DokterProfile from '../pages/dokter/DokterProfile';
