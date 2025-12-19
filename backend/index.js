@@ -6,6 +6,7 @@ import patientRoute from "./routes/patientRoute.js"
 import adminRoute from "./routes/adminRoute.js"
 import doctorRoute from "./routes/doctorRoute.js"
 import path from "path"
+import serverless from "serverless-http"
 
 dotenv.config()
 const app = express()
