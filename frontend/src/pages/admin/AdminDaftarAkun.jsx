@@ -18,7 +18,7 @@ const AdminDaftarAkun = () => {
   useEffect(() => {
     const fetchAkunPasien = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/admin/getAllPatientsAccount');
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/getAllPatientsAccount`);
         const data = await response.json();
         setDataAkunPasien(data);
       } catch (error) {
@@ -75,7 +75,7 @@ const AdminDaftarAkun = () => {
                           src={
                             akun.foto_profil.startsWith('http')
                               ? akun.foto_profil
-                              : `http://localhost:3001${akun.foto_profil}`
+                              : `${import.meta.env.VITE_BACKEND_URL}${akun.foto_profil}`
                           }
                           alt={akun.namaLengkap}
                           className="w-12 h-12 rounded-full object-cover border"

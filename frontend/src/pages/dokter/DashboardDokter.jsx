@@ -49,7 +49,7 @@ const DashboardDokter = () => {
     // Fungsi bantuan untuk mengambil detail pasien
     const fetchPatientDetails = async (patientId) => {
         try {
-            const response = await fetch(`http://localhost:3001/api/profile/${patientId}`);
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile/${patientId}`);
             const data = await response.json();
             return data;
         } catch (error) {
@@ -90,11 +90,11 @@ const DashboardDokter = () => {
             setLoading(true);
             try {
                 // 1. Ambil Data Profil Dokter
-                const profileResponse = await fetch(`http://localhost:3001/api/doctor/profileDetails/${doctorId}`);
+                const profileResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/profileDetails/${doctorId}`);
                 const profileResData = await profileResponse.json();
                 
                 // Ambil Nama Spesialisasi
-                const specialistDetail = await fetch(`http://localhost:3001/api/getCertainSpeciality/${profileResData.spesialis}`);
+                const specialistDetail = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getCertainSpeciality/${profileResData.spesialis}`);
                 const specialistData = await specialistDetail.json();
 
                 const doctorProfile = {
@@ -104,12 +104,12 @@ const DashboardDokter = () => {
                     status: profileResData.status,
                     education: profileResData.pendidikan || 'Pendidikan Tidak Ada',
                     workingHours: '9 am - 9 pm', // Jam Kerja (Hardcoded)
-                    imageUrl: `http://localhost:3001${profileResData.foto_profil}`,
+                    imageUrl: `${import.meta.env.VITE_BACKEND_URL}${profileResData.foto_profil}`,
                 };
                 setDoctorData(doctorProfile);
 
                 // 2. Ambil Data Janji Temu
-                const appointmentsResponse = await fetch('http://localhost:3001/api/doctor/getAllAppointments');
+                const appointmentsResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/getAllAppointments`);
                 const appointmentsData = await appointmentsResponse.json();
                 
                 // Filter janji temu HARI INI untuk dokter yang sedang login
@@ -126,7 +126,7 @@ const DashboardDokter = () => {
                             id: appointment._id,
                             name: patientDetail?.namaLengkap || 'Nama Pasien Tidak Ditemukan',
                             status: 'Patient',
-                            imageUrl: patientDetail?.foto_profil ? `http://localhost:3001${patientDetail.foto_profil}` : '/images/default-patient.jpg',
+                            imageUrl: patientDetail?.foto_profil ? `${import.meta.env.VITE_BACKEND_URL}${patientDetail.foto_profil}` : '/images/default-patient.jpg',
                         };
                     })
                 );

@@ -21,7 +21,7 @@ const AddSpesialisModal = ({ isOpen, onClose }) => {
     if(picture){
       formData.append('gambarSpesialis', picture);
     }
-    await fetch('http://localhost:3001/api/admin/addSpeciality', {
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/addSpeciality`, {
         method: 'POST',
         body: formData,
     }).then(response => response.json())

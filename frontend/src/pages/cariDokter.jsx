@@ -16,13 +16,13 @@ function CariDokter() {
   useEffect(() => {
     const fetchAllDoctors = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/getAllDoctor');
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getAllDoctor`);
         const data = await response.json();
 
         const formattedDoctors = await Promise.all(
           data.map(async (doctor) => {
             const specialistDetail = await fetch(
-              `http://localhost:3001/api/getCertainSpeciality/${doctor.spesialis}`
+              `${import.meta.env.VITE_BACKEND_URL}/api/getCertainSpeciality/${doctor.spesialis}`
             );
             const specialistData = await specialistDetail.json();
 
@@ -86,7 +86,7 @@ function CariDokter() {
                   {/* FOTO */}
                   {doctor.foto_profil ? (
                     <img
-                      src={`http://localhost:3001${doctor.foto_profil}`}
+                      src={`${import.meta.env.VITE_BACKEND_URL}${doctor.foto_profil}`}
                       alt={doctor.namaLengkap}
                       className="
                         w-28 h-28 object-cover

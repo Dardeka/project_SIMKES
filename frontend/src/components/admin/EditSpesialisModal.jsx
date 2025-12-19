@@ -33,7 +33,7 @@ const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
       newFormData.append('gambar', picture);
     }
 
-    await fetch('http://localhost:3001/api/admin/updateSpeciality', {
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/updateSpeciality`, {
       method: 'PUT',
       body: newFormData,
     }).then(response => response.json())
@@ -71,7 +71,7 @@ const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
           <Form className="space-y-4">
             {/* Gambar saat ini */}
             <div className="flex items-center space-x-4 mb-4">
-              <img src={`http://localhost:3001${spesialis.gambar}`} alt="Current Image" className="h-16 w-16 object-cover rounded-md border" />
+              <img src={`${import.meta.env.VITE_BACKEND_URL}${spesialis.gambar}`} alt="Current Image" className="h-16 w-16 object-cover rounded-md border" />
               <div className="flex-grow">
                   <label htmlFor="imageUpdate" className="block text-sm font-semibold text-gray-700 mb-2">Update Image</label>
                   <input 

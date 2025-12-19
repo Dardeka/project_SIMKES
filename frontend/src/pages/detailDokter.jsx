@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { toast } from "sonner"
 
-const BASE_IMAGE_URL = 'http://localhost:3001'; 
+const BASE_IMAGE_URL = `${import.meta.env.VITE_BACKEND_URL}`; 
 
 
 function DetailDokter() {
@@ -87,7 +87,7 @@ function DetailDokter() {
         const appointmentTime = format(date, "yyyy-MM-dd HH:mm:ss"); // Format tanggal
 
         try {
-            const response = await fetch('http://localhost:3001/api/createAppointment', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/createAppointment`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

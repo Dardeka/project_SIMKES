@@ -32,7 +32,7 @@ import { useEffect, useState } from "react";
 import { FaPlus, FaTrashAlt } from 'react-icons/fa';
 
 // Base URL untuk API
-const API_BASE_URL = 'http://localhost:3001/api/admin'; 
+const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/admin`; 
 
 function KelolaAkunDokter() {
     const [doctorData, setDoctorData] = useState([]);
@@ -313,8 +313,7 @@ function KelolaAkunDokter() {
                                 <TableRow key={doctor._id} className="hover:bg-gray-50 transition duration-150">
                                     <TableCell className="py-3 align-top">
                                         <img 
-                                            // ASUMSI: URL foto profil di-hosting di 'http://localhost:3001'
-                                            src={`http://localhost:3001${doctor.foto_profil}`} 
+                                            src={`${import.meta.env.VITE_BACKEND_URL}${doctor.foto_profil}`} 
                                             alt={doctor.namaLengkap} 
                                             className="w-12 h-12 object-cover rounded-lg shadow-sm border border-gray-200"
                                         />

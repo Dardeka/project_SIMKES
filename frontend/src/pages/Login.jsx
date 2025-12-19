@@ -10,7 +10,7 @@ function Login() {
 
   const handleSubmit = (values) => {
     // console.log('Form values:', values);
-    axios.post('http://localhost:3001/api/login', values).then(response => {
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, values).then(response => {
       if(response.data.error){
         toast.error(response.data.error);
         return;

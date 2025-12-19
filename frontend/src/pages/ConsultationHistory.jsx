@@ -59,7 +59,7 @@ const ConsultationHistory = () => {
     useEffect(() => {
         const fetchConsultationHistory = async (profileId) => {
             try {
-                const response = await fetch(`http://localhost:3001/api/getHistory/${profileId}`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getHistory/${profileId}`);
                 const data = await response.json();
                 setHistory(data);
                 console.log("Fetched consultation history:", data);
@@ -83,7 +83,7 @@ const ConsultationHistory = () => {
                             <div className="relative w-36 h-36 mb-4">
                                 {profileData.foto_profil ? (
                                     <img
-                                        src={`http://localhost:3001${profileData.foto_profil}`}
+                                        src={`${import.meta.env.VITE_BACKEND_URL}${profileData.foto_profil}`}
                                         alt="Foto Profil"
                                         className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
                                     />

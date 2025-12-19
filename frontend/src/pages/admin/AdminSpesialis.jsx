@@ -18,7 +18,7 @@ const AdminSpesialis = () => {
 
   useEffect(() => {
     const fetchSpesialisData = async () => {
-      await fetch('http://localhost:3001/api/admin/getAllSpecialities').then(response => response.json())
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/getAllSpecialities`).then(response => response.json())
       .then(data => {
         console.log('Fetched Spesialis Data:', data);
         setSpesialisData(data);
@@ -65,7 +65,7 @@ const AdminSpesialis = () => {
                 <tr key={spesialis._id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{spesialis._id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <img src={`http://localhost:3001${spesialis.gambar}`} alt={spesialis.nama} className="h-20 w-20 object-cover rounded-md" />
+                    <img src={`${import.meta.env.VITE_BACKEND_URL}${spesialis.gambar}`} alt={spesialis.nama} className="h-20 w-20 object-cover rounded-md" />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{spesialis.nama}</td>
                   <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{spesialis.deskripsi}</td>

@@ -40,7 +40,7 @@ function KelolaFasilitas() {
 
     useEffect(() => {
         const facilitiesData = async () => {
-            await fetch('http://localhost:3001/api/admin/getAllFacilities')
+            await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/getAllFacilities`)
             .then(response => response.json())
             .then(data => {
                 setFacilities(data);
@@ -67,7 +67,7 @@ function KelolaFasilitas() {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/api/admin/addFacility', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/addFacility`, {
                 method: 'POST',
                 body: formData,
             });
@@ -98,7 +98,7 @@ function KelolaFasilitas() {
         }
 
         try {
-            const response = await fetch(`http://localhost:3001/api/admin/updateFacility/${values.idFasilitas}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/updateFacility/${values.idFasilitas}`, {
                 method: 'PUT',
                 body: formData,
             });
@@ -121,7 +121,7 @@ function KelolaFasilitas() {
     const handleDelete = async (facility) => {
         try {
             console.log("ini fasilitas yang dihapus ", facility)
-            const response = await fetch(`http://localhost:3001/api/admin/deleteFacility/${facility._id}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/deleteFacility/${facility._id}`, {
                 method: 'DELETE',
             });
             const data = await response.json();
@@ -258,7 +258,7 @@ function KelolaFasilitas() {
                                     <TableCell className="align-top py-4">
                                         {/* Menggunakan URL lengkap dari backend */}
                                         <img 
-                                            src={facility.gambar ? `http://localhost:3001${facility.gambar}` : '/images/default-facility.jpg'} 
+                                            src={facility.gambar ? `${import.meta.env.VITE_BACKEND_URL}${facility.gambar}` : '/images/default-facility.jpg'} 
                                             alt={facility.nama} 
                                             className="w-20 h-20 object-cover rounded-lg shadow-sm border border-gray-200"
                                         />

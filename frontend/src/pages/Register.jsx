@@ -21,7 +21,7 @@ const Register = () => {
 
   const handleSubmit = (values) => {
     console.log('Form values:', values);
-    axios.post('http://localhost:3001/api/register', values).then(response => {
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, values).then(response => {
       if(response.data.message){
         toast.error(response.data.message);
         return;

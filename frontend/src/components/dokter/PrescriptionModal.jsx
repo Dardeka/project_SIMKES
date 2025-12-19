@@ -38,7 +38,7 @@ const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
 
     const responseFetch = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/doctor/getPrescription/${examinationId}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/getPrescription/${examinationId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
   // Handle Add prescription
   const handleAddPrescription = async ( patientId, doctorId, examinationId, prescriptionData, onFinish) => {
     console.log("Adding prescription for appointment ID: ", examinationId, prescriptionData);
-    const response = await fetch(`http://localhost:3001/api/doctor/addPrescription`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/addPrescription`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
     console.log("Add prescription data: ", data);
 
     // Examination update : masukin diagnosa
-    const responseDiagnose = await fetch(`http://localhost:3001/api/doctor/updateExamination/${examinationId}`, {
+    const responseDiagnose = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/updateExamination/${examinationId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const PrescriptionModal = ({ isOpen, onClose, appointment, examinationId}) => {
     const dataDiagnose = await responseDiagnose.json();
     console.log("Update diagnose response: ", dataDiagnose);
 
-    const responseStatus = await fetch(`http://localhost:3001/api/doctor/updateStatus/${appointment.id}`, {
+    const responseStatus = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/updateStatus/${appointment.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

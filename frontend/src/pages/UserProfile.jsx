@@ -89,7 +89,7 @@ function UserProfile() {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const fetchProfile = await fetch(`http://localhost:3001/api/profile/${userId}`, {
+                const fetchProfile = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile/${userId}`, {
                     method: 'GET',
                     headers: {
                         accessToken: accessToken
@@ -125,7 +125,7 @@ function UserProfile() {
         formData.append('image', file);
 
         try {
-            const response = await fetch(`http://localhost:3001/api/uploadProfileImage/${userId}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/uploadProfileImage/${userId}`, {
                 method: 'POST',
                 headers: {
                     accessToken: accessToken
@@ -152,7 +152,7 @@ function UserProfile() {
     }
 
     const handleSubmit = async () => {
-        await fetch(`http://localhost:3001/api/updateProfile/${userId}`, {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/updateProfile/${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -185,7 +185,7 @@ function UserProfile() {
                             <div className="relative w-40 h-40 mb-4">
                                 {profile.foto_profil ? (
                                     <img
-                                        src={`http://localhost:3001${profile.foto_profil}`}
+                                        src={`${import.meta.env.VITE_BACKEND_URL}${profile.foto_profil}`}
                                         alt="Foto Profil"
                                         className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
                                     />

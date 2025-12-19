@@ -120,7 +120,7 @@ const DaftarPasien = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/doctor/getAllAppointments');
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/getAllAppointments`);
         const data = await response.json();
         const formattedData = await Promise.all(
           data.map(async (appointment) => {
@@ -152,7 +152,7 @@ const DaftarPasien = () => {
     const fetchPatientDetails = async (patientId) => {
       try {
         console.log("Fetching details for patient ID: ", patientId);
-        const response = await fetch(`http://localhost:3001/api/profile/${patientId}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile/${patientId}`);
         const data = await response.json();
         console.log("Fetched patient details: ", data);
         return data;
@@ -170,7 +170,7 @@ const DaftarPasien = () => {
     try {
       // Update status di pendaftaran pasien
       console.log(`Updating status in database for appointment ID ${appointmentId} to ${newStatus}`);
-      const response = await fetch(`http://localhost:3001/api/doctor/updateStatus/${appointmentId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/updateStatus/${appointmentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ const DaftarPasien = () => {
   // Update appointment dengan examId
   const handleUpdateAppointments = async (appointmentId, examId) => {
     try {
-      await fetch(`http://localhost:3001/api/doctor/updateExamId/${appointmentId}`, {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/updateExamId/${appointmentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ const DaftarPasien = () => {
         return appointment.id_pemeriksaan;
       }
 
-      const responseExamination = await fetch('http://localhost:3001/api/doctor/addInitialExamination', {
+      const responseExamination = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/addInitialExamination`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -255,7 +255,7 @@ const DaftarPasien = () => {
   // fetch resep
   const handleFetchPrescription = async (examinationId) => {
     try {
-      const targetPrescription = await fetch(`http://localhost:3001/api/doctor/getPrescription/${examinationId}`, {
+      const targetPrescription = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/getPrescription/${examinationId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

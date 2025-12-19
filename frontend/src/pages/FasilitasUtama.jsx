@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaPlus } from 'react-icons/fa';
 
-const BASE_IMAGE_URL = 'http://localhost:3001';
+const BASE_IMAGE_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
 const FasilitasUtama = () => {
   const navigate = useNavigate();

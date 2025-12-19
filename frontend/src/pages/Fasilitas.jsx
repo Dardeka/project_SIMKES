@@ -19,7 +19,7 @@ const Fasilitas = () => {
         const fetchFacilities = async () => {
             try {
                 // Catatan: endpoint ini mengambil SEMUA fasilitas, termasuk fasilitas yang sedang ditampilkan.
-                const res = await fetch('http://localhost:3001/api/admin/getAllFacilities');
+                const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/getAllFacilities`);
                 const data = await res.json();
                 setFacilities(data);
             } catch (error) {
@@ -67,7 +67,7 @@ const Fasilitas = () => {
                     <div className="mb-10 shadow-xl rounded-lg overflow-hidden">
                         <div className="w-full h-[420px] md:h-[500px]">
                             <img
-                                src={`http://localhost:3001${facility.gambar}`}
+                                src={`${import.meta.env.VITE_BACKEND_URL}${facility.gambar}`}
                                 alt={facility.nama}
                                 className="w-full h-full object-cover"
                             />
@@ -98,7 +98,7 @@ const Fasilitas = () => {
                                 >
                                     <div className="h-40 w-full overflow-hidden">
                                         <img
-                                            src={`http://localhost:3001${item.gambar}`}
+                                            src={`${import.meta.env.VITE_BACKEND_URL}${item.gambar}`}
                                             alt={item.nama}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />

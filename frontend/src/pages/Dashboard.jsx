@@ -20,15 +20,15 @@ const Dashboard = () => {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/admin/getAllFacilities')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/getAllFacilities`)
       .then(res => res.json())
       .then(data => setFacilities(data || []));
 
-    fetch('http://localhost:3001/api/admin/getAllSpecialities')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/getAllSpecialities`)
       .then(res => res.json())
       .then(data => setSpecialists(data || []));
 
-    fetch('http://localhost:3001/api/getAllDoctor')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getAllDoctor`)
       .then(res => res.json())
       .then(data => setDoctors(data || []));
   }, []);
@@ -135,7 +135,7 @@ const Dashboard = () => {
 
                       <div className="h-40">
                         <img
-                          src={`http://localhost:3001${item.gambar}`}
+                          src={`${import.meta.env.VITE_BACKEND_URL}${item.gambar}`}
                           alt={item.nama}
                           className="w-full h-full object-cover"
                         />
@@ -194,7 +194,7 @@ const Dashboard = () => {
                 <div className="flex justify-center pt-6">
                   <div className="w-[110px] h-[110px] rounded-t-2xl overflow-hidden bg-gray-100 shadow-inner">
                     <img
-                      src={`http://localhost:3001${doctor.foto_profil}`}
+                      src={`${import.meta.env.VITE_BACKEND_URL}${doctor.foto_profil}`}
                       alt={doctor.namaLengkap}
                       className="w-full h-full object-cover"
                     />

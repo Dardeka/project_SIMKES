@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 
 const Spesialis = () => {
   const { state } = useLocation();

@@ -36,10 +36,10 @@ const DokterAkun = () => {
     console.log('Decoded JWT data:', data);
 
     const fetchProfile = async () => {
-      const response = await fetch(`http://localhost:3001/api/doctor/profileDetails/${data.id}`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/profileDetails/${data.id}`);
       const resData = await response.json();
       
-      const specialistDetail = await fetch(`http://localhost:3001/api/getCertainSpeciality/${resData.spesialis}`);
+      const specialistDetail = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/getCertainSpeciality/${resData.spesialis}`);
       const specialistData = await specialistDetail.json();
 
       const result = {
@@ -90,7 +90,7 @@ const DokterAkun = () => {
               <div className="md:col-span-1 flex flex-col items-center border-r md:border-r-2 border-gray-100 pr-8">
                 <div className="relative w-40 h-40 mb-4">
                   <img
-                    src={`http://localhost:3001${profile.foto_profil}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}${profile.foto_profil}`}
                     alt="Foto Profil"
                     className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-md"
                   />
