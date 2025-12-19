@@ -72,6 +72,7 @@ export const getAllDoctorsAccount = async (req, res) => {
         return res.status(200).json(allDoctor)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed fetch doctor data"})
     }
 }
 
@@ -97,6 +98,7 @@ export const createAppointment = async (req, res) => {
         return res.status(200).json(created)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to create appointment"})
     }
 }
 
@@ -107,6 +109,7 @@ export const getDetailProfile = async (req, res) => {
         return res.status(200).json(targetUser)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch doctor detail"})
     }
 }
 
@@ -120,6 +123,7 @@ export const updateDetailProfile = async (req, res) => {
         return res.status(200).json(updatedPatient)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch detail profile"})
     }
 }
 
@@ -133,6 +137,7 @@ export const addProfileImage = async (req, res) => {
         return res.status(200).json({message: "Image has been updated!"})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to add profile image"})
     }
 }
 
@@ -146,6 +151,7 @@ export const getCertainSpeciality = async (req, res) => {
         return res.status(200).json(targetSpecialist)
     } catch (error) {
         console.log("This is error",{error: error.message})
+        return res.status(500).json({message: "Failed to fetch certain speciality"})
     }
 }
 
@@ -187,6 +193,7 @@ export const getHistory = async (req, res) => {
         return res.status(200).json(data)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch history"})
     }
 }
 
@@ -195,6 +202,7 @@ export const getCertainPrescription = async (req, res) => {
     try {
         console.log(("get Prescription"))
     } catch (error) {
-        console.log({error: error.message})   
+        console.log({error: error.message}) 
+        return res.status(500).json({message: "Failed to get certain prescription"})  
     }
 }

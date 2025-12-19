@@ -26,6 +26,7 @@ export const doctorLogin = async (req, res) => {
         }
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to login"})
     }
 }
 
@@ -40,6 +41,7 @@ export const getDoctorDetail = async (req, res) => {
         return res.status(200).json(targetUser)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch doctor detail"})
     }
 }
 
@@ -50,6 +52,7 @@ export const getAllAppointment = async (req, res) => {
         return res.status(200).json(response)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch all appointments"})
     }
 }
 
@@ -66,6 +69,7 @@ export const updateExamId = async (req, res) => {
         return res.status(200).json({"id_kunjungan": id,"status": 'Selesai'})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to update examination ID"})
     }
 }
 
@@ -80,6 +84,7 @@ export const updateStatus = async (req, res) => {
         return res.status(200).json({message: `Update berhasil dengan id ${id} dan status ${newStatus}`})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to update status"})
     }
 }
 
@@ -103,6 +108,7 @@ export const addPrescription = async (req, res) => {
         return res.status(200).json("id_resepObat", savedData._id)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to add prescription"})
     }
 }
 
@@ -118,6 +124,7 @@ export const getCertainPrescription = async (req, res) => {
         return res.status(200).json(targetData || {})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch certain prescription"})
     }
 }
 
@@ -138,6 +145,7 @@ export const addInitialCheckupData = async (req, res) => {
         return res.status(200).json({"id_pemeriksaan": savedData._id})
     } catch (error) {
         console.log("Ini error bagian initial periksa : ",{error: error.message})
+        return res.status(500).json({message: "Failed to create initial examination data"})
     }
 }
 
@@ -158,6 +166,7 @@ export const updateCheckupData = async (req, res) => {
         return res.status(200).json({updateData})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to update checkup data"})
     }
 }
 

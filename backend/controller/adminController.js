@@ -27,6 +27,7 @@ export const adminLogin = async (req, res) => {
         }
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to login"})
     }
 }
 
@@ -38,6 +39,7 @@ export const getAllPatient = async (req, res) => {
         return res.status(200).json(allPatients)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch all patient data"})
     }
 }
 
@@ -66,6 +68,7 @@ export const addDoctor = async (req, res) => {
         return res.status(200).json({addedData})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to add doctor"})
     }
 }
 
@@ -90,6 +93,7 @@ export const updateStatus = async (req, res) => {
         return res.status(200).json({message: "Status diperbarui!"})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to update status"})
     }
 }
 
@@ -109,6 +113,7 @@ export const addFacility = async (req, res) => {
         return res.status(200).json({message: "Fasilitas baru berhasil ditambahkan!"})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to add new facility"})
     }
 }
 
@@ -119,6 +124,7 @@ export const getAllFacilities = async (req, res) => {
         return res.status(200).json(facilitiesData)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to get all facilities"})
     }
 }
 
@@ -139,6 +145,7 @@ export const addSpeciality = async (req, res) => {
         return res.status(200).json({newData})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to add new speciality"})
     }
 }
 
@@ -149,6 +156,7 @@ export const getAllSpeciality = async (req, res) => {
         return res.status(200).json(allSpeciality)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch all speciality"})
     }
 }
 
@@ -163,6 +171,7 @@ export const updateSpeciality = async (req, res) => {
         return res.status(200).json({message: "Spesialis berhasil diperbarui"})
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to update speciality"})
     }
 }
 
@@ -178,6 +187,7 @@ export const updatefacility = async (req, res) => {
         return res.status(200).json(data)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to update facility"})
     }
 }
 
@@ -191,5 +201,6 @@ export const deleteFacility = async (req, res) => {
         return res.status(200).json(respond)
     } catch (error) {
         console.log({error: error.message})
+        return res.status(500).json({message: "Failed to delete facility"})
     }
 }
