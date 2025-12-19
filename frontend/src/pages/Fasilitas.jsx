@@ -67,7 +67,7 @@ const Fasilitas = () => {
                     <div className="mb-10 shadow-xl rounded-lg overflow-hidden">
                         <div className="w-full h-[420px] md:h-[500px]">
                             <img
-                                src={`${import.meta.env.VITE_BACKEND_URL}${facility.gambar}`}
+                                src={`${facility.gambar}`}
                                 alt={facility.nama}
                                 className="w-full h-full object-cover"
                             />
@@ -98,7 +98,7 @@ const Fasilitas = () => {
                                 >
                                     <div className="h-40 w-full overflow-hidden">
                                         <img
-                                            src={`${import.meta.env.VITE_BACKEND_URL}${item.gambar}`}
+                                            src={`${item.gambar}`}
                                             alt={item.nama}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />

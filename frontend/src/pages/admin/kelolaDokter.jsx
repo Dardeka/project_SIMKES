@@ -302,26 +302,26 @@ function KelolaAkunDokter() {
                                 <TableHead className="w-[7%] text-white font-bold text-xs uppercase tracking-wider">Foto</TableHead>
                                 <TableHead className="w-[15%] text-white font-bold text-xs uppercase tracking-wider">Nama Dokter</TableHead>
                                 <TableHead className="w-[13%] text-white font-bold text-xs uppercase tracking-wider">Spesialis</TableHead>
-                                <TableHead className="w-[20%] text-white font-bold text-xs uppercase tracking-wider">Pendidikan</TableHead>
-                                <TableHead className="w-[25%] text-white font-bold text-xs uppercase tracking-wider">Detail Akun</TableHead>
-                                <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase tracking-wider">Status</TableHead>
+                                <TableHead className="w-[10%] text-white font-bold text-xs uppercase tracking-wider">Pendidikan</TableHead>
+                                <TableHead className="w-[15%] text-white font-bold text-xs uppercase tracking-wider">Detail Akun</TableHead>
+                                <TableHead className="w-[30%] text-center text-white font-bold text-xs uppercase tracking-wider">Status</TableHead>
                                 <TableHead className="w-[10%] text-center text-white font-bold text-xs uppercase tracking-wider">Aksi</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody className="divide-y divide-gray-100">
                             {doctorData.map((doctor) => (
                                 <TableRow key={doctor._id} className="hover:bg-gray-50 transition duration-150">
-                                    <TableCell className="py-3 align-top">
+                                    <TableCell className="w-[7%] py-3 align-top">
                                         <img 
-                                            src={`${import.meta.env.VITE_BACKEND_URL}${doctor.foto_profil}`} 
+                                            src={`${doctor.foto_profil}`} 
                                             alt={doctor.namaLengkap} 
                                             className="w-12 h-12 object-cover rounded-lg shadow-sm border border-gray-200"
                                         />
                                     </TableCell>
-                                    <TableCell className="font-semibold text-gray-900 text-sm align-top">{doctor.namaLengkap}</TableCell>
+                                    <TableCell className="w-[15%] font-semibold text-gray-900 text-sm align-top">{doctor.namaLengkap}</TableCell>
                                     
                                     {/* --- PERBAIKAN LOGIKA SPESIALIS DI SINI --- */}
-                                    <TableCell className="text-gray-700 text-sm align-top">
+                                    <TableCell className="w-[13%] text-gray-700 text-sm align-top">
                                         {
                                             // 1. Coba ambil nama jika sudah dipopulasi oleh API (object)
                                             doctor.spesialis?.nama ||
@@ -333,14 +333,14 @@ function KelolaAkunDokter() {
                                     </TableCell>
                                     {/* ------------------------------------------- */}
 
-                                    <TableCell className="text-gray-700 text-sm align-top">{doctor.pendidikan}</TableCell>
-                                    <TableCell className="text-start text-xs text-gray-600 align-top">
+                                    <TableCell className="w-[10%] text-gray-700 text-sm align-top">{doctor.pendidikan}</TableCell>
+                                    <TableCell className="w-[15%] text-start text-xs text-gray-600 align-top">
                                         <div className="space-y-1">
                                             <p className='truncate'><span className="font-semibold">Email:</span> {doctor.email}</p>
                                             <p><span className="font-semibold">Pass:</span> {doctor.password}</p>
                                         </div> 
                                     </TableCell>
-                                    <TableCell className="text-center align-top">
+                                    <TableCell className="w-[30%] text-center align-top">
                                         <NativeSelect 
                                             defaultValue={doctor.status} 
                                             className={
@@ -354,7 +354,7 @@ function KelolaAkunDokter() {
                                             <NativeSelectOption value="Nonaktif">Nonaktif</NativeSelectOption>
                                         </NativeSelect>
                                     </TableCell>
-                                    <TableCell className="text-center align-top">
+                                    <TableCell className="w-[10%] text-center align-top">
                                         <Button 
                                             onClick={() => handleDelete(doctor._id, doctor.namaLengkap)}
                                             className="!bg-red-600 hover:!bg-red-700 text-white font-semibold rounded-lg p-2 h-8 w-auto text-sm flex items-center shadow-md transition duration-200 hover:scale-[1.05]"

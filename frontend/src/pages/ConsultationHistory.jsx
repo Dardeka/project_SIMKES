@@ -83,7 +83,7 @@ const ConsultationHistory = () => {
                             <div className="relative w-36 h-36 mb-4">
                                 {profileData.foto_profil ? (
                                     <img
-                                        src={`${import.meta.env.VITE_BACKEND_URL}${profileData.foto_profil}`}
+                                        src={`${profileData.foto_profil}`}
                                         alt="Foto Profil"
                                         className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-lg"
                                     />

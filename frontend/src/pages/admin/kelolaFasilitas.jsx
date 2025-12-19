@@ -258,7 +258,7 @@ function KelolaFasilitas() {
                                     <TableCell className="align-top py-4">
                                         {/* Menggunakan URL lengkap dari backend */}
                                         <img 
-                                            src={facility.gambar ? `${import.meta.env.VITE_BACKEND_URL}${facility.gambar}` : '/images/default-facility.jpg'} 
+                                            src={`${facility.gambar}`} 
                                             alt={facility.nama} 
                                             className="w-20 h-20 object-cover rounded-lg shadow-sm border border-gray-200"
                                         />

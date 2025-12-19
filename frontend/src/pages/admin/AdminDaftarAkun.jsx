@@ -75,7 +75,7 @@ const AdminDaftarAkun = () => {
                           src={
                             akun.foto_profil.startsWith('http')
                               ? akun.foto_profil
-                              : `${import.meta.env.VITE_BACKEND_URL}${akun.foto_profil}`
+                              : `${akun.foto_profil}`
                           }
                           alt={akun.namaLengkap}
                           className="w-12 h-12 rounded-full object-cover border"

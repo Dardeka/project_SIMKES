@@ -91,7 +91,7 @@ const FasilitasUtama = () => {
                     {/* GAMBAR */}
                     <div className="h-48 overflow-hidden">
                       <img
-                        src={`${BASE_IMAGE_URL}${facility.gambar}`}
+                        src={`${facility.gambar}`}
                         alt={facility.nama}
                         className="w-full h-full object-cover hover:scale-105 transition duration-500"
                       />

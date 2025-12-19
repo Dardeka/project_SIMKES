@@ -90,7 +90,7 @@ const DokterAkun = () => {
               <div className="md:col-span-1 flex flex-col items-center border-r md:border-r-2 border-gray-100 pr-8">
                 <div className="relative w-40 h-40 mb-4">
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${profile.foto_profil}`}
+                    src={`${profile.foto_profil}`}
                     alt="Foto Profil"
                     className="w-full h-full object-cover rounded-full border-4 border-teal-500 shadow-md"
                   />

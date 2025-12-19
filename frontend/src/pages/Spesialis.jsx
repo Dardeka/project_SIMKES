@@ -88,7 +88,7 @@ const Spesialis = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-16">
             <div className="shadow-lg rounded-lg overflow-hidden">
               <img
-                src={`${BASE_URL}${specialist?.gambar}`}
+                src={`${specialist?.gambar}`}
                 alt={specialist?.nama}
                 className="w-full h-auto object-cover"
               />
@@ -121,7 +121,7 @@ const Spesialis = () => {
                   className="w-full sm:w-1/2 md:w-1/5 bg-white p-3 rounded-lg shadow-md border border-gray-100 text-center"
                 >
                   <img
-                    src={`${BASE_URL}${doctor.foto_profil}`}
+                    src={`${doctor.foto_profil}`}
                     alt={doctor.namaLengkap}
                     className="w-full h-52 object-cover rounded-md mb-2"
                   />
@@ -156,7 +156,7 @@ const Spesialis = () => {
                 >
                   <div className="h-40 w-full overflow-hidden">
                     <img
-                      src={`${BASE_URL}${item.gambar}`}
+                      src={`${item.gambar}`}
                       alt={item.nama}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />

@@ -4,6 +4,7 @@ import {
   FaUsers,
   FaBookMedical,
   FaHospital,
+  FaUserCircle,
 } from 'react-icons/fa';
 
 import CustomSidebar from "../../components/adminCustomSidebar";
@@ -140,15 +141,17 @@ function DashboardAdm() {
                 {patients.map((patient) => (
                   <tr key={patient._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
-                      <img
-                        src={
-                          patient.foto_profil
-                            ? `${BASE_URL}${patient.foto_profil}`
-                            : "/images/default-user.jpg"
-                        }
-                        alt={patient.namaLengkap}
-                        className="h-12 w-12 rounded-full object-cover border"
-                      />
+                      {patient.foto_profil ? (
+                        <img
+                          src={`${patient.foto_profil}`}
+                          alt={patient.namaLengkap}
+                          className="h-12 w-12 rounded-full object-cover border"
+                        />
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center">
+                          <FaUserCircle className="text-gray-400 text-3xl" />
+                        </div>
+                      )}
                     </td>
                     <td className="px-6 py-4 font-medium text-gray-900">
                       {patient.namaLengkap}

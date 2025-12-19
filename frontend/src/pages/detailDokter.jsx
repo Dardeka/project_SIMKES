@@ -170,7 +170,7 @@ function DetailDokter() {
                     {/* Kiri: Foto Dokter */}
                     <div className="flex-shrink-0">
                         <img 
-                            src={`${BASE_IMAGE_URL}${doctor.foto_profil}`} 
+                            src={`${doctor.foto_profil}`} 
                             alt={`Foto Dr. ${doctor.namaLengkap}`} 
                             // Ukuran dan styling foto baru
                             className="w-full max-w-xs h-auto rounded-xl object-cover border-3 border-teal-600 shadow-lg"

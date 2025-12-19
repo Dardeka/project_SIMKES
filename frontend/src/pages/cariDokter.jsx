@@ -86,7 +86,7 @@ function CariDokter() {
                   {/* FOTO */}
                   {doctor.foto_profil ? (
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}${doctor.foto_profil}`}
+                      src={`${doctor.foto_profil}`}
                       alt={doctor.namaLengkap}
                       className="
                         w-28 h-28 object-cover

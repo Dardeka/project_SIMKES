@@ -135,7 +135,7 @@ const Dashboard = () => {
 
                       <div className="h-40">
                         <img
-                          src={`${import.meta.env.VITE_BACKEND_URL}${item.gambar}`}
+                          src={`${item.gambar}`}
                           alt={item.nama}
                           className="w-full h-full object-cover"
                         />
@@ -194,7 +194,7 @@ const Dashboard = () => {
                 <div className="flex justify-center pt-6">
                   <div className="w-[110px] h-[110px] rounded-t-2xl overflow-hidden bg-gray-100 shadow-inner">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_URL}${doctor.foto_profil}`}
+                      src={`${doctor.foto_profil}`}
                       alt={doctor.namaLengkap}
                       className="w-full h-full object-cover"
                     />
