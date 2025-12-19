@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Textarea } from '../ui/textarea';
+import { toast } from 'sonner'
 import { useState } from 'react';
 
 const AddSpesialisModal = ({ isOpen, onClose }) => {
@@ -27,7 +28,7 @@ const AddSpesialisModal = ({ isOpen, onClose }) => {
     }).then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        alert('Spesialis berhasil ditambahkan!');
+        toast.success('Spesialis berhasil ditambahkan!');
         window.location.reload();
     }).catch((error) => {
         console.error('Error:', error);

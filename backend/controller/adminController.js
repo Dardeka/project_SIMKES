@@ -101,7 +101,7 @@ export const updateStatus = async (req, res) => {
 export const addFacility = async (req, res) => {
     try {
         const { namaFasilitas, deskripsiFasilitas } = req.body
-        const image = req.file ? `/images/${req.file.filename}` : ''
+        const image = req.file.path
 
         const newFacility = await Fasilitas.create({
             nama: namaFasilitas,
@@ -131,9 +131,9 @@ export const getAllFacilities = async (req, res) => {
 // Admin add speciality
 export const addSpeciality = async (req, res) => {
     try {
-        // console.log("ini isi body ", req.body)
+        console.log("ini isi body ", req.file)
         const { namaSpesialis, deskripsi } = req.body
-        const image = req.file ? `/images/${req.file.filename}` : ''
+        const image = req.file.path
         
         const newSpeciality = await Spesialis.create({
             nama: namaSpesialis,

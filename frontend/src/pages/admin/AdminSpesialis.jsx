@@ -65,7 +65,7 @@ const AdminSpesialis = () => {
                 <tr key={spesialis._id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{spesialis._id}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <img src={`${import.meta.env.VITE_BACKEND_URL}${spesialis.gambar}`} alt={spesialis.nama} className="h-20 w-20 object-cover rounded-md" />
+                    <img src={`${spesialis.gambar}`} alt={spesialis.nama} className="h-20 w-20 object-cover rounded-md" />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{spesialis.nama}</td>
                   <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{spesialis.deskripsi}</td>
