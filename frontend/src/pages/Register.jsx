@@ -113,7 +113,7 @@ const Register = () => {
                   id="tanggalLahir"
                   name="tanggalLahir" 
                   placeholder="Masukkan Tanggal Lahir"
-                  className="w-full text-white p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 placeholder-gray-500" 
+                  className="w-full text-white p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 placeholder-gray-500 [color-scheme: dark]" 
                   required 
                 />
                 <ErrorMessage name="tanggalLahir" className='text-white' component="span"/>

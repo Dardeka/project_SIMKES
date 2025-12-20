@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
-import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser } from 'react-icons/fa';
+import { FaPlus, FaSignOutAlt, FaTachometerAlt, FaFlask, FaUserMd, FaUser, FaTrashAlt } from 'react-icons/fa';
 import AddSpesialisModal from '../../components/admin/AddSpesialisModal'; 
 import EditSpesialisModal from '../../components/admin/EditSpesialisModal';
 import CustomSidebar from '../../components/adminCustomSidebar';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const AdminSpesialis = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -28,6 +40,24 @@ const AdminSpesialis = () => {
     }
     fetchSpesialisData();
   }, []);
+
+  const handleDelete = async (spesialisId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/deleteSpeciality/${spesialisId}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSpesialisData(spesialisData.filter(item => item._id !== spesialisId));
+        toast.success("Speciality deleted successfully!")
+      } else {
+        toast.error(`Failed to delete speciality: ${data.message || 'An error occurred.'}`);
+      }
+    } catch (error) {
+      console.log({error: error.message})
+      toast.error("Failed to delete speciality")
+    }
+  }
 
   return (
     <div className="flex bg-gray-50 min-h-screen">
@@ -76,9 +106,25 @@ const AdminSpesialis = () => {
                     >
                       Edit
                     </button>
-                    <button className="text-red-600 hover:text-red-900 bg-red-100 py-1 px-3 rounded-md transition">
-                      Delete
-                    </button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button className="text-red-600 hover:text-red-900 bg-red-100 py-1 px-3 rounded-md transition">
+                          Delete
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                        <AlertDialogTitle>Anda yakin menghapus fasilitas {spesialis.nama}?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Aksi ini tidak dapat dibatalkan. Data fasilitas akan hilang secara permanen.
+                        </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction className="!bg-red-600 text-white" onClick={() => handleDelete(spesialis._id)}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </td>
                 </tr>
               ))}

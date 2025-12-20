@@ -24,12 +24,24 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
     NativeSelect,
     NativeSelectOption,
 } from "@/components/ui/native-select"
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useEffect, useState } from "react";
 import { FaPlus, FaTrashAlt } from 'react-icons/fa';
+import { toast } from "sonner";
 
 // Base URL untuk API
 const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/admin`; 
@@ -104,18 +116,18 @@ function KelolaAkunDokter() {
             });
             
             if (response.ok) {
-                alert("Dokter berhasil ditambahkan!");
+                toast.success("Dokter berhasil ditambahkan!");
                 resetForm();
                 setProfilePicture(null);
                 fetchData();
             } else {
                 const data = await response.json();
-                alert(`Gagal menambahkan dokter: ${data.message || 'Terjadi kesalahan.'}`);
+                toast.error(`Gagal menambahkan dokter: ${data.message || 'Terjadi kesalahan.'}`);
             }
             
         } catch (error) {
             console.error('Add doctor error:', error);
-            alert("Gagal menghubungi server.");
+            toast.error("Gagal menghubungi server.");
         }
     }
 
@@ -138,15 +150,24 @@ function KelolaAkunDokter() {
             );
         } catch (error) {
             console.error('Update status error:', error);
-            alert('Gagal memperbarui status. Periksa konsol server.');
+            toast.error('Gagal memperbarui status. Periksa konsol server.');
         }
     }
     
-    const handleDelete = (doctorId, doctorName) => {
-        if (window.confirm(`Apakah Anda yakin ingin menghapus akun ${doctorName}?`)) {
-            console.log(`Deleting doctor ID: ${doctorId}`);
-            alert(`Dokter ${doctorName} dihapus (Aksi dummy).`);
-            setDoctorData(prev => prev.filter(doc => doc._id !== doctorId)); 
+    const handleDelete = async (doctorId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/deleteDoctor/${doctorId}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                setDoctorData(prev => prev.filter(doc => doc._id !== doctorId));
+                toast.success('Dokter berhasil dihapus!');
+            } else {
+                const data = await response.json();
+                toast.error(`Gagal menghapus dokter: ${data.message || 'Terjadi kesalahan.'}`);
+            }
+        } catch (error) {
+            toast.error('Gagal menghapus dokter. Periksa konsol server.');
         }
     }
 
@@ -355,12 +376,27 @@ function KelolaAkunDokter() {
                                         </NativeSelect>
                                     </TableCell>
                                     <TableCell className="w-[10%] text-center align-top">
-                                        <Button 
-                                            onClick={() => handleDelete(doctor._id, doctor.namaLengkap)}
-                                            className="!bg-red-600 hover:!bg-red-700 text-white font-semibold rounded-lg p-2 h-8 w-auto text-sm flex items-center shadow-md transition duration-200 hover:scale-[1.05]"
-                                        >
-                                            <FaTrashAlt size={14} className="mr-1"/> Hapus
-                                        </Button>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>        
+                                                <Button
+                                                    className="!bg-red-600 hover:!bg-red-700 text-white font-semibold rounded-lg p-2 h-8 w-auto text-sm flex items-center shadow-md transition duration-200 hover:scale-[1.05]"
+                                                >
+                                                    <FaTrashAlt size={14} className="mr-1"/> Hapus
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                <AlertDialogTitle>Anda yakin menghapus dokter {doctor.namaLengkap}?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Aksi ini tidak dapat dibatalkan. Data dokter akan hilang secara permanen.
+                                                </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction className="!bg-red-600 text-white" onClick={() => handleDelete(doctor._id)}>Continue</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </TableCell>
                                 </TableRow>
                             ))}

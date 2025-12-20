@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
   const navigate = useNavigate();
@@ -12,14 +13,13 @@ const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
     if (spesialis) {
       setName(spesialis.nama);
       setDescription(spesialis.deskripsi);
-      setPicture(spesialis.gambar);
+      setPicture(null);
     }
   }, [spesialis]);
 
   const initValues = {
     namaSpesialis: spesialis ? spesialis.nama : '',
     deskripsi: spesialis ? spesialis.deskripsi : '',
-    gambar: picture || null,
   };
 
   if (!isOpen || !spesialis) return null;
@@ -29,7 +29,8 @@ const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
     newFormData.append('_id', spesialis._id);
     newFormData.append('namaSpesialis', name);
     newFormData.append('deskripsi', description);
-    if (picture) {
+    
+    if (picture instanceof File) {
       newFormData.append('gambar', picture);
     }
 
@@ -39,8 +40,10 @@ const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
     }).then(response => response.json())
     .then(data => {
       console.log('Success:', data);
-      alert('Spesialis berhasil diupdate!');
-      navigate(0);
+      toast.success('Spesialis berhasil diupdate!');
+      setTimeout(() => {
+        navigate(0);
+      }, 1500);
     }).catch((error) => {
       console.error('Error:', error);
     });
@@ -71,7 +74,7 @@ const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
           <Form className="space-y-4">
             {/* Gambar saat ini */}
             <div className="flex items-center space-x-4 mb-4">
-              <img src={`${import.meta.env.VITE_BACKEND_URL}${spesialis.gambar}`} alt="Current Image" className="h-16 w-16 object-cover rounded-md border" />
+              <img src={`${spesialis.gambar}`} alt="Current Image" className="h-16 w-16 object-cover rounded-md border" />
               <div className="flex-grow">
                   <label htmlFor="imageUpdate" className="block text-sm font-semibold text-gray-700 mb-2">Update Image</label>
                   <input 
@@ -80,11 +83,7 @@ const EditSpesialisModal = ({ isOpen, onClose, spesialis }) => {
                     name="imageUpdate"
                     className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
                     onChange={(e) => {
-                      if(picture){
-                        setPicture(picture);
-                      }else{
-                        setPicture(e.target.files[0]);
-                      }
+                      setPicture(e.target.files[0]);
                     }}
                   />
                   <p className="text-xs text-gray-500 mt-1">Please .jpg file upload.</p>

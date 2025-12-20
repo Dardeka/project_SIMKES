@@ -11,7 +11,6 @@ const AddSpesialisModal = ({ isOpen, onClose }) => {
   const initValues = {
     namaSpesialis: '',
     deskripsi: '',
-    gambarSpesialis: picture || null,
   };
 
   const submitSpesialisForm = async (values) => {
@@ -27,11 +26,14 @@ const AddSpesialisModal = ({ isOpen, onClose }) => {
         body: formData,
     }).then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
-        toast.success('Spesialis berhasil ditambahkan!');
+      console.log('Success:', data);
+      toast.success('Spesialis berhasil ditambahkan!');
+      setTimeout(() => {
+        onClose();
         window.location.reload();
+      }, 1500);
     }).catch((error) => {
-        console.error('Error:', error);
+      console.error('Error:', error);
     });
   };
 

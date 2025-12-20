@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { FaUserCircle, FaTrashAlt } from 'react-icons/fa';
-import AddAkunModal from '../../components/admin/AddAkunModal'; 
-import EditAkunModal from '../../components/admin/EditAkunModal'; 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { toast } from 'sonner';
 import CustomSidebar from '../../components/adminCustomSidebar';
 
 const AdminDaftarAkun = () => {
@@ -9,11 +19,6 @@ const AdminDaftarAkun = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentAkun, setCurrentAkun] = useState(null);
-
-  const handleEditClick = (akun) => {
-    setCurrentAkun(akun);
-    setIsEditModalOpen(true);
-  };
 
   useEffect(() => {
     const fetchAkunPasien = async () => {
@@ -27,6 +32,27 @@ const AdminDaftarAkun = () => {
     };
     fetchAkunPasien();
   }, []);
+
+  const handleDelete = async (akunId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/deleteAccount/${akunId}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setDataAkunPasien(dataAkunPasien.filter(item => item._id !== akunId));
+        toast.success("Akun pasien berhasil dihapus!")
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500)
+      } else {
+        toast.error(`Gagal menghapus akun pasien: ${data.message || 'Terjadi kesalahan.'}`);
+      } 
+    } catch (error) {
+      console.log({error: error.message})
+    }
+  }
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -95,10 +121,26 @@ const AdminDaftarAkun = () => {
                     </td>
 
                     <td className="px-6 py-4 text-center">
-                      <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
-                        <FaTrashAlt />
-                        Delete
-                      </button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                            <FaTrashAlt />
+                            Delete
+                          </button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                          <AlertDialogTitle>Anda yakin menghapus akun milik {akun.namaLengkap}?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Aksi ini tidak dapat dibatalkan. Data akun akan hilang secara permanen.
+                          </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction className="!bg-red-600 text-white" onClick={() => handleDelete(akun._id)}>Continue</AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </td>
                   </tr>
                 ))}

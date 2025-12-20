@@ -3,36 +3,40 @@ import { addProfileImage, createAppointment, getAllDoctorsAccount, getCertainPre
 
 // Image uploader things
 import multer from "multer";
-import path from "path"
-import { fileURLToPath } from "url";
+import { storage } from "../config/cloudinary.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const upload = multer({storage: storage})
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '..', 'public', 'images'));
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + ext);
-  },
-});
+// import path from "path"
+// import { fileURLToPath } from "url";
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed!'), false);
-  }
-};
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // maks 5MB
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.join(__dirname, '..', 'public', 'images'));
+//   },
+//   filename: function (req, file, cb) {
+//     const ext = path.extname(file.originalname);
+//     const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+//     cb(null, unique + ext);
+//   },
+// });
+
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype.startsWith('image/')) {
+//     cb(null, true);
+//   } else {
+//     cb(new Error('Only image files are allowed!'), false);
+//   }
+// };
+
+// const upload = multer({
+//   storage,
+//   fileFilter,
+//   limits: { fileSize: 5 * 1024 * 1024 }, // maks 5MB
+// });
 
 const patientRoute = express.Router();
 
@@ -53,7 +57,7 @@ patientRoute.get('/profile/:id', getDetailProfile)
 patientRoute.put('/updateProfile/:id', updateDetailProfile)
 
 // upload profile picture
-patientRoute.post('/uploadProfileImage/:id', upload.single('image'), addProfileImage)
+patientRoute.put('/uploadProfileImage/:id', upload.single('image'), addProfileImage)
 
 // Handle get certain speciality
 patientRoute.get('/getCertainSpeciality/:id', getCertainSpeciality)

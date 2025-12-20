@@ -79,6 +79,7 @@ function KelolaFasilitas() {
                 toast.success('Fasilitas berhasil ditambahkan!');
                 resetForm();
                 setFacilityImage(null);
+                navigate(0); // Refresh halaman untuk menampilkan data terbaru
             } else {
                 toast.error(`Gagal menambahkan fasilitas: ${data.message || 'Terjadi kesalahan.'}`);
             }
@@ -110,6 +111,7 @@ function KelolaFasilitas() {
                 toast.success('Fasilitas berhasil diupdate!');
                 resetForm();
                 setFacilityImage(null);
+                navigate(0); // Refresh halaman untuk menampilkan data terbaru
             } else {
                 toast.error(`Gagal mengupdate fasilitas: ${data.message || 'Terjadi kesalahan.'}`);
             }
@@ -130,6 +132,9 @@ function KelolaFasilitas() {
                 toast.success('Fasilitas berhasil dihapus!');
                 // Perbarui daftar fasilitas setelah penghapusan
                 setFacilities(facilities.filter(item => item._id !== facility._id));
+                setTimeout(() => {
+                    navigate(0); // Refresh halaman untuk menampilkan data terbaru
+                }, 1500)
             } else {
                 toast.error(`Gagal menghapus fasilitas: ${data.message || 'Terjadi kesalahan.'}`);
             }
@@ -365,12 +370,6 @@ function KelolaFasilitas() {
                                                 </DialogContent>
                                             </Dialog>
                                             {/* Button Delete fasilitas */}
-                                            {/* <Button 
-                                                onClick={() => handleDelete(facility)}
-                                                variant="outline"
-                                                className="text-red-600 hover:text-red-800 p-2 h-8 w-8 rounded-full border-red-100 hover:bg-red-50 transition"
-                                            >
-                                            </Button> */}
                                             <AlertDialog>
                                                 <AlertDialogTrigger>
                                                     <FaTrashAlt size={14} />

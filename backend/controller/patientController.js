@@ -116,7 +116,7 @@ export const getDetailProfile = async (req, res) => {
 export const updateDetailProfile = async (req, res) => {
     try {
         const {id} = req.params
-        const { nik, namaLengkap, namaPanggilan, jenisKelamin, tanggalLahir, nomorTelepon, email, alamat, password,} = req.body
+        const { nik, namaLengkap, namaPanggilan, jenisKelamin, tanggalLahir, nomorTelepon, email, alamat, password} = req.body
         console.log("This is id : ", id)
         console.log("update info", req.body)
         const updatedPatient = await Pasien.findByIdAndUpdate(id, {nik: nik, namaLengkap: namaLengkap, namaPanggilan: namaPanggilan, jenisKelamin: jenisKelamin, tanggalLahir: tanggalLahir, nomorTelepon: nomorTelepon, email: email, alamat: alamat, password: password})
@@ -130,7 +130,7 @@ export const updateDetailProfile = async (req, res) => {
 export const addProfileImage = async (req, res) => {
     try {
         const { id } = req.params
-        const image = req.file ? `/images/${req.file.filename}` : ''
+        const image = req.file.path
 
         await Pasien.findByIdAndUpdate(id, {foto_profil: image})
 
@@ -183,8 +183,8 @@ export const getHistory = async (req, res) => {
                 namaDokter: docDetail?.namaLengkap || '-',
                 tanggalPeriksa: respond[x].tanggalPeriksa,
                 keluhan: respond[x].keluhan,
-                diagnosa: respond[x].diagnosa,
-                obat: prescriptionData.obat,
+                diagnosa: respond[x].diagnosa || 'Dokter belum memberikan diagnosa',
+                obat: prescriptionData?.obat,
                 status: visitHistory.status
             }
 

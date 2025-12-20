@@ -126,7 +126,7 @@ function UserProfile() {
 
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/uploadProfileImage/${userId}`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     accessToken: accessToken
                 },
@@ -135,6 +135,7 @@ function UserProfile() {
             const data = await response.json();
             console.log('Image upload success:', data);
             setProfile(prev => ({ ...prev, foto_profil: data.imagePath }));
+            toast.success("Profile image updated successfully!");
         } catch (error) {
             console.error('Image upload error:', error);
         }
@@ -248,8 +249,8 @@ function UserProfile() {
                                             <Field type="text" name="nik" id="nik" value={profile?.nik ?? ""} onChange={handleChange} className="mt-1 w-full p-3 border border-teal-500 rounded-lg focus:ring-teal-500 focus:border-teal-700 bg-gray-50" readOnly title="NIK tidak dapat diubah" />
                                         </div>
                                         <div>
-                                            <label htmlFor="gender" className="block text-sm font-semibold text-gray-700">Jenis Kelamin</label>
-                                            <select name="gender" id="gender" value={profile?.jenisKelamin ?? ""} onChange={handleChange} className="mt-1 w-full p-3 border border-teal-500 rounded-lg focus:ring-teal-500 focus:border-teal-700 bg-white">
+                                            <label htmlFor="jenisKelamin" className="block text-sm font-semibold text-gray-700">Jenis Kelamin</label>
+                                            <select name="jenisKelamin" id="jenisKelamin" value={profile?.jenisKelamin ?? ""} onChange={handleChange} className="mt-1 w-full p-3 border border-teal-500 rounded-lg focus:ring-teal-500 focus:border-teal-700 bg-white">
                                                 <option value="Laki-laki">Laki-Laki</option>
                                                 <option value="Perempuan">Perempuan</option>
                                             </select>

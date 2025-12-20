@@ -47,7 +47,7 @@ export const getAllPatient = async (req, res) => {
 export const addDoctor = async (req, res) => {
     try {
         const { namaDokter, jenisKelamin, pendidikanDokter, pengalamanDokter, deskripsiDokter, spesialisDokter, emailDokter, passwordDokter } = req.body
-        const image = req.file ? `/images/${req.file.filename}` : ''
+        const image = req.file.path
         
         const newDoctor = await Dokter.create({
             foto_profil: image,
@@ -131,7 +131,6 @@ export const getAllFacilities = async (req, res) => {
 // Admin add speciality
 export const addSpeciality = async (req, res) => {
     try {
-        console.log("ini isi body ", req.file)
         const { namaSpesialis, deskripsi } = req.body
         const image = req.file.path
         
@@ -164,9 +163,19 @@ export const getAllSpeciality = async (req, res) => {
 export const updateSpeciality = async (req, res) => {
     try {
         const { _id, namaSpesialis, deskripsi } = req.body
-        const image = req.file ? `/images/${req.file.filename}` : ''
+
+        const updateData = {
+            nama: namaSpesialis,
+            deskripsi: deskripsi
+        }
+
+        if(req.file){
+            updateData.gambar = req.file.path
+        }
+
+        console.log("This is update data: ", updateData)
         
-        await Spesialis.findByIdAndUpdate(_id,{nama: namaSpesialis, deskripsi: deskripsi, gambar: image })
+        await Spesialis.findByIdAndUpdate(_id, updateData)
         
         return res.status(200).json({message: "Spesialis berhasil diperbarui"})
     } catch (error) {
@@ -180,14 +189,48 @@ export const updatefacility = async (req, res) => {
     try {
         const { id } = req.params
         const { namaFasilitas, deskripsiFasilitas } = req.body
-        const image = req.file ? `/images/${req.file.filename}` : ''
         
-        const data = await Fasilitas.findByIdAndUpdate(id, {nama: namaFasilitas, deskripsi: deskripsiFasilitas, gambar: image})
+        const updateData = {
+            nama: namaFasilitas,
+            deskripsi: deskripsiFasilitas
+        }
+
+        if(req.file){
+            updateData.gambar = req.file.path
+        }
+        
+        const data = await Fasilitas.findByIdAndUpdate(id, updateData)
 
         return res.status(200).json(data)
     } catch (error) {
         console.log({error: error.message})
         return res.status(500).json({message: "Failed to update facility"})
+    }
+}
+
+// Admin delete pasien
+export const deletePatient = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const data = await Pasien.findByIdAndDelete(id)
+
+        return res.status(200).json(data)
+    } catch (error) {
+        return res.status(500).json({message: "Failed to delete account"})
+    }
+}
+
+// Admin delete doctor
+export const deleteDoctor = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const deleteData = await Dokter.findByIdAndDelete(id)
+
+        return res.status(200).json(deleteData)
+    } catch (error) {
+        return res.status(500).json({message: "Failed to delete"})
     }
 }
 
@@ -202,5 +245,19 @@ export const deleteFacility = async (req, res) => {
     } catch (error) {
         console.log({error: error.message})
         return res.status(500).json({message: "Failed to delete facility"})
+    }
+}
+
+// Admin delete speciality
+export const deleteSpeciality = async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const respond = await Spesialis.findByIdAndDelete(id)
+
+        return res.status(200).json(respond)
+    } catch (error) {
+        console.log({error: error.message})
+        return res.status(500).json({message: "Failed to delete speciality"})
     }
 }
