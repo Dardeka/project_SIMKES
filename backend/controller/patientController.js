@@ -193,7 +193,7 @@ export const getHistory = async (req, res) => {
                 tanggalPeriksa: respond[x].tanggalPeriksa,
                 nomorAntrian: visitHistory.nomorAntrian, 
                 keluhan: respond[x].keluhan,
-                obat: prescriptionData?.obat,
+                obat: prescriptionData?.obat || [],
                 status: visitHistory.status
             }
 

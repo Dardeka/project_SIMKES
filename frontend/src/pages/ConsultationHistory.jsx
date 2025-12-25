@@ -156,14 +156,14 @@ const ConsultationHistory = () => {
                                                         </TableRow>
                                                     </TableHeader>
                                                     <TableBody>
-                                                        {history.obat.length === 0 ? (
+                                                        {history.obat?.length === 0 ? (
                                                         <TableRow>
                                                             <TableCell colSpan={3} className="text-center text-gray-500">
                                                                 Tidak ada obat yang diresepkan.
                                                             </TableCell>
                                                         </TableRow>
                                                         ) : (
-                                                            history.obat.map((resep, index) => (
+                                                            history.obat?.map((resep, index) => (
                                                                 <TableRow key={index} className="hover:bg-gray-50">
                                                                     <TableCell className="w-[50%] text-left">{resep.nama}</TableCell>
                                                                     <TableCell className="w-[50%] text-left">{resep.dosis}</TableCell>
