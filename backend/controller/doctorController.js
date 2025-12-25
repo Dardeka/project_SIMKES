@@ -170,5 +170,42 @@ export const updateCheckupData = async (req, res) => {
     }
 }
 
+// Handle get history
+export const getHistory = async (req, res) => {
+    try {
+        const {id} = req.params
 
+        let data = []
+        // fetch data history
+        const respond = await Pemeriksaan.find({id_pasien: id})
+        
+        for(const x in respond){
+            // fetch doctor detail
+            const docDetail = await Dokter.findById(respond[x].id_dokter)
+
+            // fetch prescription data
+            const prescriptionData = await Resep.findOne({
+                id_pasien: id,
+                id_pemeriksaan: respond[x]._id
+            })
+
+            const formatted = {
+                _id: respond[x]._id,
+                id_pasien: respond[x].id_pasien,
+                id_dokter: respond[x].id_dokter,
+                namaDokter: docDetail.namaLengkap,
+                tanggalPeriksa: respond[x].tanggalPeriksa,
+                keluhan: respond[x].keluhan,
+                diagnosa: respond[x].diagnosa,
+                obat: prescriptionData?.obat
+            }
+
+            data.push(formatted)
+        }
+        return res.status(200).json(data)
+    } catch (error) {
+        console.log({error: error.message})
+        return res.status(500).json({message: "Failed to fetch history"})
+    }
+}
 

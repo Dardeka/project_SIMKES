@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/sonner"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App /> {/* App.jsx Anda harus dipanggil di sini */}
+    <App />
     <Toaster 
     richColors 
     position="top-right" 

@@ -80,9 +80,18 @@ export const createAppointment = async (req, res) => {
     try {
         const { doctorId, patientId, keluhanPasien, date, createdTime } = req.body
 
+        const startDate = new Date()
+        startDate.setHours(0,0,0,0)
+
+        const endDate = new Date()
+        endDate.setHours(23, 59, 59, 9999)
+
         const count = await Daftar.countDocuments({
             id_dokter: doctorId,
-            tglRencanaKunjungan: date
+            tglRencanaKunjungan: {
+                $gte: startDate,
+                $lte: endDate
+            }
         })
 
         const newAppointment = await Daftar.create({
@@ -182,8 +191,8 @@ export const getHistory = async (req, res) => {
                 id_dokter: respond[x].id_dokter,
                 namaDokter: docDetail?.namaLengkap || '-',
                 tanggalPeriksa: respond[x].tanggalPeriksa,
+                nomorAntrian: visitHistory.nomorAntrian, 
                 keluhan: respond[x].keluhan,
-                diagnosa: respond[x].diagnosa || 'Dokter belum memberikan diagnosa',
                 obat: prescriptionData?.obat,
                 status: visitHistory.status
             }

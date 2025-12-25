@@ -5,6 +5,16 @@ import Navbar from '../components/Navbar';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import dayjs from 'dayjs';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const getButtonStyles = (status) => {
     return status === 'Selesai' 
@@ -115,9 +125,9 @@ const ConsultationHistory = () => {
                                     <thead className="bg-teal-50">
                                         <tr>
                                             <th className="px-6 py-4 text-left text-sm font-semibold text-teal-800 uppercase tracking-wider">Tanggal/Waktu</th>
+                                            <th className="px-6 py-4 text-left text-sm font-semibold text-teal-800 uppercase tracking-wider">Nomor Antrian</th>
                                             <th className="px-6 py-4 text-left text-sm font-semibold text-teal-800 uppercase tracking-wider">Dokter</th>
                                             <th className="px-6 py-4 text-left text-sm font-semibold text-teal-800 uppercase tracking-wider">Keluhan</th>
-                                            <th className="px-6 py-4 text-left text-sm font-semibold text-teal-800 uppercase tracking-wider">Diagnosis</th>
                                             <th className="px-6 py-4 text-center text-sm font-semibold text-teal-800 uppercase tracking-wider">Resep</th>
                                         </tr>
                                     </thead>
@@ -127,23 +137,49 @@ const ConsultationHistory = () => {
                                             <td className="px-6 py-4 whitespace-nowrap text-base text-gray-700">
                                                 {dayjs(history.tanggalPeriksa).format('DD/MM/YYYY HH:mm')}
                                             </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-base text-gray-700">
+                                                {history.nomorAntrian}
+                                            </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-base text-gray-900 font-medium">
                                                 {history.namaDokter}
                                             </td>
                                             <td className="px-6 py-4 max-w-xs text-sm text-gray-700 truncate">
                                                 {history.keluhan}
                                             </td>
-                                            <td className="px-6 py-4 max-w-xs text-sm text-gray-700 truncate">
-                                                {history.diagnosa}
-                                            </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <button 
+                                                <Table>
+                                                    <TableHeader>
+                                                        <TableRow>
+                                                            <TableHead className="w-[50%] text-left">Resep</TableHead>
+                                                            <TableHead className="w-[50%] text-left">Dosis</TableHead>
+                                                            <TableHead className="w-[50%] text-left">Jumlah</TableHead>
+                                                        </TableRow>
+                                                    </TableHeader>
+                                                    <TableBody>
+                                                        {history.obat.length === 0 ? (
+                                                        <TableRow>
+                                                            <TableCell colSpan={3} className="text-center text-gray-500">
+                                                                Tidak ada obat yang diresepkan.
+                                                            </TableCell>
+                                                        </TableRow>
+                                                        ) : (
+                                                            history.obat.map((resep, index) => (
+                                                                <TableRow key={index} className="hover:bg-gray-50">
+                                                                    <TableCell className="w-[50%] text-left">{resep.nama}</TableCell>
+                                                                    <TableCell className="w-[50%] text-left">{resep.dosis}</TableCell>
+                                                                    <TableCell className="w-[50%] text-left">{resep.jumlah}</TableCell>
+                                                                </TableRow>
+                                                            ))
+                                                        )}
+                                                    </TableBody>
+                                                </Table>
+                                                {/* <button 
                                                     onClick={() => handleViewResep(history)}
                                                     className={`py-2 px-4 rounded-lg text-sm font-semibold transition shadow-md ${getButtonStyles(history.status)}`}
                                                     disabled={history.status !== 'Selesai'}
                                                 >
                                                     Lihat Resep
-                                                </button>
+                                                </button> */}
                                             </td>
                                         </tr>
                                         ))}

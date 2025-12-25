@@ -406,6 +406,7 @@ const DaftarPasien = () => {
         isOpen={isDetailModalOpen} 
         onClose={handleDetailClose}
         appointment={selectedAppointment}
+        examinationId={selectedAppointment?.id_pemeriksaan}
       />
       
       {/* Modal Resep Baru */}

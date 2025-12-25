@@ -1,5 +1,5 @@
 import express from "express";
-import { addInitialCheckupData, addPrescription, doctorLogin, getAllAppointment, getCertainPrescription, getDoctorDetail, updateCheckupData, updateExamId, updateStatus } from "../controller/doctorController.js";
+import { addInitialCheckupData, addPrescription, doctorLogin, getAllAppointment, getCertainPrescription, getDoctorDetail, getHistory, updateCheckupData, updateExamId, updateStatus } from "../controller/doctorController.js";
 
 
 const doctorRoute = express.Router()
@@ -30,6 +30,9 @@ doctorRoute.post('/addInitialExamination', addInitialCheckupData)
 
 // put diagnose in checkup data
 doctorRoute.put('/updateExamination/:id', updateCheckupData)
+
+// get patient history
+doctorRoute.get('/getPatientHistory/:id', getHistory)
 
 
 

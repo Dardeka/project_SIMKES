@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
-const AppointmentDetailModal = ({ isOpen, onClose, appointment }) => {
+const AppointmentDetailModal = ({ isOpen, onClose, appointment, examinationId }) => {
   if (!isOpen || !appointment) return null;
+  const [history, setHistory] = useState([])
+
+  console.log("This is appointment data: ", appointment)
+  console.log("This is setHistory data: ", history)
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/doctor/getPatientHistory/${appointment.id_pasien}`);
+      const data = await response.json();
+      console.log("Patient history data: ", data)
+      setHistory(data);
+    }
+    fetchHistory();
+  }, [])
 
   return (
     <div className="fixed inset-0 bg-transparent bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
@@ -40,6 +64,38 @@ const AppointmentDetailModal = ({ isOpen, onClose, appointment }) => {
           <div>
             <p className="text-base font-semibold text-gray-800">Keluhan :</p>
             <p className="text-lg text-gray-900 leading-relaxed">{appointment.complaint}</p>
+          </div>
+
+          <div>
+            <p className="text-base font-semibold text-gray-800">Riwayat Pemeriksaan Pasien :</p>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Tanggal</TableHead>
+                  <TableHead>Dokter</TableHead>
+                  <TableHead>Keluhan</TableHead>
+                  <TableHead>Diagnosa</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {history.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={3} className="text-center text-gray-500">
+                      Belum ada riwayat pemeriksaan.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  history.filter(record => record._id !== examinationId).map((record) => (
+                    <TableRow key={record._id}>
+                      <TableCell>{dayjs(record.tanggalPeriksa).format('DD/MM/YYYY')}</TableCell>
+                      <TableCell>{record.namaDokter}</TableCell>
+                      <TableCell>{record.keluhan}</TableCell>
+                      <TableCell>{record.diagnosa}</TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
           </div>
 
         </div>
