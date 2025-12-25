@@ -32,7 +32,7 @@ const AppointmentDetailModal = ({ isOpen, onClose, appointment, examinationId })
     <div className="fixed inset-0 bg-transparent bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
       
       {/* Modal Container */}
-      <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md relative border border-gray-100">
+      <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-6xl relative border border-gray-100">
         
         {/* Close Button */}
         <button 
@@ -49,24 +49,24 @@ const AppointmentDetailModal = ({ isOpen, onClose, appointment, examinationId })
         </div>
 
         {/* Detail Content */}
-        <div className="space-y-4">
-          
-          <div>
-            <p className="text-base font-semibold text-gray-800">Nama :</p>
-            <p className="text-lg font-medium text-teal-600">{appointment.name}</p>
-          </div>
+        <div className="flex flex-row space-x-4">
+          <div className="flex flex-col space-y-4 w-[300px] p-4 border-r-1 border-gray-300">
+            <div>
+              <p className="text-base font-semibold text-gray-800">Nama :</p>
+              <p className="text-lg font-medium text-teal-600">{appointment.name}</p>
+            </div>
 
-          <div>
-            <p className="text-base font-semibold text-gray-800">Tanggal Kunjungan :</p>
-            <p className="text-lg font-medium text-teal-600">{dayjs(appointment.date).format('DD/MM/YYYY')}</p>
-          </div>
+            <div>
+              <p className="text-base font-semibold text-gray-800">Tanggal Kunjungan :</p>
+              <p className="text-lg font-medium text-teal-600">{dayjs(appointment.date).format('DD/MM/YYYY')}</p>
+            </div>
 
-          <div>
-            <p className="text-base font-semibold text-gray-800">Keluhan :</p>
-            <p className="text-lg text-gray-900 leading-relaxed">{appointment.complaint}</p>
+            <div>
+              <p className="text-base font-semibold text-gray-800">Keluhan :</p>
+              <p className="text-lg text-gray-900 leading-relaxed">{appointment.complaint}</p>
+            </div>
           </div>
-
-          <div>
+          <div className="w-full ml-4">
             <p className="text-base font-semibold text-gray-800">Riwayat Pemeriksaan Pasien :</p>
             <Table>
               <TableHeader>
